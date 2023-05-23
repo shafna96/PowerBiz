@@ -25,7 +25,7 @@ export const api = createApi({
       providesTags: ["User"],
     }),
     getCustomers: build.query({
-      query: (id) => `client/customers/${id}`,
+      query: () => `client/customers`,
       providesTags: ["Customers"],
     }),
     createCustomer: build.mutation({
@@ -33,6 +33,21 @@ export const api = createApi({
         url: "client/customers",
         method: "POST",
         body: { ...customer, ...userId }, // Include the userId in the request body
+      }),
+      invalidatesTags: ["Customers"],
+    }),
+    deleteCustomer: build.mutation({
+      query: (id) => ({
+        url: `client/customers/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Customers"],
+    }),
+    editCustomer: build.mutation({
+      query: ({ id, customer }) => ({
+        url: `client/customers/${id}`,
+        method: "PUT", // or "PATCH" depending on your API
+        body: customer,
       }),
       invalidatesTags: ["Customers"],
     }),
@@ -45,4 +60,6 @@ export const {
   useGetUserQuery,
   useGetCustomersQuery,
   useCreateCustomerMutation,
+  useDeleteCustomerMutation,
+  useEditCustomerMutation,
 } = api;

@@ -1,16 +1,43 @@
-import { Box, MenuItem } from "@mui/material";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Box, IconButton, MenuItem, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { FormComp, Header } from "components";
+import ActionsCell from "components/ActionsCell";
+import FilteredColums from "components/ActionsCell";
+import ModalComp from "components/ModalComp";
 import { columns } from "data/data";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useCreateCustomerMutation } from "state/api";
+import {
+  useCreateCustomerMutation,
+  useDeleteCustomerMutation,
+  useEditCustomerMutation,
+  useGetCustomersQuery,
+} from "state/api";
 
 const Customers = () => {
+  const theme = useTheme();
+
   const userId = useSelector((state) => state.global.userId);
-  /*   console.log("userId:", userId); */
+  const { data, isLoading } = useGetCustomersQuery({ isActive: true });
+  //isError, error
+
+  const activeCustomers = data
+    ? data.filter((customer) => customer.isActive)
+    : [];
 
   const [createCustomer, { isLoading: isCreating }] =
     useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [deleteCustomer, { isLoading: isDeleting }] =
+    useDeleteCustomerMutation();
+  const [editCustomer, { isLoading: isEditing }] = useEditCustomerMutation();
+
+  const [editFormData, setEditFormData] = useState({});
+  const [deletingRow, setDeletingRow] = useState(null);
 
   const filteredFields = columns.filter((column) => column.field !== "_id");
 
@@ -33,7 +60,6 @@ const Customers = () => {
     }
     try {
       if (!userId) {
-        /*    console.log("User ID is not set"); */
         return;
       }
       const updatedFormFields = { ...formFields, userId }; // Include the userId in the request payload
@@ -49,10 +75,51 @@ const Customers = () => {
       }
     }
   };
+  const handleEditClick = (params) => {
+    console.log(params.row);
+    setEditFormData(params.row);
+    setEditOpen(true);
+  };
 
+  const handleDeleteClick = (params) => {
+    setDeletingRow(params.row);
+    console.log(params.row);
+    setDeleteOpen(true);
+  };
+
+  const filteredColumns = [
+    ...columns,
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.6,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <ActionsCell
+          params={params}
+          handleEditClick={handleEditClick}
+          handleDeleteClick={handleDeleteClick}
+          editOpen={editOpen}
+          setEditOpen={setEditOpen}
+          filteredFields={filteredFields}
+          editFormData={editFormData}
+          setEditFormData={setEditFormData}
+          isDeleting={isDeleting}
+          deleteCustomer={deleteCustomer}
+          setDeletingRow={setDeletingRow}
+          setDeleteOpen={setDeleteOpen}
+          deleteOpen={deleteOpen}
+          deletingRow={deletingRow}
+          isEditing={isEditing}
+          editCustomer={editCustomer}
+        />
+      ),
+    },
+  ];
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="CUSTOMERS" /> {/* subTitle="Create Customer" */}
+      <Header title="CUSTOMERS" subTitle="Create Customer" /> {/* */}
       <FormComp
         data={filteredFields}
         value={formFields}
@@ -69,6 +136,43 @@ const Customers = () => {
         ]}
       />
       {/*       {createError && <>{createErrorMessage.toString()}</>}*/}
+      <Box
+        mt="40px"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: theme.palette.background.alt,
+            color: theme.palette.secondary[100],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: theme.palette.primary.light,
+          },
+          "& .MuiDataGrid-footerContainer": {
+            backgroundColor: theme.palette.background.alt,
+            color: theme.palette.secondary[100],
+            borderTop: "none",
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${theme.palette.secondary[200]} !important`,
+          },
+        }}
+      >
+        <Header subTitle="Customer Table" /> {/*  */}
+        <DataGrid
+          sx={{ marginTop: "40px" }}
+          loading={isLoading || !data}
+          getRowId={(row) => row._id}
+          rows={activeCustomers}
+          columns={filteredColumns}
+        />
+      </Box>
     </Box>
   );
 };

@@ -2,9 +2,10 @@ export const columns = [
   {
     field: "_id",
     headerName: "#",
-    flex: 0.25,
+    flex: 0.125,
     renderCell: (index) => index.api.getRowIndex(index.row._id) + 1,
   },
+
   {
     field: "name",
     headerName: "Name",
@@ -13,12 +14,12 @@ export const columns = [
   {
     field: "email",
     headerName: "Email",
-    flex: 1,
+    flex: 0.5,
   },
   {
     field: "address",
     headerName: "Address",
-    flex: 1,
+    flex: 0.75,
   },
   {
     field: "phone",
@@ -31,11 +32,24 @@ export const columns = [
   {
     field: "customerType",
     headerName: "Customer Type",
-    flex: 1,
+    flex: 0.5,
   },
   {
     field: "contactPerson",
     headerName: "Contact Person",
-    flex: 1,
+    flex: 0.5,
+    renderCell: (params) => {
+      if (params.value === undefined) {
+        return "";
+      }
+      return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+    },
   },
+  //   {
+  //     field: "actions",
+  //     headerName: "Actions",
+  //     flex: 0.25,
+  //     sortable: false,
+  //     disableColumnMenu: true,
+  //   },
 ];

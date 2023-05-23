@@ -44,9 +44,13 @@ const CustomerSchema = new mongoose.Schema(
       //   return this.customerType === "company";
       // },
     },
-
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     // Additional fields for the customer module can be added here
   },
+
   { timestamps: true }
 );
 
