@@ -32,7 +32,7 @@ export const api = createApi({
       query: (customer, userId) => ({
         url: "client/customers",
         method: "POST",
-        body: { ...customer, userId: userId }, // Include the userId in the request body
+        body: { ...customer, ...userId }, // Include the userId in the request body
       }),
       invalidatesTags: ["Customers"],
     }),
@@ -43,6 +43,6 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetUserQuery,
-  useCreateCustomerMutation,
   useGetCustomersQuery,
+  useCreateCustomerMutation,
 } = api;

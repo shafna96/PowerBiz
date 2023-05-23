@@ -4,9 +4,9 @@ const CustomerSchema = new mongoose.Schema(
   {
     //userId: String,
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
-      // required: true,
+      //  required: true,
     },
     name: {
       type: String,
@@ -25,12 +25,12 @@ const CustomerSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     phone: {
       type: String,
-      required: true,
+      //  required: true,
       trim: true,
     },
     customerType: {
@@ -40,9 +40,9 @@ const CustomerSchema = new mongoose.Schema(
     },
     contactPerson: {
       type: String,
-      required: function () {
-        return this.customerType === "company";
-      },
+      // required: function () {
+      //   return this.customerType === "company";
+      // },
     },
 
     // Additional fields for the customer module can be added here

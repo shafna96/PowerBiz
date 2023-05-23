@@ -21,18 +21,20 @@ export const getCustomers = async (req, res) => {
 
 export const addCustomer = async (req, res) => {
   try {
-    const { userId, name, email, address, phone, customerType, contactPerson } =
+    const { name, email, address, phone, customerType, contactPerson } =
       req.body;
 
     // Check if the user exists
-    const user = await User.findById(userId);
+    const user = await User.findById(req.body.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const userId = user._id.toString(); // Convert userId to string type // Store the user._id in a variable
+
     // Create a new instance of the Customer model with the provided data
     const customer = await Customer.create({
-      userId: user._id,
+      userId, // Set userId as the User schema's ID
       name,
       email,
       address,

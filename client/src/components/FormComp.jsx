@@ -28,7 +28,7 @@ const FormComp = ({
             {column.field === option ? (
               <TextField
                 name={column.field}
-                //  id={column.field}
+                id={column.field}
                 value={value[column.field]}
                 label={column.headerName}
                 onChange={handleChange}
@@ -42,7 +42,7 @@ const FormComp = ({
             ) : (
               <TextField
                 name={column.field}
-                //  id={column.field}
+                id={column.field}
                 value={value[column.field]}
                 label={column.headerName}
                 onChange={handleChange}
