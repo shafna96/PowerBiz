@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
-import { Customers, Dashboard, Layout, LoginScreen } from "scenes";
+import { Customers, Dashboard, Layout, LoginScreen, Suppliers } from "scenes";
 import { selectIsAuthenticated, setIsAuthenticated, setUserId } from "state";
 import { themeSettings } from "theme";
 import jwtDecode from "jwt-decode";
@@ -53,6 +53,7 @@ function App() {
               />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/customers" element={<Customers />} />
+              <Route path="/suppliers" element={<Suppliers />} />
             </Route>
           ) : (
             <Route path="/login" element={<LoginScreen />} />

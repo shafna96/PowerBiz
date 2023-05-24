@@ -1,23 +1,8 @@
 import Customer from "../models/Customer.js";
+import Supplier from "../models/Supplier.js";
 import User from "../models/User.js";
 
-// export const getCustomers = async (req, res) => {
-//   try {
-//     const customerId = req.params.id; // Assuming the customer ID is provided in the request parameters
-
-//     // Find the customer by their ID and populate the userId field with the corresponding user document
-//     const customer = await Customer.findById(customerId).populate("userId");
-
-//     if (!customer) {
-//       return res.status(404).json({ error: "Customer not found" });
-//     }
-
-//     res.json(customer);
-//   } catch (error) {
-//     // Handle any errors that occur during the process
-//     res.status(500).json({ error: "Failed to get customer" });
-//   }
-// };
+/* Customer endpoints */
 
 export const getCustomers = async (req, res) => {
   try {
@@ -110,6 +95,104 @@ export const updateCustomer = async (req, res) => {
     }
     updatedCustomer.save();
     res.status(200).json(updatedCustomer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/* Supplier endpoints */
+
+export const getSuppliers = async (req, res) => {
+  try {
+    // Retrieve all customers and populate the userId field with the corresponding user documents
+    const suppliers = await Supplier.find().populate("userId");
+
+    res.json(suppliers);
+  } catch (error) {
+    // Handle any errors that occur during the process
+    res.status(500).json({ error: "Failed to get suppliers" });
+  }
+};
+
+export const addSupplier = async (req, res) => {
+  try {
+    const { name, email, address, phone, supplierType, contactPerson } =
+      req.body;
+
+    // Check if the user exists
+    const user = await User.findById(req.body.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userId = user._id.toString(); // Convert userId to string type // Store the user._id in a variable
+
+    // Create a new instance of the supplier model with the provided data
+    const supplier = await Supplier.create({
+      userId, // Set userId as the User schema's ID
+      name,
+      email,
+      address,
+      phone,
+      supplierType,
+      contactPerson,
+    });
+
+    // Return the saved supplier in the response
+    res.status(201).json(supplier);
+  } catch (error) {
+    // Handle any errors that occur during the process
+    res.status(500).json({ error: "Failed to add supplier" });
+  }
+};
+
+export const deleteSupplier = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the supplier by ID
+    const supplier = await Supplier.findById(id);
+
+    if (!supplier) {
+      return res.status(404).json({ message: "supplier not found" });
+    }
+
+    // Set the customer as inactive
+    supplier.isActive = false;
+    await supplier.save();
+
+    res.json({ message: "Supplier deactivated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Failed to deactivate supplier" });
+  }
+};
+
+export const updateSupplier = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, address, phone, supplierType, contactPerson } =
+      req.body;
+
+    // Find the supplier by ID
+    const updatedSupplier = await Supplier.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+        address,
+        phone,
+        supplierType,
+        contactPerson,
+      },
+      { new: true }
+    );
+
+    if (!updatedSupplier) {
+      return res.status(404).json({ message: "Supplier not found" });
+    }
+    updatedSupplier.save();
+    res.status(200).json(updatedSupplier);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

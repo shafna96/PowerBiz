@@ -1,29 +1,52 @@
 import { Delete, Edit, Visibility } from "@mui/icons-material";
-import { Box, IconButton } from "@mui/material";
-import React from "react";
-import ModalComp from "./ModalComp";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Modal,
+  Slide,
+} from "@mui/material";
+import React, { useState } from "react";
+import FormComp from "./FormComp";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ActionsCell = ({
   params,
-  handleEditClick,
-  handleDeleteClick,
-  editOpen,
-  setEditOpen,
+  editMutation,
+  deleteMutation,
   filteredFields,
-  editFormData,
-  setEditFormData,
-  isDeleting,
-  deleteCustomer,
-  setDeletingRow,
-  setDeleteOpen,
-  deleteOpen,
-  deletingRow,
-  isEditing,
-  editCustomer,
+  entity,
 }) => {
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [editFormData, setEditFormData] = useState(params.row);
+  const [deletingRow, setDeletingRow] = useState(params.row);
   const handleClose = (setState) => () => {
     setState(false);
   };
+
+  const handleClick = (setState) => () => {
+    setState(true);
+  };
+
+  // const handleEditClick = () => {
+  //   // setEditFormData(params.row);
+  //   setEditOpen(true);
+  // };
+
+  // const handleDeleteClick = () => {
+  //   // setDeletingRow(params.row);
+  //   setDeleteOpen(true);
+  // };
 
   const handleEditChange = (event) => {
     const { name, value } = event.target;
@@ -33,34 +56,30 @@ const ActionsCell = ({
     }));
   };
 
-  const handleDeleteSubmit = async (event) => {
+  const handleEditSubmit = async (event) => {
     event.preventDefault();
-    if (isDeleting) {
-      return;
-    }
+
     try {
-      const inactiveCustomer = { ...deletingRow, isActive: false };
-      await deleteCustomer(inactiveCustomer._id).unwrap();
-      setDeletingRow(null);
-      setDeleteOpen(false);
+      const updatedData = editFormData;
+      await editMutation({
+        id: editFormData._id,
+        [entity]: updatedData,
+      });
+      setEditOpen(false);
+      console.log(editFormData);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleEditSubmit = async (event) => {
+  const handleDeleteSubmit = async (event) => {
     event.preventDefault();
-    if (isEditing) {
-      return;
-    }
+
     try {
-      const updatedCustomer = editFormData;
-      await editCustomer({
-        id: editFormData._id,
-        customer: updatedCustomer,
-      });
-      setEditOpen(false);
-      console.log(editFormData);
+      await deleteMutation(deletingRow._id).unwrap();
+      console.log(deletingRow._id);
+      setDeletingRow(null);
+      setDeleteOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -71,40 +90,71 @@ const ActionsCell = ({
       <IconButton
         variant="contained"
         color="secondary"
-        onClick={() => handleEditClick(params)}
+        //onClick={() => handleEditClick(params)}
+        onClick={handleClick(setEditOpen)}
       >
         <Edit />
       </IconButton>
-      <ModalComp
-        editModal
-        open={editOpen}
-        handleClose={handleClose(setEditOpen)}
-        data={filteredFields}
-        value={editFormData}
-        handleChange={(event) => handleEditChange(event)}
-        handleEditSubmit={(event) => handleEditSubmit(event)}
-      />
 
+      <Modal
+        open={editOpen}
+        onClose={handleClose(setEditOpen)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <FormComp
+            edit
+            data={filteredFields}
+            value={editFormData}
+            handleChange={(event) => handleEditChange(event)}
+            handleSubmit={(event) => handleEditSubmit(event)}
+          />
+        </Box>
+      </Modal>
       <IconButton
         variant="contained"
         color="secondary"
-        onClick={() => handleDeleteClick(params)}
+        //  onClick={() => handleDeleteClick(params)}
+        onClick={handleClick(setDeleteOpen)}
       >
         <Delete />
       </IconButton>
-      <ModalComp
-        deleteModal
+
+      <Modal
         open={deleteOpen && deletingRow?._id === params.row._id}
-        deleteOpen={deleteOpen}
-        handleClose={handleClose(setDeleteOpen)}
-        handleDeleteSubmit={(event) => handleDeleteSubmit(event)}
+        onClose={handleClose(setDeleteOpen)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        Do you really want to delete this record? This process cannot be undone
-        <br />
-        <strong>{`name: ${params.row.name}`}</strong>
-        <br />
-        <strong>{`email: ${params.row.email}`}</strong>
-      </ModalComp>
+        <Box sx={style}>
+          <Dialog
+            open={deleteOpen}
+            //  TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose(setDeleteOpen)}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Confirm delete"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Do you really want to delete this record? This process cannot be
+                undone
+                <br />
+                <strong>{`name: ${params.row.name}`}</strong>
+                <br />
+                <strong>{`email: ${params.row.email}`}</strong>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose(setDeleteOpen)}>Cancel</Button>
+              <Button onClick={(event) => handleDeleteSubmit(event)}>
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+      </Modal>
       <IconButton variant="contained" color="secondary" onClick={() => {}}>
         <Visibility />
       </IconButton>
@@ -113,3 +163,13 @@ const ActionsCell = ({
 };
 
 export default ActionsCell;
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "75%",
+  bgcolor: "background.paper",
+  p: 4,
+};

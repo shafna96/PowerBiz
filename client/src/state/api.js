@@ -5,7 +5,7 @@ export const api = createApi({
     baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   reducerPath: "adminApi",
-  tagTypes: ["User", "Customers"],
+  tagTypes: ["User", "Customers", "Suppliers"],
   endpoints: (build) => ({
     login: build.mutation({
       query: (credentials) => ({
@@ -51,6 +51,33 @@ export const api = createApi({
       }),
       invalidatesTags: ["Customers"],
     }),
+    getSuppliers: build.query({
+      query: () => `client/suppliers`,
+      providesTags: ["Suppliers"],
+    }),
+    createSupplier: build.mutation({
+      query: (supplier, userId) => ({
+        url: "client/suppliers",
+        method: "POST",
+        body: { ...supplier, ...userId }, // Include the userId in the request body
+      }),
+      invalidatesTags: ["Suppliers"],
+    }),
+    deleteSupplier: build.mutation({
+      query: (id) => ({
+        url: `client/suppliers/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Suppliers"],
+    }),
+    editSupplier: build.mutation({
+      query: ({ id, supplier }) => ({
+        url: `client/suppliers/${id}`,
+        method: "PUT", // or "PATCH" depending on your API
+        body: supplier,
+      }),
+      invalidatesTags: ["Suppliers"],
+    }),
   }),
 });
 
@@ -62,4 +89,8 @@ export const {
   useCreateCustomerMutation,
   useDeleteCustomerMutation,
   useEditCustomerMutation,
+  useGetSuppliersQuery,
+  useCreateSupplierMutation,
+  useDeleteSupplierMutation,
+  useEditSupplierMutation,
 } = api;

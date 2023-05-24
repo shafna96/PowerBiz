@@ -2,36 +2,35 @@ import React, { useRef, useState } from "react";
 import { Box, MenuItem } from "@mui/material";
 import { DataGridComp, FormComp, Header } from "components";
 import ActionsCell from "components/ActionsCell";
-import { customerColumns } from "data/data";
+import { supplierColumns } from "data/data";
 import { useSelector } from "react-redux";
 import {
-  useCreateCustomerMutation,
-  useDeleteCustomerMutation,
-  useEditCustomerMutation,
-  useGetCustomersQuery,
+  useCreateSupplierMutation,
+  useDeleteSupplierMutation,
+  useEditSupplierMutation,
+  useGetSuppliersQuery,
 } from "state/api";
 
-const Customers = () => {
+const Suppliers = () => {
   const userId = useSelector((state) => state.global.userId);
-  const { data, isLoading } = useGetCustomersQuery({ isActive: true });
-  //isError, error
+  const { data, isLoading } = useGetSuppliersQuery({ isActive: true });
 
-  const [deleteCustomer] = useDeleteCustomerMutation();
-  const [editCustomer] = useEditCustomerMutation();
+  const [deleteSupplier] = useDeleteSupplierMutation();
+  const [editSupplier] = useEditSupplierMutation();
 
-  const activeCustomers = data
-    ? data.filter((customer) => customer.isActive)
+  const activeSuppliers = data
+    ? data.filter((supplier) => supplier.isActive)
     : [];
 
-  const [createCustomer, { isLoading: isCreating }] =
-    useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
+  const [createSupplier, { isLoading: isCreating }] =
+    useCreateSupplierMutation();
 
-  const filteredFields = customerColumns.filter(
+  const filteredFields = supplierColumns.filter(
     (column) => column.field !== "_id"
   );
 
   const [formFields, setFormFields] = useState(
-    customerColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
+    supplierColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
   );
   const formFieldsRef = useRef(formFields);
 
@@ -52,9 +51,9 @@ const Customers = () => {
         return;
       }
       const updatedFormFields = { ...formFields, userId }; // Include the userId in the request payload
-      await createCustomer(updatedFormFields).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
+      await createSupplier(updatedFormFields).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
       setFormFields(
-        customerColumns.reduce(
+        supplierColumns.reduce(
           (acc, { field }) => ({ ...acc, [field]: "" }),
           {}
         )
@@ -69,8 +68,7 @@ const Customers = () => {
   };
 
   const filteredColumns = [
-    ...customerColumns,
-
+    ...supplierColumns,
     {
       field: "actions",
       headerName: "Actions",
@@ -81,22 +79,23 @@ const Customers = () => {
         <ActionsCell
           params={params}
           filteredFields={filteredFields}
-          editMutation={editCustomer}
-          deleteMutation={deleteCustomer}
-          entity="customer"
+          editMutation={editSupplier}
+          deleteMutation={deleteSupplier}
+          entity="supplier"
         />
       ),
     },
   ];
+
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="CUSTOMERS" subTitle="Create Customer" /> {/* */}
+      <Header title="SUPPLIERS" subTitle="Create Supplier" /> {/* */}
       <FormComp
         data={filteredFields}
         value={formFields}
         handleChange={(event) => handleChange(event)}
         handleSubmit={(event) => handleSubmit(event)}
-        option={"customerType"}
+        option={"supplierType"}
         menuItem={[
           <MenuItem key="individual" value="individual">
             Individual
@@ -107,14 +106,14 @@ const Customers = () => {
         ]}
       />
       <DataGridComp
-        subTitle="Customer Table"
+        subTitle="Supplier Table"
         loading={isLoading || !data}
         getRowId={(row) => row._id}
-        rows={activeCustomers}
+        rows={activeSuppliers}
         columns={filteredColumns}
       />
     </Box>
   );
 };
 
-export default Customers;
+export default Suppliers;

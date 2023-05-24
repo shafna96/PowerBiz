@@ -1,4 +1,4 @@
-export const columns = [
+const commonFields = [
   {
     field: "_id",
     headerName: "#",
@@ -29,6 +29,10 @@ export const columns = [
       return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
     },
   },
+];
+
+export const customerColumns = [
+  ...commonFields,
   {
     field: "customerType",
     headerName: "Customer Type",
@@ -45,11 +49,24 @@ export const columns = [
       return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
     },
   },
-  //   {
-  //     field: "actions",
-  //     headerName: "Actions",
-  //     flex: 0.25,
-  //     sortable: false,
-  //     disableColumnMenu: true,
-  //   },
+];
+
+export const supplierColumns = [
+  ...commonFields,
+  {
+    field: "supplierType",
+    headerName: "Supplier Type",
+    flex: 0.5,
+  },
+  {
+    field: "contactPerson",
+    headerName: "Contact Person",
+    flex: 0.5,
+    renderCell: (params) => {
+      if (params.value === undefined) {
+        return "";
+      }
+      return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+    },
+  },
 ];
