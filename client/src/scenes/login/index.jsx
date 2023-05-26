@@ -96,7 +96,7 @@ const LoginScreen = () => {
             sx={{ marginBottom: 2 }}
             required
             fullWidth
-            // id="email"
+            //   id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -112,7 +112,7 @@ const LoginScreen = () => {
             required
             fullWidth
             name="password"
-            // id="password"
+            //   id="password"
             label="Password"
             type={showPassword ? "text" : "password"}
             autoComplete="current-password"

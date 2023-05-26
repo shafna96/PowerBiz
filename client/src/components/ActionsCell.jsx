@@ -24,6 +24,8 @@ const ActionsCell = ({
   deleteMutation,
   filteredFields,
   entity,
+  option,
+  menuItem,
 }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -37,16 +39,6 @@ const ActionsCell = ({
   const handleClick = (setState) => () => {
     setState(true);
   };
-
-  // const handleEditClick = () => {
-  //   // setEditFormData(params.row);
-  //   setEditOpen(true);
-  // };
-
-  // const handleDeleteClick = () => {
-  //   // setDeletingRow(params.row);
-  //   setDeleteOpen(true);
-  // };
 
   const handleEditChange = (event) => {
     const { name, value } = event.target;
@@ -109,6 +101,8 @@ const ActionsCell = ({
             value={editFormData}
             handleChange={(event) => handleEditChange(event)}
             handleSubmit={(event) => handleEditSubmit(event)}
+            option={option}
+            menuItem={menuItem}
           />
         </Box>
       </Modal>
@@ -130,7 +124,7 @@ const ActionsCell = ({
         <Box sx={style}>
           <Dialog
             open={deleteOpen}
-            //  TransitionComponent={Transition}
+            TransitionComponent={Transition}
             keepMounted
             onClose={handleClose(setDeleteOpen)}
             aria-describedby="alert-dialog-slide-description"

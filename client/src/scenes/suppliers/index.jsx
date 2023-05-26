@@ -82,6 +82,15 @@ const Suppliers = () => {
           editMutation={editSupplier}
           deleteMutation={deleteSupplier}
           entity="supplier"
+          option={"supplierType"}
+          menuItem={[
+            <MenuItem key="individual" value="individual">
+              Individual
+            </MenuItem>,
+            <MenuItem key="company" value="company">
+              Company
+            </MenuItem>,
+          ]}
         />
       ),
     },

@@ -31,13 +31,7 @@ const commonFields = [
   },
 ];
 
-export const customerColumns = [
-  ...commonFields,
-  {
-    field: "customerType",
-    headerName: "Customer Type",
-    flex: 0.5,
-  },
+const contactPerson = [
   {
     field: "contactPerson",
     headerName: "Contact Person",
@@ -51,6 +45,18 @@ export const customerColumns = [
   },
 ];
 
+/* export columns */
+
+export const customerColumns = [
+  ...commonFields,
+  {
+    field: "customerType",
+    headerName: "Customer Type",
+    flex: 0.5,
+  },
+  ...contactPerson,
+];
+
 export const supplierColumns = [
   ...commonFields,
   {
@@ -58,15 +64,56 @@ export const supplierColumns = [
     headerName: "Supplier Type",
     flex: 0.5,
   },
+  ...contactPerson,
+];
+
+export const itemColumns = [
   {
-    field: "contactPerson",
-    headerName: "Contact Person",
+    field: "_id",
+    headerName: "#",
+    flex: 0.125,
+    renderCell: (index) => index.api.getRowIndex(index.row._id) + 1,
+  },
+  {
+    field: "itemName",
+    headerName: "Item Name",
     flex: 0.5,
-    renderCell: (params) => {
-      if (params.value === undefined) {
+  },
+  { field: "itemCode", headerName: "Item Code", flex: 0.5 },
+  { field: "image", headerName: "Image", flex: 0.5 },
+  {
+    field: "unitPrice",
+    headerName: "Unit Price",
+    flex: 0.5,
+    valueGetter: (params) => {
+      if (params.value === undefined || params.value === null) {
         return "";
       }
-      return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+      return params.value.toFixed(2);
     },
   },
+  {
+    field: "unitCost",
+    headerName: "Unit Cost",
+    flex: 0.5,
+    valueGetter: (params) => {
+      if (params.value === undefined || params.value === null) {
+        return "";
+      }
+      return params.value.toFixed(2);
+    },
+  },
+  {
+    field: "discount",
+    headerName: "Discount",
+    flex: 0.5,
+    valueGetter: (params) => {
+      if (params.value === undefined || params.value === null) {
+        return "";
+      }
+      return params.value.toFixed(2);
+    },
+  },
+  { field: "size", headerName: "Size", flex: 0.5 },
+  { field: "comments", headerName: "Comments", flex: 0.5 },
 ];

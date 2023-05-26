@@ -2,36 +2,30 @@ import React, { useRef, useState } from "react";
 import { Box, MenuItem } from "@mui/material";
 import { DataGridComp, FormComp, Header } from "components";
 import ActionsCell from "components/ActionsCell";
-import { customerColumns } from "data/data";
+import { itemColumns } from "data/data";
 import { useSelector } from "react-redux";
 import {
-  useCreateCustomerMutation,
-  useDeleteCustomerMutation,
-  useEditCustomerMutation,
-  useGetCustomersQuery,
+  useCreateItemMutation,
+  useDeleteItemMutation,
+  useEditItemMutation,
+  useGetItemsQuery,
 } from "state/api";
 
-const Customers = () => {
+const Products = () => {
   const userId = useSelector((state) => state.global.userId);
-  const { data, isLoading } = useGetCustomersQuery({ isActive: true });
-  //isError, error
+  const { data, isLoading } = useGetItemsQuery({ isActive: true });
 
-  const [deleteCustomer] = useDeleteCustomerMutation();
-  const [editCustomer] = useEditCustomerMutation();
+  const [deleteItem] = useDeleteItemMutation();
+  const [editItem] = useEditItemMutation();
 
-  const activeCustomers = data
-    ? data.filter((customer) => customer.isActive)
-    : [];
+  const activeItems = data ? data.filter((item) => item.isActive) : [];
 
-  const [createCustomer, { isLoading: isCreating }] =
-    useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
+  const [createItem, { isLoading: isCreating }] = useCreateItemMutation();
 
-  const filteredFields = customerColumns.filter(
-    (column) => column.field !== "_id"
-  );
+  const filteredFields = itemColumns.filter((column) => column.field !== "_id");
 
   const [formFields, setFormFields] = useState(
-    customerColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
+    itemColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
   );
   const formFieldsRef = useRef(formFields);
 
@@ -52,12 +46,9 @@ const Customers = () => {
         return;
       }
       const updatedFormFields = { ...formFields, userId }; // Include the userId in the request payload
-      await createCustomer(updatedFormFields).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
+      await createItem(updatedFormFields).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
       setFormFields(
-        customerColumns.reduce(
-          (acc, { field }) => ({ ...acc, [field]: "" }),
-          {}
-        )
+        itemColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
       );
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -69,7 +60,7 @@ const Customers = () => {
   };
 
   const filteredColumns = [
-    ...customerColumns,
+    ...itemColumns.filter((column) => column.field !== "comments"),
 
     {
       field: "actions",
@@ -81,49 +72,33 @@ const Customers = () => {
         <ActionsCell
           params={params}
           filteredFields={filteredFields}
-          editMutation={editCustomer}
-          deleteMutation={deleteCustomer}
-          entity="customer"
-          option={"customerType"}
-          menuItem={[
-            <MenuItem key="individual" value="individual">
-              Individual
-            </MenuItem>,
-            <MenuItem key="company" value="company">
-              Company
-            </MenuItem>,
-          ]}
+          editMutation={editItem}
+          deleteMutation={deleteItem}
+          entity="item"
         />
       ),
     },
   ];
+
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="CUSTOMERS" subTitle="Create Customer" />
+      <Header title="Items" subTitle="Create Item" />
       <FormComp
         data={filteredFields}
         value={formFields}
         handleChange={(event) => handleChange(event)}
         handleSubmit={(event) => handleSubmit(event)}
-        option={"customerType"}
-        menuItem={[
-          <MenuItem key="individual" value="individual">
-            Individual
-          </MenuItem>,
-          <MenuItem key="company" value="company">
-            Company
-          </MenuItem>,
-        ]}
+        comment={"comments"}
       />
       <DataGridComp
-        subTitle="Customer Table"
+        subTitle="Item Table"
         loading={isLoading || !data}
         getRowId={(row) => row._id}
-        rows={activeCustomers}
+        rows={activeItems}
         columns={filteredColumns}
       />
     </Box>
   );
 };
 
-export default Customers;
+export default Products;

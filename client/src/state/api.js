@@ -5,8 +5,9 @@ export const api = createApi({
     baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   reducerPath: "adminApi",
-  tagTypes: ["User", "Customers", "Suppliers"],
+  tagTypes: ["User", "Customers", "Suppliers", "Items"],
   endpoints: (build) => ({
+    /* auth endpoints */
     login: build.mutation({
       query: (credentials) => ({
         url: "auth/login",
@@ -20,10 +21,12 @@ export const api = createApi({
         method: "POST",
       }),
     }),
+    /* general endpoint */
     getUser: build.query({
       query: (id) => `general/user/${id}`,
       providesTags: ["User"],
     }),
+    /* client endpoints */
     getCustomers: build.query({
       query: () => `client/customers`,
       providesTags: ["Customers"],
@@ -78,6 +81,34 @@ export const api = createApi({
       }),
       invalidatesTags: ["Suppliers"],
     }),
+    /* product endpoints */
+    getItems: build.query({
+      query: () => `product/items`,
+      providesTags: ["Items"],
+    }),
+    createItem: build.mutation({
+      query: (item, userId) => ({
+        url: "product/items",
+        method: "POST",
+        body: { ...item, ...userId }, // Include the userId in the request body
+      }),
+      invalidatesTags: ["Items"],
+    }),
+    deleteItem: build.mutation({
+      query: (id) => ({
+        url: `product/items/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Items"],
+    }),
+    editItem: build.mutation({
+      query: ({ id, item }) => ({
+        url: `product/items/${id}`,
+        method: "PUT", // or "PATCH" depending on your API
+        body: item,
+      }),
+      invalidatesTags: ["Items"],
+    }),
   }),
 });
 
@@ -93,4 +124,8 @@ export const {
   useCreateSupplierMutation,
   useDeleteSupplierMutation,
   useEditSupplierMutation,
+  useGetItemsQuery,
+  useCreateItemMutation,
+  useDeleteItemMutation,
+  useEditItemMutation,
 } = api;

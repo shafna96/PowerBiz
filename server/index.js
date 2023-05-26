@@ -8,7 +8,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
 import generalRoutes from "./routes/general.js";
 import clientRoutes from "./routes/client.js";
-
+import productRoutes from "./routes/product.js";
 // data imports
 
 /* CONFIGURATION */
@@ -26,7 +26,7 @@ app.use(cors());
 app.use("/auth", authRoutes);
 app.use("/general", generalRoutes);
 app.use("/client", clientRoutes);
-
+app.use("/product", productRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000;
 mongoose

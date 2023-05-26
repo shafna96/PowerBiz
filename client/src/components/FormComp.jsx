@@ -1,6 +1,39 @@
 import { Box, Button, Grid, TextField, useTheme } from "@mui/material";
 import React from "react";
 
+const TextFieldComp = ({
+  column,
+  value,
+  onChange,
+  select,
+  multiline,
+  rows,
+  children,
+}) => {
+  const inputId = `${column.field}-input`;
+  return (
+    <TextField
+      name={column.field}
+      id={column.field}
+      value={value[column.field]}
+      label={column.headerName}
+      onChange={onChange}
+      variant="outlined"
+      fullWidth
+      color="textfield"
+      select={select}
+      multiline={multiline}
+      rows={rows}
+      inputProps={{
+        id: column.field,
+      }}
+      InputLabelProps={select ? { htmlFor: inputId } : {}}
+    >
+      {select && children}
+    </TextField>
+  );
+};
+
 const FormComp = ({
   handleSubmit,
   data,
@@ -8,9 +41,39 @@ const FormComp = ({
   value,
   option,
   menuItem,
+  comment,
   edit,
 }) => {
   const theme = useTheme();
+
+  const TextFieldRender = (column) => {
+    if (column.field === option) {
+      return (
+        <TextFieldComp
+          value={value}
+          column={column}
+          onChange={handleChange}
+          select
+        >
+          {menuItem}
+        </TextFieldComp>
+      );
+    }
+    if (column.field === comment) {
+      return (
+        <TextFieldComp
+          value={value}
+          column={column}
+          onChange={handleChange}
+          multiline
+          rows={4}
+        />
+      );
+    }
+    return (
+      <TextFieldComp value={value} column={column} onChange={handleChange} />
+    );
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -25,32 +88,7 @@ const FormComp = ({
       >
         {data.map((column) => (
           <Grid key={column.field} item xs={12} sm={4} padding={"5px"}>
-            {column.field === option ? (
-              <TextField
-                name={column.field}
-                id={column.field}
-                value={value[column.field]}
-                label={column.headerName}
-                onChange={handleChange}
-                variant="outlined"
-                fullWidth
-                color="textfield"
-                select
-              >
-                {menuItem}
-              </TextField>
-            ) : (
-              <TextField
-                name={column.field}
-                id={column.field}
-                value={value[column.field]}
-                label={column.headerName}
-                onChange={handleChange}
-                variant="outlined"
-                fullWidth
-                color="textfield"
-              />
-            )}
+            {TextFieldRender(column)}
           </Grid>
         ))}
         <Grid item xs={12}>

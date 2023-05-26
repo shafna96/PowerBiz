@@ -18,6 +18,7 @@ import {
   ChevronRightOutlined,
   HomeOutlined,
   Groups2Outlined,
+  Inventory,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
@@ -34,6 +35,10 @@ const navItems = [
   {
     text: "Suppliers",
     icon: <Groups2Outlined />,
+  },
+  {
+    text: "Products",
+    icon: <Inventory />,
   },
 ];
 
