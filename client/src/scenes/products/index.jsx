@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Box, MenuItem } from "@mui/material";
+import { Box } from "@mui/material";
 import { DataGridComp, FormComp, Header } from "components";
 import ActionsCell from "components/ActionsCell";
 import { itemColumns } from "data/data";
@@ -89,6 +89,7 @@ const Products = () => {
         handleChange={(event) => handleChange(event)}
         handleSubmit={(event) => handleSubmit(event)}
         comment={"comments"}
+        image={"image"}
       />
       <DataGridComp
         subTitle="Item Table"

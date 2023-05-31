@@ -1,4 +1,11 @@
-import { Box, Button, Grid, TextField, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  Grid,
+  TextField,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 
 const TextFieldComp = ({
@@ -6,31 +13,43 @@ const TextFieldComp = ({
   value,
   onChange,
   select,
+  type,
   multiline,
   rows,
   children,
+  error,
+  sm,
+  helperText,
 }) => {
   const inputId = `${column.field}-input`;
+  // const columnError = error && error[column.field];
   return (
-    <TextField
-      name={column.field}
-      id={column.field}
-      value={value[column.field]}
-      label={column.headerName}
-      onChange={onChange}
-      variant="outlined"
-      fullWidth
-      color="textfield"
-      select={select}
-      multiline={multiline}
-      rows={rows}
-      inputProps={{
-        id: column.field,
-      }}
-      InputLabelProps={select ? { htmlFor: inputId } : {}}
-    >
-      {select && children}
-    </TextField>
+    <Grid key={column.field} item xs={12} sm={sm} padding={"5px"}>
+      <TextField
+        required={column.required}
+        name={column.field}
+        id={column.field}
+        value={value[column.field]}
+        label={column.headerName}
+        onChange={onChange}
+        variant="outlined"
+        fullWidth
+        color="textfield"
+        error={error}
+        type={type}
+        select={select}
+        multiline={multiline}
+        rows={rows}
+        InputProps={{
+          id: column.field,
+          //  type: column.type,
+        }}
+        InputLabelProps={select ? { htmlFor: inputId } : {}}
+      >
+        {select && children}
+      </TextField>
+      {error && <FormHelperText error>{helperText}</FormHelperText>}
+    </Grid>
   );
 };
 
@@ -42,7 +61,10 @@ const FormComp = ({
   option,
   menuItem,
   comment,
+  image,
+  error,
   edit,
+  helperText,
 }) => {
   const theme = useTheme();
 
@@ -53,7 +75,10 @@ const FormComp = ({
           value={value}
           column={column}
           onChange={handleChange}
+          error={error}
+          helperText={helperText}
           select
+          sm={4}
         >
           {menuItem}
         </TextFieldComp>
@@ -65,13 +90,36 @@ const FormComp = ({
           value={value}
           column={column}
           onChange={handleChange}
+          error={error}
+          helperText={helperText}
           multiline
-          rows={4}
+          rows={3}
+          sm={8}
+        />
+      );
+    }
+    if (column.field === image) {
+      return (
+        <TextFieldComp
+          value={value}
+          column={column}
+          onChange={handleChange}
+          error={error}
+          helperText={helperText}
+          sm={12}
+          type={"file"}
         />
       );
     }
     return (
-      <TextFieldComp value={value} column={column} onChange={handleChange} />
+      <TextFieldComp
+        value={value}
+        column={column}
+        onChange={handleChange}
+        error={error}
+        helperText={helperText}
+        sm={4}
+      />
     );
   };
 
@@ -87,9 +135,9 @@ const FormComp = ({
         }}
       >
         {data.map((column) => (
-          <Grid key={column.field} item xs={12} sm={4} padding={"5px"}>
+          <React.Fragment key={column.field}>
             {TextFieldRender(column)}
-          </Grid>
+          </React.Fragment>
         ))}
         <Grid item xs={12}>
           <Box

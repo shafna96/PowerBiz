@@ -5,11 +5,13 @@ import {
   getItems,
   updateItem,
 } from "../controllers/product.js";
+import multer from "multer";
 
 const router = express.Router();
+const upload = multer();
 
+router.post("/items", upload.single("image"), addItem);
 router.get("/items", getItems);
-router.post("/items", addItem);
 router.delete("/items/:id", deleteItem);
-router.put("/items/:id", updateItem);
+router.put("/items/:id", upload.single("image"), updateItem);
 export default router;

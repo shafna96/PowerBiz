@@ -1,3 +1,5 @@
+import React from "react";
+
 const commonFields = [
   {
     field: "_id",
@@ -10,11 +12,13 @@ const commonFields = [
     field: "name",
     headerName: "Name",
     flex: 0.5,
+    required: true,
   },
   {
     field: "email",
     headerName: "Email",
     flex: 0.5,
+    required: true,
   },
   {
     field: "address",
@@ -24,6 +28,8 @@ const commonFields = [
   {
     field: "phone",
     headerName: "Phone Number",
+    type: "tel",
+    // inputMode: "numeric",
     flex: 0.5,
     renderCell: (params) => {
       return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
@@ -78,13 +84,27 @@ export const itemColumns = [
     field: "itemName",
     headerName: "Item Name",
     flex: 0.5,
+    required: true,
   },
   { field: "itemCode", headerName: "Item Code", flex: 0.5 },
-  { field: "image", headerName: "Image", flex: 0.5 },
+  {
+    field: "image",
+    headerName: "Image",
+    flex: 0.5,
+    renderCell: (params) => (
+      <img
+        src={params.value}
+        alt="Customer"
+        style={{ width: "25px", height: "25px" }}
+      />
+    ),
+  },
   {
     field: "unitPrice",
     headerName: "Unit Price",
     flex: 0.5,
+    required: true,
+
     valueGetter: (params) => {
       if (params.value === undefined || params.value === null) {
         return "";
@@ -96,6 +116,7 @@ export const itemColumns = [
     field: "unitCost",
     headerName: "Unit Cost",
     flex: 0.5,
+
     valueGetter: (params) => {
       if (params.value === undefined || params.value === null) {
         return "";
@@ -114,6 +135,6 @@ export const itemColumns = [
       return params.value.toFixed(2);
     },
   },
-  { field: "size", headerName: "Size", flex: 0.5 },
+  { field: "size", headerName: "Size", flex: 0.5, required: true },
   { field: "comments", headerName: "Comments", flex: 0.5 },
 ];

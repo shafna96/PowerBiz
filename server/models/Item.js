@@ -15,15 +15,28 @@ const ItemSchema = new mongoose.Schema(
       max: 100,
       trim: true,
     },
-    image: String,
+    image: {
+      type: String, // Store the image as a Buffer in the database
+      required: true,
+    },
     unitPrice: {
       type: Number,
       set: function (v) {
         return Math.round(v);
       },
     },
-    unitCost: Number,
-    discount: Number,
+    unitCost: {
+      type: Number,
+      set: function (v) {
+        return Math.round(v);
+      },
+    },
+    discount: {
+      type: Number,
+      set: function (v) {
+        return Math.round(v);
+      },
+    },
     size: String,
     comments: String,
     isActive: {

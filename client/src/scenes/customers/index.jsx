@@ -16,16 +16,13 @@ const Customers = () => {
   const { data, isLoading } = useGetCustomersQuery({ isActive: true });
   //isError, error
 
+  const [
+    createCustomer,
+    { isLoading: isCreating, isError: createError, error: createErrorMessage },
+  ] = useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
   const [deleteCustomer] = useDeleteCustomerMutation();
   const [editCustomer] = useEditCustomerMutation();
-
-  const activeCustomers = data
-    ? data.filter((customer) => customer.isActive)
-    : [];
-
-  const [createCustomer, { isLoading: isCreating }] =
-    useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
-
+  console.log("errorMsg:", createErrorMessage?.data?.error);
   const filteredFields = customerColumns.filter(
     (column) => column.field !== "_id"
   );
@@ -97,6 +94,11 @@ const Customers = () => {
       ),
     },
   ];
+
+  const activeCustomers = data
+    ? data.filter((customer) => customer.isActive)
+    : [];
+
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="CUSTOMERS" subTitle="Create Customer" />
@@ -106,6 +108,8 @@ const Customers = () => {
         handleChange={(event) => handleChange(event)}
         handleSubmit={(event) => handleSubmit(event)}
         option={"customerType"}
+        //error={createError}
+        // helperText={createErrorMessage?.data?.error}
         menuItem={[
           <MenuItem key="individual" value="individual">
             Individual

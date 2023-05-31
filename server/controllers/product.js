@@ -1,24 +1,11 @@
 import Item from "../models/Item.js";
 import User from "../models/User.js";
 
-export const getItems = async (req, res) => {
-  try {
-    // Retrieve all items and populate the userId field with the corresponding user documents
-    const items = await Item.find().populate("userId");
-
-    res.json(items);
-  } catch (error) {
-    // Handle any errors that occur during the process
-    res.status(500).json({ error: "Failed to get items" });
-  }
-};
-
 export const addItem = async (req, res) => {
   try {
     const {
       itemCode,
       itemName,
-      image,
       unitPrice,
       unitCost,
       discount,
@@ -34,24 +21,47 @@ export const addItem = async (req, res) => {
 
     const userId = user._id.toString(); // Convert userId to string type // Store the user._id in a variable
 
-    // Create a new instance of the item model with the provided data
-    const item = await Item.create({
-      userId, // Set userId as the User schema's ID
+    // Get the uploaded image file
+    const imageFile = req.file;
+
+    // If an image is uploaded, convert it to a base64 string for storage
+    let image = null;
+    if (imageFile) {
+      image = imageFile.path;
+    }
+
+    // Create the new item object
+    const newItem = new Item({
       itemCode,
       itemName,
-      image,
       unitPrice,
       unitCost,
       discount,
       size,
       comments,
+      image,
+      userId,
     });
 
-    // Return the saved item in the response
-    res.status(201).json(item);
+    // Save the new item to the database
+    await newItem.save();
+
+    res.status(200).json(newItem);
   } catch (error) {
     // Handle any errors that occur during the process
     res.status(500).json({ error: "Failed to add item" });
+  }
+};
+
+export const getItems = async (req, res) => {
+  try {
+    // Retrieve all items and populate the userId field with the corresponding user documents
+    const items = await Item.find().populate("userId");
+
+    res.json(items);
+  } catch (error) {
+    // Handle any errors that occur during the process
+    res.status(500).json({ error: "Failed to get items" });
   }
 };
 
