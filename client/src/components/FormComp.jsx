@@ -20,16 +20,22 @@ const TextFieldComp = ({
   error,
   sm,
   helperText,
+  accept,
 }) => {
   const inputId = `${column.field}-input`;
   // const columnError = error && error[column.field];
+  let fieldValue = value[column.field];
+  if (type === "file") {
+    fieldValue = value[column.field]?.[0];
+  }
+
   return (
     <Grid key={column.field} item xs={12} sm={sm} padding={"5px"}>
       <TextField
         required={column.required}
         name={column.field}
         id={column.field}
-        value={value[column.field]}
+        value={fieldValue}
         label={column.headerName}
         onChange={onChange}
         variant="outlined"
@@ -42,6 +48,8 @@ const TextFieldComp = ({
         rows={rows}
         InputProps={{
           id: column.field,
+          accept: accept,
+          type: type,
           //  type: column.type,
         }}
         InputLabelProps={select ? { htmlFor: inputId } : {}}
@@ -57,6 +65,7 @@ const FormComp = ({
   handleSubmit,
   data,
   handleChange,
+  handleImageChange,
   value,
   option,
   menuItem,
@@ -103,16 +112,17 @@ const FormComp = ({
         <TextFieldComp
           value={value}
           column={column}
-          onChange={handleChange}
+          onChange={handleImageChange}
           error={error}
           helperText={helperText}
           sm={12}
-          type={"file"}
+          type="file"
         />
       );
     }
     return (
       <TextFieldComp
+        accept="image/*"
         value={value}
         column={column}
         onChange={handleChange}
@@ -124,7 +134,7 @@ const FormComp = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
       <Grid
         container
         rowGap={1}

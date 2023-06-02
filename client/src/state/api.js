@@ -87,10 +87,10 @@ export const api = createApi({
       providesTags: ["Items"],
     }),
     createItem: build.mutation({
-      query: (item, userId) => ({
+      query: (formData, userId) => ({
         url: "product/items",
         method: "POST",
-        body: { ...item, ...userId }, // Include the userId in the request body
+        body: formData, // Include the userId in the request body
       }),
       invalidatesTags: ["Items"],
     }),

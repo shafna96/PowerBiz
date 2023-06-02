@@ -93,9 +93,9 @@ export const itemColumns = [
     flex: 0.5,
     renderCell: (params) => (
       <img
-        src={params.value}
+        src={`./uploads/${params.value}`}
         alt="Customer"
-        style={{ width: "25px", height: "25px" }}
+        style={{ width: "35px", height: "35px" }}
       />
     ),
   },

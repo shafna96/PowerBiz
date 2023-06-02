@@ -1,4 +1,6 @@
 import express from "express";
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -14,6 +16,8 @@ import productRoutes from "./routes/product.js";
 /* CONFIGURATION */
 dotenv.config();
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -27,6 +31,10 @@ app.use("/auth", authRoutes);
 app.use("/general", generalRoutes);
 app.use("/client", clientRoutes);
 app.use("/product", productRoutes);
+app.use(
+  "/uploads",
+  express.static(resolve(__dirname, "../client/public/uploads"))
+);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000;
 mongoose

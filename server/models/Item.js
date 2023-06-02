@@ -17,7 +17,7 @@ const ItemSchema = new mongoose.Schema(
     },
     image: {
       type: String, // Store the image as a Buffer in the database
-      required: true,
+      // required: true,
     },
     unitPrice: {
       type: Number,

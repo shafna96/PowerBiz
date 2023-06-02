@@ -1,18 +1,18 @@
 import Item from "../models/Item.js";
 import User from "../models/User.js";
+import fs from "fs";
 
 export const addItem = async (req, res) => {
   try {
     const {
-      itemCode,
       itemName,
+      itemCode,
       unitPrice,
       unitCost,
       discount,
       size,
       comments,
     } = req.body;
-
     // Check if the user exists
     const user = await User.findById(req.body.userId);
     if (!user) {
@@ -20,20 +20,21 @@ export const addItem = async (req, res) => {
     }
 
     const userId = user._id.toString(); // Convert userId to string type // Store the user._id in a variable
-
+    const image = req.file ? req.file.filename : null;
     // Get the uploaded image file
-    const imageFile = req.file;
+    //   const imageFile = req.file;
 
     // If an image is uploaded, convert it to a base64 string for storage
-    let image = null;
-    if (imageFile) {
-      image = imageFile.path;
-    }
-
+    // let image = null;
+    // if (imageFile) {
+    //   image = imageFile.path;
+    // }
+    console.log("image", image);
     // Create the new item object
-    const newItem = new Item({
-      itemCode,
+    const newItem = await Item.create({
       itemName,
+      itemCode,
+      image,
       unitPrice,
       unitCost,
       discount,
@@ -43,8 +44,11 @@ export const addItem = async (req, res) => {
       userId,
     });
 
-    // Save the new item to the database
-    await newItem.save();
+    // Log the uploaded file information
+    console.log("Uploaded file:", req.file);
+
+    // Log the form data
+    console.log("Form data:", req.body);
 
     res.status(200).json(newItem);
   } catch (error) {

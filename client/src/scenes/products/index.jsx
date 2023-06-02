@@ -23,17 +23,24 @@ const Products = () => {
   const [createItem, { isLoading: isCreating }] = useCreateItemMutation();
 
   const filteredFields = itemColumns.filter((column) => column.field !== "_id");
-
   const [formFields, setFormFields] = useState(
     itemColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
   );
   const formFieldsRef = useRef(formFields);
-
+  //  const fileInputRef = useRef(formFields.image); // Ref to access the file input element
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
     formFieldsRef.current = { ...formFieldsRef.current, [name]: value };
     setFormFields(formFieldsRef.current);
+  };
+
+  const handleImageChange = (event) => {
+    event.preventDefault();
+    const { name, files } = event.target;
+    formFieldsRef.current = { ...formFieldsRef.current, [name]: files[0] };
+    setFormFields(formFieldsRef.current);
+    console.log("img", files[0]);
   };
 
   const handleSubmit = async (event) => {
@@ -45,11 +52,35 @@ const Products = () => {
       if (!userId) {
         return;
       }
-      const updatedFormFields = { ...formFields, userId }; // Include the userId in the request payload
-      await createItem(updatedFormFields).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
-      setFormFields(
-        itemColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
+
+      const updatedFormFields = {
+        ...formFieldsRef.current,
+        userId,
+      }; // Include the userId in the request payload
+
+      const formData = new FormData();
+      Object.entries(updatedFormFields).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      await createItem(formData).unwrap(); //   console.log("formData:", { customer: formFields, userId: userId }); // Pass the updated formData
+      console.log("frontendSubmit", formData);
+
+      // setFormFields(
+      //   itemColumns.reduce((acc, { field }) => ({ ...acc, [field]: "" }), {})
+      // );
+      // Clear form fields using formFieldsRef
+      const clearedFormFields = itemColumns.reduce(
+        (acc, { field }) => ({ ...acc, [field]: "" }),
+        {}
       );
+      formFieldsRef.current = clearedFormFields;
+      setFormFields(clearedFormFields);
+
+      // Reset file input value to clear it
+      // if (fileInputRef.current) {
+      //   fileInputRef.current.value = "";
+      // }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         console.log("submit error", error.response.data.error);
@@ -87,6 +118,7 @@ const Products = () => {
         data={filteredFields}
         value={formFields}
         handleChange={(event) => handleChange(event)}
+        handleImageChange={(event) => handleImageChange(event)}
         handleSubmit={(event) => handleSubmit(event)}
         comment={"comments"}
         image={"image"}
