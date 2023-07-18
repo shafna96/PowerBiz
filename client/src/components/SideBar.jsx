@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
+  Collapse,
   Divider,
   Drawer,
   IconButton,
@@ -19,6 +20,8 @@ import {
   HomeOutlined,
   Groups2Outlined,
   Inventory,
+  ExpandMore,
+  ExpandLess,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
@@ -40,6 +43,15 @@ const navItems = [
     text: "Products",
     icon: <Inventory />,
   },
+  {
+    text: "Purchase",
+    icon: <Inventory />,
+    subItems: [
+      {
+        text: "VendorBill",
+      },
+    ],
+  },
 ];
 
 const SideBar = ({
@@ -51,12 +63,65 @@ const SideBar = ({
 }) => {
   const { pathname } = useLocation();
   const [active, setActive] = useState("");
+  const [openSubItems, setOpenSubItems] = useState([]);
   const navigate = useNavigate();
   const theme = useTheme();
 
   useEffect(() => {
     setActive(pathname.substring(1));
   }, [pathname]);
+
+  // const handleItemClick = (path) => {
+  //   navigate(path);
+  //   setActive(path);
+  // };
+
+  const handleSubItemClick = (index) => {
+    setOpenSubItems((prevState) => {
+      const updatedState = [...prevState];
+      updatedState[index] = !updatedState[index];
+      return updatedState;
+    });
+  };
+  const renderSubItems = (text, subItems, index) => {
+    const lcText = text.toLowerCase();
+    return (
+      <Collapse
+        in={openSubItems[index]}
+        timeout="auto"
+        unmountOnExit
+        sx={{ backgroundColor: theme.palette.primary[300] }}
+      >
+        <List component="div" disablePadding>
+          {subItems.map((subItem) => {
+            const sublcText = subItem.text.toLowerCase();
+            return (
+              <ListItem key={subItem.text} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    navigate(`${lcText}/${sublcText}`);
+                    setActive(sublcText);
+                  }}
+                  sx={{
+                    backgroundColor:
+                      active === sublcText
+                        ? theme.palette.secondary[100]
+                        : "transparent",
+                    color:
+                      active === sublcText
+                        ? theme.palette.primary[600]
+                        : theme.palette.secondary[100],
+                  }}
+                >
+                  <ListItemText primary={subItem.text} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Collapse>
+    );
+  };
 
   return (
     <Box component="nav">
@@ -92,8 +157,8 @@ const SideBar = ({
               </FlexBetween>
             </Box>
             <List>
-              {navItems.map(({ text, icon }) => {
-                if (!icon) {
+              {navItems.map(({ text, icon, subItems }, index) => {
+                if (!icon && !subItems) {
                   return (
                     <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
                       {text}
@@ -102,40 +167,53 @@ const SideBar = ({
                 }
                 const lcText = text.toLowerCase();
                 return (
-                  <ListItem key={text} disablePadding>
-                    <ListItemButton
-                      onClick={() => {
-                        navigate(`/${lcText}`);
-                        setActive(lcText);
-                      }}
-                      sx={{
-                        backgroundColor:
-                          active === lcText
-                            ? theme.palette.secondary[300]
-                            : "transparent",
-                        color:
-                          active === lcText
-                            ? theme.palette.primary[600]
-                            : theme.palette.secondary[100],
-                      }}
-                    >
-                      <ListItemIcon
+                  <React.Fragment key={text}>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => {
+                          subItems
+                            ? handleSubItemClick(index)
+                            : navigate(`/${lcText}`);
+                          setActive(lcText);
+                        }}
                         sx={{
-                          // ml: "0.5rem",
+                          backgroundColor:
+                            active === lcText
+                              ? theme.palette.secondary[300]
+                              : "transparent",
                           color:
                             active === lcText
                               ? theme.palette.primary[600]
-                              : theme.palette.secondary[200],
+                              : theme.palette.secondary[100],
                         }}
                       >
-                        {icon}
-                      </ListItemIcon>
-                      <ListItemText primary={text} />
-                      {active === lcText && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
-                      )}
-                    </ListItemButton>
-                  </ListItem>
+                        <ListItemIcon
+                          sx={{
+                            color:
+                              active === lcText
+                                ? theme.palette.primary[600]
+                                : theme.palette.secondary[200],
+                          }}
+                        >
+                          {icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                        {subItems && (
+                          <IconButton
+                            size="small"
+                            // onClick={() => handleSubItemClick(index)}
+                          >
+                            {openSubItems[index] ? (
+                              <ExpandLess />
+                            ) : (
+                              <ExpandMore />
+                            )}
+                          </IconButton>
+                        )}
+                      </ListItemButton>
+                    </ListItem>
+                    {subItems && renderSubItems(text, subItems, index)}
+                  </React.Fragment>
                 );
               })}
             </List>

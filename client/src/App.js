@@ -10,6 +10,7 @@ import {
   LoginScreen,
   Products,
   Suppliers,
+  VenderBill,
 } from "scenes";
 import { selectIsAuthenticated, setIsAuthenticated, setUserId } from "state";
 import { themeSettings } from "theme";
@@ -62,6 +63,8 @@ function App() {
               <Route path="/customers" element={<Customers />} />
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/products" element={<Products />} />
+              {/* <Route path="/purchase" element={<VenderBill />} /> */}
+              <Route path="/purchase/vendorbill" element={<VenderBill />} />
             </Route>
           ) : (
             <Route path="/login" element={<LoginScreen />} />

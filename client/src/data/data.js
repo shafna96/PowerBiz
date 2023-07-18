@@ -138,3 +138,9 @@ export const itemColumns = [
   { field: "size", headerName: "Size", flex: 0.5, required: true },
   { field: "comments", headerName: "Comments", flex: 0.5 },
 ];
+
+export const vendorbillFields = [
+  { field: "vendor", headerName: "Vendor", flex: 0.5 },
+  { field: "billDate", headerName: "Bill Date", flex: 0.5 },
+  { field: "billNo", headerName: "Bill No", flex: 0.5 },
+];
