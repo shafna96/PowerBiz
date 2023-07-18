@@ -5,7 +5,6 @@ import {
   Menu as MenuIcon,
   ArrowDropDownOutlined,
 } from "@mui/icons-material";
-import FlexBetween from "./FlexBetween";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
 //import profileimage from "assets/profile.jpeg";
@@ -20,6 +19,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import FlexBetween from "components/FlexBetween";
 
 const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
   const dispatch = useDispatch();

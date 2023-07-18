@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetSuppliersQuery } from "state/api";
 
-const VendorformComp = ({ handleSubmit }) => {
+const VendorHeaderComp = ({ handleSubmit }) => {
   const userId = useSelector((state) => state.global.userId);
   const { data, isLoading } = useGetSuppliersQuery({ isActive: true });
 
@@ -117,4 +117,4 @@ const VendorformComp = ({ handleSubmit }) => {
   );
 };
 
-export default VendorformComp;
+export default VendorHeaderComp;

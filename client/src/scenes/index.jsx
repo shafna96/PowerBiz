@@ -4,7 +4,7 @@ import Dashboard from "./dashboard";
 import Customers from "./customers";
 import Suppliers from "./suppliers";
 import Products from "./products";
-import VenderBill from "./purchase/VenderBill";
+import VenderBill from "./purchase/vendor_bill";
 export {
   Layout,
   LoginScreen,
