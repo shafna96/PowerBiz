@@ -4,7 +4,8 @@ import FlexBetween from "./FlexBetween";
 import Header from "./Header";
 import FormComp from "./FormComp";
 import DataGridComp from "./DataGridComp";
-import VendorHeaderComp from "./vendor_bill/VendorHeaderComp";
+import VendorHeader from "./vendor_bill/VendorHeader";
+import VendorBody from "./vendor_bill/VendorBody";
 export {
   Navbar,
   SideBar,
@@ -12,5 +13,6 @@ export {
   Header,
   FormComp,
   DataGridComp,
-  VendorHeaderComp,
+  VendorHeader,
+  VendorBody,
 };

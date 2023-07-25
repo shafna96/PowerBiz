@@ -16,12 +16,13 @@ import {
 import {
   SettingsOutlined,
   ChevronLeft,
-  ChevronRightOutlined,
   HomeOutlined,
   Groups2Outlined,
   Inventory,
   ExpandMore,
   ExpandLess,
+  Circle,
+  CircleOutlined,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
@@ -49,7 +50,7 @@ const navItems = [
     icon: <Inventory />,
     subItems: [
       {
-        text: "VendorBill",
+        text: "Vendor Bill",
       },
     ],
   },
@@ -91,11 +92,13 @@ const SideBar = ({
         in={openSubItems[index]}
         timeout="auto"
         unmountOnExit
-        sx={{ backgroundColor: theme.palette.primary[300] }}
+        sx={{
+          backgroundColor: theme.palette.primary[300],
+        }}
       >
         <List component="div" disablePadding>
           {subItems.map((subItem) => {
-            const sublcText = subItem.text.toLowerCase();
+            const sublcText = subItem.text.replace(/\s+/g, "").toLowerCase();
             return (
               <ListItem key={subItem.text} disablePadding>
                 <ListItemButton
@@ -108,12 +111,24 @@ const SideBar = ({
                       active === sublcText
                         ? theme.palette.secondary[100]
                         : "transparent",
-                    color:
-                      active === sublcText
-                        ? theme.palette.primary[600]
-                        : theme.palette.secondary[100],
+                    color: theme.palette.common.white,
+                    // active === sublcText
+                    //   ? theme.palette.primary[600]
+                    // : theme.palette.common.white,
                   }}
                 >
+                  <ListItemIcon
+                    sx={{
+                      paddingX: "15px",
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    {active === sublcText ? (
+                      <Circle fontSize="10px" />
+                    ) : (
+                      <CircleOutlined fontSize="10px" />
+                    )}
+                  </ListItemIcon>
                   <ListItemText primary={subItem.text} />
                 </ListItemButton>
               </ListItem>
@@ -161,7 +176,8 @@ const SideBar = ({
               {navItems.map(({ text, icon, subItems }, index) => {
                 if (!icon && !subItems) {
                   return (
-                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                    <Typography key={text}>
+                      {/* sx={{ m: "2.25rem 0 1rem 3rem" }} */}
                       {text}
                     </Typography>
                   );
@@ -190,6 +206,7 @@ const SideBar = ({
                       >
                         <ListItemIcon
                           sx={{
+                            paddingX: "15px",
                             color:
                               active === lcText
                                 ? theme.palette.primary[600]

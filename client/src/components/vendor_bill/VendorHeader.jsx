@@ -1,20 +1,11 @@
-import { MenuItem, Select } from "@mui/material";
-import {
-  Box,
-  Button,
-  FormHelperText,
-  Grid,
-  TextField,
-  useTheme,
-} from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useGetSuppliersQuery } from "state/api";
 
-const VendorHeaderComp = ({ handleSubmit }) => {
-  const userId = useSelector((state) => state.global.userId);
-  const { data, isLoading } = useGetSuppliersQuery({ isActive: true });
+const VendorHeader = ({ handleSubmit }) => {
+  const { data } = useGetSuppliersQuery({ isActive: true });
 
   const activeSuppliers = data
     ? data.filter((supplier) => supplier.isActive)
@@ -28,7 +19,6 @@ const VendorHeaderComp = ({ handleSubmit }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [billNumber, setBillNumber] = useState("");
   const [showVendorDetails, setShowVendorDetails] = useState(false);
-  const theme = useTheme();
 
   const handleChange = (setState) => (event) => {
     setState(event.target.value);
@@ -42,25 +32,22 @@ const VendorHeaderComp = ({ handleSubmit }) => {
 
     return (
       <Box>
-        <p>{`Name: ${vendorDetails.name}`}</p>
-        <p>{`Address: ${vendorDetails.address}`}</p>
-        <p>{`Phone Number: ${vendorDetails.phone}`}</p>
-        <p>{`Vendor Number: ${vendorDetails._id}`}</p>
+        <Typography
+          sx={{ paddingTop: "10px" }}
+        >{`Address: ${vendorDetails.address}`}</Typography>
+        <Typography
+          sx={{ paddingTop: "5px" }}
+        >{`Phone Number: ${vendorDetails.phone}`}</Typography>
+        <Typography
+          sx={{ paddingTop: "5px" }}
+        >{`Vendor Number: ${vendorDetails._id}`}</Typography>
       </Box>
     );
   };
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <Grid
-        container
-        rowGap={1}
-        sx={{
-          padding: "25px",
-          marginTop: "40px",
-          backgroundColor: theme.palette.primary.light,
-        }}
-      >
-        <Grid item sm={6} padding={"5px"}>
+      <Grid container rowGap={1}>
+        <Grid item sm={6} paddingX={"5px"}>
           <TextField
             required
             name="vendor"
@@ -68,8 +55,9 @@ const VendorHeaderComp = ({ handleSubmit }) => {
             value={selectedVendor}
             label="Vendor"
             onChange={handleChange(setSelectedVendor)}
-            variant="outlined"
-            fullWidth
+            variant="standard"
+            // fullWidth
+            sx={{ width: "85%" }}
             color="textfield"
             select
           >
@@ -87,7 +75,7 @@ const VendorHeaderComp = ({ handleSubmit }) => {
           </TextField>
           <Box>{showVendorDetails && renderVendorDetails(selectedVendor)}</Box>
         </Grid>
-        <Grid item sm={6} padding={"5px"} rowGap={1}>
+        <Grid item sm={6} paddingX={"5px"} rowGap={1}>
           <TextField
             required
             name="billDate"
@@ -95,8 +83,9 @@ const VendorHeaderComp = ({ handleSubmit }) => {
             value={selectedDate}
             label="Bill Date"
             onChange={handleChange(setSelectedDate)}
-            variant="outlined"
-            fullWidth
+            variant="standard"
+            sx={{ width: "85%", paddingBottom: "15px" }}
+            //fullWidth
             color="textfield"
           />
           <TextField
@@ -106,10 +95,10 @@ const VendorHeaderComp = ({ handleSubmit }) => {
             value={billNumber}
             label="Bill No"
             onChange={handleChange(setBillNumber)}
-            variant="outlined"
-            fullWidth
+            variant="standard"
+            sx={{ width: "85%", paddingBottom: "15px" }}
+            // fullWidth
             color="textfield"
-            sx={{ paddingTop: "5px" }}
           />
         </Grid>
       </Grid>
@@ -117,4 +106,4 @@ const VendorHeaderComp = ({ handleSubmit }) => {
   );
 };
 
-export default VendorHeaderComp;
+export default VendorHeader;
