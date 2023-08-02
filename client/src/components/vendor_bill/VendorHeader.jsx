@@ -16,7 +16,7 @@ const VendorHeader = ({ handleSubmit }) => {
   console.log("data", data);
   // console.log("vendor", vendors);
   const [selectedVendor, setSelectedVendor] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
   const [billNumber, setBillNumber] = useState("");
   const [showVendorDetails, setShowVendorDetails] = useState(false);
 
@@ -93,7 +93,7 @@ const VendorHeader = ({ handleSubmit }) => {
             name="billNo"
             id="billNo"
             value={billNumber}
-            label="Bill No"
+            label="Reference No"
             onChange={handleChange(setBillNumber)}
             variant="standard"
             sx={{ width: "85%", paddingBottom: "15px" }}

@@ -14,9 +14,34 @@ import {
   Autocomplete,
   Typography,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { AddCircleOutline, Delete } from "@mui/icons-material";
 import { useGetItemsQuery } from "state/api";
 import { tableHeadList } from "data/data";
+import FlexBetween from "components/FlexBetween";
+
+const TableBodyCell = ({ children, right }) => {
+  return (
+    <TableCell align={right ? "right" : "left"} sx={{ padding: "5px" }}>
+      {children}
+    </TableCell>
+  );
+};
+
+const TextFieldRow = (props) => {
+  const { align } = props;
+  return (
+    <TextField
+      {...props}
+      fullWidth
+      variant="standard"
+      sx={{
+        "& input::placeholder": {
+          textAlign: align,
+        },
+      }}
+    />
+  );
+};
 
 const VendorBody = () => {
   const { data } = useGetItemsQuery({ isActive: true });
@@ -43,8 +68,8 @@ const VendorBody = () => {
     setNewItem({
       itemCode: "",
       itemName: "",
-      quantity: "",
       unitPrice: "",
+      quantity: "",
     });
     setShowAddItem(true);
   };
@@ -82,15 +107,19 @@ const VendorBody = () => {
           <Table>
             <TableHead>
               <TableRow>
-                {tableHeadList.map((head, index) => (
+                {tableHeadList.map((head) => (
                   <TableCell
+                    align={head.align}
                     sx={{
                       backgroundColor: theme.palette.secondary.dark,
                       color: theme.palette.common.white,
+                      width: head.width,
+                      padding: "5px",
+                      paddingTop: head.paddingTop,
                     }}
-                    key={index}
+                    key={head.id}
                   >
-                    {head}
+                    {head.name}
                   </TableCell>
                 ))}
               </TableRow>
@@ -105,94 +134,93 @@ const VendorBody = () => {
                     },
                   }}
                 >
-                  <TableCell>{item.itemCode}</TableCell>
-                  <TableCell>{item.itemName}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.unitPrice}</TableCell>
-                  <TableCell>
-                    {parseFloat(item.quantity) * parseFloat(item.unitPrice)}
-                  </TableCell>
-                  <TableCell>
+                  <TableBodyCell>#</TableBodyCell>
+                  <TableBodyCell>{item.itemCode}</TableBodyCell>
+                  <TableBodyCell>{item.itemName}</TableBodyCell>
+                  <TableBodyCell right>{item.unitPrice}</TableBodyCell>
+                  <TableBodyCell right>{item.quantity}</TableBodyCell>
+                  <TableBodyCell right>
+                    {parseFloat(item.unitPrice) * parseFloat(item.quantity)}
+                  </TableBodyCell>
+                  <TableBodyCell>
                     <IconButton
+                      size="small"
+                      sx={{ align: "right" }}
                       onClick={() => handleDeleteItem(index)}
                       color="secondary"
                     >
                       <Delete />
                     </IconButton>
-                  </TableCell>
+                  </TableBodyCell>
                 </TableRow>
               ))}
               {!showAddItem && (
                 <TableRow>
-                  <TableCell sx={{ width: "25%" }}>
+                  <TableBodyCell></TableBodyCell>
+                  <TableBodyCell>
                     <Autocomplete
                       options={activeItems}
                       getOptionLabel={(item) => item.itemCode}
                       value={newItem}
                       onChange={handleOptionChange}
                       renderInput={(params) => (
-                        <TextField
+                        <TextFieldRow
                           {...params}
                           name="itemCode"
-                          label="Item Code"
-                          variant="standard"
-                          fullWidth
+                          placeholder="Item Code"
                         />
                       )}
                     />
-                  </TableCell>
-                  <TableCell sx={{ width: "25%" }}>
+                  </TableBodyCell>
+                  <TableBodyCell>
                     <Autocomplete
                       options={activeItems}
                       getOptionLabel={(item) => item.itemName}
                       value={newItem}
                       onChange={handleOptionChange}
                       renderInput={(params) => (
-                        <TextField
+                        <TextFieldRow
                           {...params}
                           name="itemName"
-                          label="Description"
-                          variant="standard"
-                          fullWidth
+                          placeholder="Description"
                         />
                       )}
                     />
-                  </TableCell>
+                  </TableBodyCell>
 
-                  <TableCell sx={{ width: "15%" }}>
-                    <TextField
+                  <TableBodyCell right>
+                    <TextFieldRow
                       name="unitPrice"
-                      label="Unit price"
+                      placeholder="Unit Price"
                       value={newItem.unitPrice}
                       onChange={handleInputChange}
-                      fullWidth
-                      variant="standard"
+                      align="right"
                     />
-                  </TableCell>
-                  <TableCell sx={{ width: "15%" }}>
-                    <TextField
+                  </TableBodyCell>
+                  <TableBodyCell right>
+                    <TextFieldRow
                       name="quantity"
-                      label="Quantity"
+                      placeholder="Quantity"
                       value={newItem.quantity}
                       onChange={handleInputChange}
-                      fullWidth
-                      variant="standard"
+                      align="right"
                     />
-                  </TableCell>
-                  <TableCell sx={{ width: "15%" }}></TableCell>
-                  <TableCell sx={{ width: "5%" }}>
-                    <Button
-                      variant="contained"
+                  </TableBodyCell>
+                  <TableBodyCell></TableBodyCell>
+                  <TableBodyCell sx={{ padding: "5px" }}>
+                    <IconButton
+                      size="small"
+                      // variant="contained"
                       onClick={handleAddItem}
                       sx={{
-                        backgroundColor: theme.palette.secondary.main,
-                        color: theme.palette.common.white,
+                        // backgroundColor: theme.palette.secondary.main,
+                        color: theme.palette.secondary.main,
                         fontWeight: "bold",
                       }}
                     >
-                      Add
-                    </Button>
-                  </TableCell>
+                      <AddCircleOutline />
+                    </IconButton>
+                  </TableBodyCell>
                 </TableRow>
               )}
             </TableBody>
@@ -201,7 +229,7 @@ const VendorBody = () => {
         {showAddItem && (
           <Button
             sx={{
-              marginY: "10px",
+              // marginY: "10px",
               fontWeight: "bold",
               textDecoration: "underline",
             }}
@@ -215,6 +243,7 @@ const VendorBody = () => {
       <Box
         sx={{
           display: "flex",
+          paddingRight: "2%",
         }}
       >
         <Box sx={{ flex: 1 }}></Box>
@@ -222,43 +251,80 @@ const VendorBody = () => {
           sx={{
             flexDirection: "column",
             alignItems: "flex-end",
+            width: "180px",
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography fontSize={14} sx={{ flex: 1, marginRight: "10px" }}>
+            <Typography fontSize={14} sx={{ flex: 1 }}>
               Sub Total
             </Typography>
             <Typography fontSize={14}>0000.00</Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography fontSize={14} sx={{ flex: 1, marginRight: "10px" }}>
+            <Typography fontSize={14} sx={{ flex: 1 }}>
               Discount
             </Typography>
             <Typography fontSize={14}>0000.00</Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography fontSize={14} sx={{ flex: 1, marginRight: "10px" }}>
-              Tax{" "}
-            </Typography>{" "}
+            <Typography fontSize={14} sx={{ flex: 1 }}>
+              Tax
+            </Typography>
             <Typography fontSize={14}>0000.00</Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography fontSize={14} sx={{ flex: 1, marginRight: "10px" }}>
+            <Typography fontSize={14} sx={{ flex: 1 }}>
               Advance
             </Typography>
             <Typography fontSize={14}>0000.00</Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography
-              fontSize={14}
-              sx={{ flex: 1, marginRight: "10px", fontWeight: "bold" }}
-            >
+            <Typography fontSize={14} sx={{ flex: 1, fontWeight: "bold" }}>
               Grand Total
             </Typography>
             <Typography fontSize={14} fontWeight={"bold"}>
               0000.00
             </Typography>
           </Box>
+        </Box>
+        {/* <Box sx={{ width: "8%" }}></Box> */}
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          paddingRight: "2%",
+          marginY: "20px",
+        }}
+      >
+        <Box sx={{ flex: 1 }}></Box>
+        <Box
+          sx={{
+            flexDirection: "column",
+            alignItems: "flex-end",
+            width: "150px",
+          }}
+        >
+          <FlexBetween>
+            <Button
+              sx={{
+                backgroundColor: theme.palette.secondary.dark,
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Save
+            </Button>
+
+            <Button
+              sx={{
+                backgroundColor: theme.palette.secondary.dark,
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Confirm
+            </Button>
+          </FlexBetween>
         </Box>
       </Box>
     </Box>

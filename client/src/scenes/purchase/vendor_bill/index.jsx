@@ -1,49 +1,166 @@
-import { Box, useTheme, IconButton } from "@mui/material";
-import { Header, VendorBody, VendorHeader } from "components";
-import React from "react";
+import {
+  Box,
+  useTheme,
+  Typography,
+  IconButton,
+  Drawer,
+  useMediaQuery,
+} from "@mui/material";
+import {
+  Header,
+  TabPanel,
+  VendorBody,
+  VendorHeader,
+  VendorTabs,
+} from "components";
+import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { vendorTabs } from "data/data";
+import { useNavigate } from "react-router-dom";
+import { AttachFile } from "@mui/icons-material";
+
 const VenderBill = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
+  const [isAttachmentOpen, setIsAttachmentOpen] = useState(false);
+
   const handleClose = () => {
+    navigate(-1);
     // Add your logic here to handle closing the VendorBill component
   };
+  const [value, setValue] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleTabChangeIndex = (index) => {
+    setValue(index);
+  };
+
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        // paddingX: "25px",
-        //  marginTop: "40px",
-        backgroundColor: theme.palette.primary.light,
-      }}
-    >
-      <Box sx={{ display: "flex" }}>
-        {/* <IconButton
-          onClick={handleClose}
-          sx={{
-            //   position: "absolute",
-            //  top: "1rem",
-            // right: "1rem",
-            color: "red",
-          }}
-        > */}
-        <Box sx={{ flex: 1 }} />
-        <CloseIcon
-          sx={{
-            color: "white",
-            backgroundColor: "red",
-            justifyContent: "left",
-            margin: "5px",
-            padding: "3px",
-            fontSize: "sm",
-          }}
-        />
-        {/* </IconButton> */}
+    <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
+      <Box sx={{ flex: 1 }}>
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ flex: 1 }}></Box>
+          <Box
+            sx={{
+              marginRight: "50px",
+            }}
+          >
+            <IconButton
+              onClick={() => setIsAttachmentOpen(!isAttachmentOpen)}
+              size="large"
+              sx={{
+                backgroundColor: theme.palette.primary[200],
+                color: "white",
+              }}
+            >
+              <AttachFile fontSize="50px" />
+            </IconButton>
+          </Box>
+        </Box>
+
+        <Box m="1.5rem 2.5rem">
+          <VendorTabs
+            value={value}
+            handleChange={handleTabChange}
+            handleChangeIndex={handleTabChangeIndex}
+            tabs={vendorTabs}
+          >
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <Box
+                sx={{
+                  // paddingX: "25px",
+                  //  marginTop: "40px",
+                  backgroundColor: theme.palette.primary.light,
+                }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography
+                      sx={{
+                        paddingX: "15px",
+                        paddingY: "5px",
+
+                        alignItems: "center",
+                      }}
+                      fontWeight={"bold"}
+                    >
+                      mas/2023/07/001
+                    </Typography>
+                  </Box>
+                  <IconButton
+                    size="small"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 0, // Make the Button circular
+                      backgroundColor: "red",
+                      padding: "2px",
+                      margin: "6px",
+                    }}
+                  >
+                    <CloseIcon
+                      sx={{
+                        color: "white",
+                        fontSize: "16px", // Adjust the font size of the icon as needed
+                      }}
+                    />
+                  </IconButton>
+                  {/* </IconButton> */}
+                </Box>
+                <Box sx={{ padding: "25px" }}>
+                  <Header title={"Vendor Bill"} />
+                  <VendorHeader />
+                  <VendorBody />
+                </Box>
+              </Box>
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <Box
+                sx={{
+                  // paddingX: "25px",
+                  //  marginTop: "40px",
+                  backgroundColor: theme.palette.primary.light,
+                }}
+              ></Box>
+            </TabPanel>
+          </VendorTabs>
+        </Box>
       </Box>
-      <Box sx={{ padding: "25px" }}>
-        <Header title="Vendor Bill" />
-        <VendorHeader />
-        <VendorBody />
-      </Box>
+      {isAttachmentOpen && (
+        <Box width={"50%"}>
+          <Drawer
+            open={isAttachmentOpen}
+            onClose={() => setIsAttachmentOpen(false)}
+            variant="persistent"
+            anchor="right"
+            sx={{
+              //    width: "50%", //drawerWidth,
+
+              "& .MuiDrawer-paper": {
+                color: theme.palette.secondary[200],
+                backgroundColor: theme.palette.background.alt,
+                boxSizing: "border-box",
+                borderWidth: isNonMobile ? 0 : "2px",
+              },
+            }}
+          />
+          <Box
+            sx={{
+              // backgroundColor: "green",
+              borderLeft: 1,
+              width: "100%",
+              height: "100dvh",
+              padding: "10px",
+            }}
+          >
+            <Typography>attachment</Typography>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

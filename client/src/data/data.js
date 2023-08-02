@@ -1,3 +1,4 @@
+import { MoreVert } from "@mui/icons-material";
 import React from "react";
 
 const commonFields = [
@@ -146,10 +147,28 @@ export const vendorbillFields = [
 ];
 
 export const tableHeadList = [
-  "Item Code",
-  "Description",
-  "Unit Price",
-  "Quantity",
-  "Amount",
-  "Actions",
+  { id: 1, name: "#", align: "left", width: "2%" },
+  { id: 2, name: "Item Code", align: "left", width: "25%" },
+  { id: 3, name: "Description", align: "left", width: "25%" },
+  { id: 4, name: "Unit Price", align: "right", width: "16%" },
+  { id: 5, name: "Quantity", align: "right", width: "16%" },
+  { id: 6, name: "Amount", align: "right", width: "16%" },
+  {
+    id: 7,
+    name: <MoreVert />,
+    align: "center",
+    width: "2%",
+    paddingTop: "10px",
+  },
+];
+
+export const vendorTabs = [
+  {
+    id: 1,
+    label: "detail",
+  },
+  {
+    id: 2,
+    label: "other",
+  },
 ];
