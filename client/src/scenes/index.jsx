@@ -5,6 +5,7 @@ import Customers from "./customers";
 import Suppliers from "./suppliers";
 import Products from "./products";
 import VenderBill from "./purchase/vendor_bill";
+import NewVenderBill from "./purchase/vendor_bill/NewVendorBill";
 export {
   Layout,
   LoginScreen,
@@ -13,4 +14,5 @@ export {
   Suppliers,
   Products,
   VenderBill,
+  NewVenderBill,
 };

@@ -26,7 +26,7 @@ import {
 } from "state";
 import { useDispatch, useSelector } from "react-redux";
 
-const VenderBill = () => {
+const NewVenderBill = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -183,4 +183,4 @@ const VenderBill = () => {
   );
 };
 
-export default VenderBill;
+export default NewVenderBill;
