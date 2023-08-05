@@ -4,8 +4,8 @@ import Dashboard from "./dashboard";
 import Customers from "./customers";
 import Suppliers from "./suppliers";
 import Products from "./products";
-import VenderBill from "./purchase/vendor_bill";
-import NewVenderBill from "./purchase/vendor_bill/NewVendorBill";
+import VendorBill from "./purchase/vendor_bill";
+import NewVendorBill from "./purchase/vendor_bill/NewVendorBill";
 export {
   Layout,
   LoginScreen,
@@ -13,6 +13,6 @@ export {
   Customers,
   Suppliers,
   Products,
-  VenderBill,
-  NewVenderBill,
+  VendorBill,
+  NewVendorBill,
 };

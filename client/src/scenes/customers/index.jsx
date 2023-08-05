@@ -16,10 +16,8 @@ const Customers = () => {
   const { data, isLoading } = useGetCustomersQuery({ isActive: true });
   //isError, error
 
-  const [
-    createCustomer,
-    { isLoading: isCreating, isError: createError, error: createErrorMessage },
-  ] = useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
+  const [createCustomer, { isLoading: isCreating, error: createErrorMessage }] =
+    useCreateCustomerMutation(); //, isError: createError, error: createErrorMessage
   const [deleteCustomer] = useDeleteCustomerMutation();
   const [editCustomer] = useEditCustomerMutation();
   console.log("errorMsg:", createErrorMessage?.data?.error);
@@ -100,7 +98,7 @@ const Customers = () => {
     : [];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box>
       <Header title="CUSTOMERS" subTitle="Create Customer" />
       <FormComp
         data={filteredFields}

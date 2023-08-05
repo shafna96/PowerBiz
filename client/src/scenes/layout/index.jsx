@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { Navbar, SideBar } from "components";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
@@ -70,7 +70,9 @@ const Layout = () => {
           setIsSideBarOpen={handleSideBarToggle}
           logoutClick={logoutHandler}
         />
-        <Outlet />
+        <Box m="1.5rem 2.5rem" sx={{ paddingBottom: "25px" }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

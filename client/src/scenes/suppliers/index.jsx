@@ -97,7 +97,7 @@ const Suppliers = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box>
       <Header title="SUPPLIERS" subTitle="Create Supplier" /> {/* */}
       <FormComp
         data={filteredFields}

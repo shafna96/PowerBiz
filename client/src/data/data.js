@@ -172,3 +172,10 @@ export const vendorTabs = [
     label: "other",
   },
 ];
+
+export const billColumns = [
+  { field: "vendor", headerName: "Vendor", flex: 0.5 },
+  { field: "billDate", headerName: "Bill Date", flex: 0.5 },
+  { field: "billNo", headerName: "Bill No", flex: 0.5 },
+  { field: "status", headerName: "Status", flex: 0.5 },
+];

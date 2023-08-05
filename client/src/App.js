@@ -8,9 +8,10 @@ import {
   Dashboard,
   Layout,
   LoginScreen,
+  NewVendorBill,
   Products,
   Suppliers,
-  VenderBill,
+  VendorBill,
 } from "scenes";
 import { selectIsAuthenticated, setIsAuthenticated, setUserId } from "state";
 import { themeSettings } from "theme";
@@ -64,7 +65,11 @@ function App() {
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/products" element={<Products />} />
               {/* <Route path="/purchase" element={<VenderBill />} /> */}
-              <Route path="/purchase/vendorbill" element={<VenderBill />} />
+              <Route path="/purchase/vendorbill" element={<VendorBill />} />
+              <Route
+                path="/purchase/newvendorbill"
+                element={<NewVendorBill />}
+              />
             </Route>
           ) : (
             <Route path="/login" element={<LoginScreen />} />

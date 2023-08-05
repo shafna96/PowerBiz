@@ -112,7 +112,7 @@ const Products = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box>
       <Header title="Items" subTitle="Create Item" />
       <FormComp
         data={filteredFields}
