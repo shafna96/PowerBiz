@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,7 +17,6 @@ import {
 import { AddCircleOutline, Delete } from "@mui/icons-material";
 import { useGetItemsQuery } from "state/api";
 import { tableHeadList } from "data/data";
-import FlexBetween from "components/FlexBetween";
 
 const TableBodyCell = ({ children, right }) => {
   return (
@@ -28,13 +27,14 @@ const TableBodyCell = ({ children, right }) => {
 };
 
 const TextFieldRow = (props) => {
-  const { align } = props;
+  const { align, width } = props;
   return (
     <TextField
       {...props}
       fullWidth
       variant="standard"
       sx={{
+        width: width,
         "& input::placeholder": {
           textAlign: align,
         },
@@ -53,25 +53,37 @@ const VendorBody = () => {
     "activeItems",
     activeItems.map((item) => item.itemName)
   );
-  const [items, setItems] = useState([]);
-  const [showAddItem, setShowAddItem] = useState(true);
-  const [newItem, setNewItem] = useState({
+
+  const defaultNewItem = {
     itemCode: "",
     itemName: "",
     unitPrice: "",
     quantity: "",
-  });
+  };
+
+  const [items, setItems] = useState([]);
+  const [showAddItem, setShowAddItem] = useState(false);
+  const [newItem, setNewItem] = useState(defaultNewItem);
+
+  useEffect(() => console.log(newItem), [newItem]);
 
   const handleAddItem = () => {
-    const updatedItems = [...items, newItem];
-    setItems(updatedItems);
-    setNewItem({
-      itemCode: "",
-      itemName: "",
-      unitPrice: "",
-      quantity: "",
-    });
-    setShowAddItem(true);
+    if (
+      newItem.itemCode &&
+      newItem.itemName &&
+      newItem.unitPrice &&
+      newItem.quantity
+    ) {
+      const updatedItems = [...items, newItem];
+      setItems(updatedItems);
+      setNewItem({
+        itemCode: newItem.itemCode,
+        itemName: newItem.itemName,
+        unitPrice: "",
+        quantity: "",
+      });
+      setShowAddItem(true);
+    }
   };
 
   const handleDeleteItem = (index) => {
@@ -87,21 +99,20 @@ const VendorBody = () => {
 
   const handleOptionChange = (event, newValue, newItem) => {
     if (newValue) {
-      setNewItem(newValue);
+      const { itemCode, itemName, unitPrice } = newValue;
+      setNewItem({ itemCode, itemName, unitPrice });
     } else {
-      setNewItem({
-        itemCode: "",
-        itemName: "",
-        quantity: newItem.quantity,
-        unitPrice: newItem.unitPrice,
-      });
+      setNewItem(defaultNewItem);
     }
   };
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: "10px" }}>
       <Box
-        sx={{ backgroundColor: theme.palette.background.alt, marginY: "25px" }}
+        sx={{
+          backgroundColor: theme.palette.background.alt,
+          marginY: "25px",
+        }}
       >
         <TableContainer>
           <Table>
@@ -157,37 +168,52 @@ const VendorBody = () => {
               {!showAddItem && (
                 <TableRow>
                   <TableBodyCell></TableBodyCell>
-                  <TableBodyCell>
-                    <Autocomplete
-                      options={activeItems}
-                      getOptionLabel={(item) => item.itemCode}
-                      value={newItem}
-                      onChange={handleOptionChange}
-                      renderInput={(params) => (
-                        <TextFieldRow
-                          {...params}
-                          name="itemCode"
-                          placeholder="Item Code"
-                        />
-                      )}
-                    />
-                  </TableBodyCell>
-                  <TableBodyCell>
-                    <Autocomplete
-                      options={activeItems}
-                      getOptionLabel={(item) => item.itemName}
-                      value={newItem}
-                      onChange={handleOptionChange}
-                      renderInput={(params) => (
-                        <TextFieldRow
-                          {...params}
-                          name="itemName"
-                          placeholder="Description"
-                        />
-                      )}
-                    />
-                  </TableBodyCell>
 
+                  <TableBodyCell>
+                    <Autocomplete
+                      options={activeItems}
+                      autoHighlight
+                      getOptionLabel={(item) =>
+                        item.itemCode && item.itemName
+                          ? `${item.itemCode} | ${item.itemName}`
+                          : ""
+                      }
+                      value={newItem}
+                      onChange={handleOptionChange}
+                      //  placeholder="Description"
+                      isOptionEqualToValue={(option, value) =>
+                        option.itemCode === value.itemCode &&
+                        option.itemName === value.itemName
+                      }
+                      renderInput={(params) => (
+                        <TextFieldRow
+                          {...params}
+                          //  name="itemCode|itemName"
+                          placeholder="Description"
+                          width={"200%"}
+                          // InputProps={{
+                          //   ...params.InputProps,
+                          //   type: "search",
+                          // }}
+                        />
+                      )}
+                      renderOption={(props, item) => (
+                        <Box
+                          {...props}
+                          component={"li"}
+                          sx={{
+                            width: "100%",
+                            padding: "0.5rem",
+                            // borderBottom: "1px solid #ccc",
+                          }}
+                          key={item.itemCode}
+                        >
+                          {item.itemCode} | {item.itemName}
+                        </Box>
+                      )}
+                    />
+                  </TableBodyCell>
+                  <TableBodyCell></TableBodyCell>
                   <TableBodyCell right>
                     <TextFieldRow
                       name="unitPrice"
@@ -288,44 +314,6 @@ const VendorBody = () => {
           </Box>
         </Box>
         {/* <Box sx={{ width: "8%" }}></Box> */}
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          paddingRight: "2%",
-          marginY: "20px",
-        }}
-      >
-        <Box sx={{ flex: 1 }}></Box>
-        <Box
-          sx={{
-            flexDirection: "column",
-            alignItems: "flex-end",
-            width: "150px",
-          }}
-        >
-          <FlexBetween>
-            <Button
-              sx={{
-                backgroundColor: theme.palette.secondary.dark,
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Save
-            </Button>
-
-            <Button
-              sx={{
-                backgroundColor: theme.palette.secondary.dark,
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              Confirm
-            </Button>
-          </FlexBetween>
-        </Box>
       </Box>
     </Box>
   );

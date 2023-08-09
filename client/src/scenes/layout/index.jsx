@@ -54,23 +54,34 @@ const Layout = () => {
 
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
-      <SideBar
-        user={data || {}}
-        isNonMobile={isNonMobile}
-        drawerWidth="250px"
-        isSideBarOpen={isSideBarOpen}
-        setIsSideBarOpen={handleSideBarToggle}
-        isAttachmentOpen={isAttachmentOpen} // Pass the isAttachmentOpen state to the SideBar
-        setIsAttachmentOpen={(value) => dispatch(setIsAttachmentOpen(value))} // Pass the setIsAttachmentOpen function to the SideBar
-      />
-      <Box flexGrow={1}>
+      <Box>
+        <SideBar
+          user={data || {}}
+          isNonMobile={isNonMobile}
+          drawerWidth="220px"
+          isSideBarOpen={isSideBarOpen}
+          setIsSideBarOpen={handleSideBarToggle}
+          isAttachmentOpen={isAttachmentOpen} // Pass the isAttachmentOpen state to the SideBar
+          setIsAttachmentOpen={(value) => dispatch(setIsAttachmentOpen(value))} // Pass the setIsAttachmentOpen function to the SideBar
+        />
+      </Box>
+      <Box flexGrow={1} display={"flex"} flexDirection={"column"}>
         <Navbar
           user={data || {}}
           isSideBarOpen={isSideBarOpen}
           setIsSideBarOpen={handleSideBarToggle}
           logoutClick={logoutHandler}
         />
-        <Box m="1.5rem 2.5rem" sx={{ paddingBottom: "25px" }}>
+
+        <Box
+          flex={1}
+          p="1rem 2.5rem"
+          sx={
+            {
+              //paddingBottom: "25px",
+            }
+          }
+        >
           <Outlet />
         </Box>
       </Box>

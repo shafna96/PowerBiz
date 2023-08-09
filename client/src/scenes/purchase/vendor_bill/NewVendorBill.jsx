@@ -5,8 +5,10 @@ import {
   IconButton,
   Drawer,
   useMediaQuery,
+  Button,
 } from "@mui/material";
 import {
+  FlexBetween,
   Header,
   TabPanel,
   VendorBody,
@@ -62,8 +64,11 @@ const NewVendorBill = () => {
     <Box>
       <Header title={"New Vendor Bill"} />
 
-      <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
-        <Box sx={{ flex: 1, paddingRight: "15px" }}>
+      <Box
+        display={isNonMobile ? "flex" : "block"}
+        //    height={"90vh"}
+      >
+        <Box width={"100%"} sx={{ paddingRight: "15px" }}>
           <Box sx={{ display: "flex" }}>
             <Box sx={{ flex: 1 }}></Box>
             <IconButton
@@ -89,7 +94,7 @@ const NewVendorBill = () => {
                 <Box
                   sx={{
                     // paddingX: "25px",
-                    //  marginTop: "40px",
+                    //  marginBottom: "40px",
                     backgroundColor: theme.palette.primary.light,
                   }}
                 >
@@ -126,9 +131,70 @@ const NewVendorBill = () => {
                     </IconButton>
                     {/* </IconButton> */}
                   </Box>
-                  <Box sx={{ padding: "25px" }}>
+
+                  <Box
+                    sx={{
+                      // position: "relative",
+                      paddingX: "25px",
+                      //  maxHeight: "calc(100vh - 200px)", // Adjust the height based on your layout
+                      //   overflowY: "auto",
+                      marginBottom: "10px", // This will create space for the fixed bottom buttons
+                    }}
+                  >
                     <VendorHeader />
-                    <VendorBody />
+                    <Box
+                      sx={{
+                        maxHeight: "calc(100vh - 250px)", // Adjust the height based on your layout
+                        overflowY: "auto",
+                      }}
+                    >
+                      <VendorBody />
+                    </Box>
+                    <Box
+                      //  position={"fixed"}
+                      // className="fixed-bottom-div"
+                      sx={{
+                        position: "sticky",
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: "flex",
+                        paddingRight: "2%",
+                        paddingY: "10px",
+                        borderTop: "1px solid #ccc",
+                      }}
+                    >
+                      <Box sx={{ flex: 1 }}></Box>
+                      <Box
+                        sx={{
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          width: "150px",
+                        }}
+                      >
+                        <FlexBetween>
+                          <Button
+                            sx={{
+                              backgroundColor: theme.palette.secondary.dark,
+                              color: "white",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Save
+                          </Button>
+
+                          <Button
+                            sx={{
+                              backgroundColor: theme.palette.secondary.dark,
+                              color: "white",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Confirm
+                          </Button>
+                        </FlexBetween>
+                      </Box>
+                    </Box>
                   </Box>
                 </Box>
               </TabPanel>
@@ -145,7 +211,7 @@ const NewVendorBill = () => {
           </Box>
         </Box>
         {isAttachmentOpen && (
-          <Box width={"50%"}>
+          <Box width={"100%"}>
             <Drawer
               open={isAttachmentOpen}
               onClose={handleAttachmentClick}
@@ -167,7 +233,7 @@ const NewVendorBill = () => {
                 // backgroundColor: "green",
                 borderLeft: 1,
                 width: "100%",
-                height: "100dvh",
+                height: "85vh",
                 padding: "10px",
               }}
             >

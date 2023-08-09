@@ -45,64 +45,68 @@ const VendorHeader = ({ handleSubmit }) => {
     );
   };
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <Grid container rowGap={1}>
-        <Grid item sm={6} paddingX={"5px"}>
-          <TextField
-            required
-            name="vendor"
-            id="vendor"
-            value={selectedVendor}
-            label="Vendor"
-            onChange={handleChange(setSelectedVendor)}
-            variant="standard"
-            // fullWidth
-            sx={{ width: "85%" }}
-            color="textfield"
-            select
-          >
-            {activeSuppliers.map((vendor, index) => (
-              <MenuItem
-                key={index}
-                value={vendor._id}
-                onClick={() => {
-                  setShowVendorDetails(true);
-                }}
-              >
-                {vendor.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Box>{showVendorDetails && renderVendorDetails(selectedVendor)}</Box>
+    <Box position={"sticky"}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <Grid container rowGap={1}>
+          <Grid item sm={6} paddingX={"5px"}>
+            <TextField
+              required
+              name="vendor"
+              id="vendor"
+              value={selectedVendor}
+              label="Vendor"
+              onChange={handleChange(setSelectedVendor)}
+              variant="standard"
+              // fullWidth
+              sx={{ width: "85%" }}
+              color="textfield"
+              select
+            >
+              {activeSuppliers.map((vendor, index) => (
+                <MenuItem
+                  key={index}
+                  value={vendor._id}
+                  onClick={() => {
+                    setShowVendorDetails(true);
+                  }}
+                >
+                  {vendor.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Box>
+              {showVendorDetails && renderVendorDetails(selectedVendor)}
+            </Box>
+          </Grid>
+          <Grid item sm={6} paddingX={"5px"} rowGap={1}>
+            <TextField
+              required
+              name="billDate"
+              id="billDate"
+              value={selectedDate}
+              label="Bill Date"
+              onChange={handleChange(setSelectedDate)}
+              variant="standard"
+              sx={{ width: "85%" }}
+              //fullWidth
+              color="textfield"
+            />
+            <TextField
+              required
+              name="billNo"
+              id="billNo"
+              value={billNumber}
+              label="Reference No"
+              onChange={handleChange(setBillNumber)}
+              variant="standard"
+              sx={{ width: "85%", paddingBottom: "5px" }}
+              // fullWidth
+              color="textfield"
+            />
+          </Grid>
         </Grid>
-        <Grid item sm={6} paddingX={"5px"} rowGap={1}>
-          <TextField
-            required
-            name="billDate"
-            id="billDate"
-            value={selectedDate}
-            label="Bill Date"
-            onChange={handleChange(setSelectedDate)}
-            variant="standard"
-            sx={{ width: "85%", paddingBottom: "15px" }}
-            //fullWidth
-            color="textfield"
-          />
-          <TextField
-            required
-            name="billNo"
-            id="billNo"
-            value={billNumber}
-            label="Reference No"
-            onChange={handleChange(setBillNumber)}
-            variant="standard"
-            sx={{ width: "85%", paddingBottom: "15px" }}
-            // fullWidth
-            color="textfield"
-          />
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </Box>
   );
 };
 

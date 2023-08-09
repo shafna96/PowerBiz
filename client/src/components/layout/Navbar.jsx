@@ -33,14 +33,23 @@ const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       sx={{
-        // width: "100%",
-        background: "none", //theme.palette.background.dark,
+        width: "100%",
+        backgroundColor: "white",
         boxShadow: "none",
+        zIndex: 999,
+        // height: "65px",
+        // paddingBottom: "1rem",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          width: "100%",
+          background: theme.palette.primary[800],
+        }}
+      >
         {/* LEFT SIDE */}
         <FlexBetween>
           <IconButton onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
