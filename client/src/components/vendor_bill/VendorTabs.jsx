@@ -46,7 +46,13 @@ function VendorTabs({
               },
               "& .MuiTabs-flexContainer": {
                 backgroundColor: theme.palette.primary[700],
-                borderTopLeftRadius: "1.5rem",
+                borderTopRightRadius: "1.5rem",
+              },
+              "& .Mui-selected": {
+                borderWidth: 1,
+                borderRightColor: "white",
+                backgroundColor: theme.palette.primary[300],
+                borderTopRightRadius: "1.5rem",
               },
             }}
           >
@@ -55,6 +61,8 @@ function VendorTabs({
                 <Tab
                   sx={{
                     fontWeight: "bold",
+                    borderWidth: 1,
+                    borderColor: "white",
                   }}
                   key={tab.id}
                   label={tab.label}
