@@ -24,7 +24,12 @@ function VendorTabs({
     <Box sx={{ bgcolor: "background.paper" }}>
       <AppBar
         position="static"
-        sx={{ "& .MuiBox-root": { backgroundColor: "white" } }}
+        sx={{
+          "& .MuiBox-root": {
+            backgroundColor: "white",
+            borderTopLeftRadius: "10px",
+          },
+        }}
       >
         <FlexBetween>
           <Tabs
@@ -41,6 +46,7 @@ function VendorTabs({
               },
               "& .MuiTabs-flexContainer": {
                 backgroundColor: theme.palette.primary[700],
+                borderTopLeftRadius: "1.5rem",
               },
             }}
           >
