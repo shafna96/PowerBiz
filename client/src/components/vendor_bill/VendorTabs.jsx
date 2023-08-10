@@ -46,11 +46,12 @@ function VendorTabs({
               },
               "& .MuiTabs-flexContainer": {
                 //  backgroundColor: theme.palette.primary[700],
-                borderTopRightRadius: "1.5rem",
+                // borderTopRightRadius: "1.5rem",
               },
               "& .Mui-selected": {
                 backgroundColor: theme.palette.primary.light,
-                borderTopRightRadius: "1.5rem",
+                borderTopRightRadius: "1rem",
+                borderTopLeftRadius: "1rem",
               },
             }}
           >
