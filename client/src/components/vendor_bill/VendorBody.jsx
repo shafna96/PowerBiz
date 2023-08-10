@@ -77,8 +77,8 @@ const VendorBody = () => {
       const updatedItems = [...items, newItem];
       setItems(updatedItems);
       setNewItem({
-        itemCode: newItem.itemCode,
-        itemName: newItem.itemName,
+        itemCode: "",
+        itemName: "",
         unitPrice: "",
         quantity: "",
       });
@@ -189,7 +189,7 @@ const VendorBody = () => {
                         <TextFieldRow
                           {...params}
                           //  name="itemCode|itemName"
-                          placeholder="Description"
+                          placeholder="Search Item"
                           width={"200%"}
                           // InputProps={{
                           //   ...params.InputProps,

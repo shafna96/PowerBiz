@@ -74,47 +74,39 @@ const NewVendorBill = () => {
 
   return (
     <Box>
-      <Header title={"New Vendor Bill"} />
-
+      <Box display={"flex"} sx={{ marginY: "15px" }}>
+        <Box sx={{ flex: 1 }}>
+          <Header title={"New Vendor Bill"} />
+        </Box>
+        <IconButton
+          size="small"
+          onClick={handleClose}
+          sx={{
+            borderRadius: 0, // Make the Button circular
+            backgroundColor: "red",
+            padding: "2px",
+            margin: "6px",
+          }}
+        >
+          <CloseIcon
+            sx={{
+              color: "white",
+              fontSize: "16px", // Adjust the font size of the icon as needed
+            }}
+          />
+        </IconButton>
+      </Box>
       <Box position="relative" display={isNonMobile ? "flex" : "block"}>
         <Box
           width={"100%"}
           sx={{
-            paddingRight: "15px",
+            paddingRight: isAttachmentOpen || isDiaryOpen ? "15px" : 0,
             flexGrow: 1,
             overflowY: "auto",
             maxHeight: "100vh",
             flexDirection: "row",
           }}
         >
-          {/* <Box sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1 }}></Box>
-            <Box>
-              <IconButton
-                onClick={handleDiaryClick}
-                //size="small"
-                sx={{
-                  backgroundColor: theme.palette.primary[200],
-                  color: "white",
-                  margin: "2px",
-                }}
-              >
-                <Summarize fontSize="50px" />
-              </IconButton>
-              <IconButton
-                onClick={handleAttachmentClick}
-                //  size="large"
-                sx={{
-                  backgroundColor: theme.palette.primary[200],
-                  color: "white",
-                  margin: "2px",
-                }}
-              >
-                <AttachFile fontSize="50px" />
-              </IconButton>
-            </Box>
-          </Box> */}
-
           <Box>
             <VendorTabs
               value={value}
@@ -125,7 +117,6 @@ const NewVendorBill = () => {
                 <Box>
                   <IconButton
                     onClick={handleDiaryClick}
-                    //size="small"
                     sx={{
                       backgroundColor: theme.palette.primary[200],
                       color: "white",
@@ -136,7 +127,6 @@ const NewVendorBill = () => {
                   </IconButton>
                   <IconButton
                     onClick={handleAttachmentClick}
-                    //  size="large"
                     sx={{
                       backgroundColor: theme.palette.primary[200],
                       color: "white",
@@ -151,52 +141,22 @@ const NewVendorBill = () => {
               <TabPanel value={value} index={0} dir={theme.direction}>
                 <Box
                   sx={{
-                    // paddingX: "25px",
-                    //  marginBottom: "40px",
                     backgroundColor: theme.palette.primary.light,
+                    paddingX: "16px",
                   }}
                 >
-                  <Box sx={{ display: "flex" }}>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography
-                        sx={{
-                          paddingX: "15px",
-                          paddingY: "5px",
-
-                          alignItems: "center",
-                        }}
-                        fontWeight={"bold"}
-                      >
-                        mas/2023/07/001
-                      </Typography>
-                    </Box>
-                    <IconButton
-                      size="small"
-                      onClick={handleClose}
-                      sx={{
-                        borderRadius: 0, // Make the Button circular
-                        backgroundColor: "red",
-                        padding: "2px",
-                        margin: "6px",
-                      }}
-                    >
-                      <CloseIcon
-                        sx={{
-                          color: "white",
-                          fontSize: "16px", // Adjust the font size of the icon as needed
-                        }}
-                      />
-                    </IconButton>
-                    {/* </IconButton> */}
-                  </Box>
+                  <Typography
+                    sx={{
+                      paddingY: "5px",
+                      alignItems: "center",
+                    }}
+                    fontWeight={"bold"}
+                  >
+                    Dmas/2023/07/001
+                  </Typography>
 
                   <Box
                     sx={{
-                      // position: "relative",
-                      // paddingX: "25px",
-                      //  maxHeight: "calc(100vh - 200px)", // Adjust the height based on your layout
-                      //   overflowY: "auto",
-                      //marginBottom: "10px", // This will create space for the fixed bottom buttons
                       display: "flex",
                       flexDirection: "column",
                       maxHeight: "72dvh",
@@ -208,7 +168,6 @@ const NewVendorBill = () => {
                         flexDirection: "column",
                         flexGrow: 1,
                         overflowY: "auto",
-                        padding: "16px",
                       }}
                     >
                       <VendorHeader />
@@ -216,8 +175,6 @@ const NewVendorBill = () => {
                       <VendorBody />
                     </Box>
                     <Box
-                      //  position={"fixed"}
-                      // className="fixed-bottom-div"
                       sx={{
                         position: "sticky",
                         left: 0,
@@ -267,8 +224,8 @@ const NewVendorBill = () => {
               <TabPanel value={value} index={1} dir={theme.direction}>
                 <Box
                   sx={{
-                    // paddingX: "25px",
-                    //  marginTop: "40px",
+                    width: "100%",
+                    height: "72dvh",
                     backgroundColor: theme.palette.primary.light,
                   }}
                 ></Box>
@@ -284,8 +241,6 @@ const NewVendorBill = () => {
               variant="persistent"
               anchor="right"
               sx={{
-                //    width: "50%", //drawerWidth,
-
                 "& .MuiDrawer-paper": {
                   color: theme.palette.secondary[200],
                   backgroundColor: theme.palette.background.alt,
@@ -296,7 +251,6 @@ const NewVendorBill = () => {
             />
             <Box
               sx={{
-                // backgroundColor: "green",
                 borderLeft: 1,
                 width: "100%",
                 height: "80vh",
@@ -315,8 +269,6 @@ const NewVendorBill = () => {
               variant="persistent"
               anchor="right"
               sx={{
-                //    width: "50%", //drawerWidth,
-
                 "& .MuiDrawer-paper": {
                   color: theme.palette.secondary[200],
                   backgroundColor: theme.palette.background.alt,
@@ -327,7 +279,6 @@ const NewVendorBill = () => {
             />
             <Box
               sx={{
-                // backgroundColor: "green",
                 borderLeft: 1,
                 width: "100%",
                 height: "80vh",
