@@ -42,17 +42,20 @@ function VendorTabs({
               width: 300,
               //flex: 1,
               "& .MuiTabs-indicator": {
-                backgroundColor: theme.palette.secondary.dark,
+                backgroundColor: theme.palette.primary.light,
               },
               "& .MuiTabs-flexContainer": {
                 //  backgroundColor: theme.palette.primary[700],
-                borderTopRightRadius: "1rem",
-                borderTopLeftRadius: "1rem",
+                borderTopRightRadius: "0.5rem",
+                borderTopLeftRadius: "0.5rem",
               },
               "& .Mui-selected": {
                 backgroundColor: theme.palette.primary.light,
-                borderTopRightRadius: "1rem",
-                borderTopLeftRadius: "1rem",
+                borderTopRightRadius: "0.5rem",
+                borderTopLeftRadius: "0.5rem",
+                borderTop: "solid",
+                borderTopColor: theme.palette.secondary.dark,
+                borderTopWidth: "3px",
               },
             }}
           >
