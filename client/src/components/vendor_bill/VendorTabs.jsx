@@ -46,13 +46,9 @@ function VendorTabs({
               },
               "& .MuiTabs-flexContainer": {
                 //  backgroundColor: theme.palette.primary[700],
-                borderTopRightRadius: "15px",
-                borderTopLeftRadius: "15px",
               },
               "& .Mui-selected": {
                 backgroundColor: theme.palette.primary.light,
-                borderTopRightRadius: "15px",
-                borderTopLeftRadius: "15px",
                 borderTop: `3px solid ${theme.palette.secondary.dark}`,
                 //   borderTopColor: theme.palette.secondary.dark,
                 //    borderTopWidth: "3px",
@@ -66,6 +62,7 @@ function VendorTabs({
                     fontWeight: "bold",
                     borderWidth: 1,
                     borderColor: "white",
+                    fontSize: theme.typography.subtitle2,
                   }}
                   key={tab.id}
                   label={tab.label}
