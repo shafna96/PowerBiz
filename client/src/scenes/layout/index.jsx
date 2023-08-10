@@ -20,12 +20,10 @@ const Layout = () => {
   const [logoutMutation] = useLogoutMutation();
 
   const isNonMobile = useMediaQuery("(min-width: 600px)");
-  // const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const isSideBarOpen = useSelector(selectIsSideBarOpen); // Use the isSideBarOpen selector from the Redux store
   const isAttachmentOpen = useSelector(selectIsAttachmentOpen);
   const userId = useSelector((state) => state.global.userId);
   const { data } = useGetUserQuery(userId);
-  //console.log(data);
 
   const logoutHandler = async () => {
     try {
@@ -73,15 +71,7 @@ const Layout = () => {
           logoutClick={logoutHandler}
         />
 
-        <Box
-          flex={1}
-          p="1rem 2.5rem"
-          sx={
-            {
-              //paddingBottom: "25px",
-            }
-          }
-        >
+        <Box flex={1} p="1rem 2.5rem">
           <Outlet />
         </Box>
       </Box>

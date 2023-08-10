@@ -6,6 +6,7 @@ const initialState = {
   isAuthenticated: false, // Initialize the isAuthenticated state
   isSideBarOpen: true,
   isAttachmentOpen: false,
+  isDiaryOpen: false,
 };
 
 export const globalSlice = createSlice({
@@ -28,6 +29,9 @@ export const globalSlice = createSlice({
     setIsAttachmentOpen: (state, action) => {
       state.isAttachmentOpen = action.payload; // Add a new reducer to update isSideBarOpen
     },
+    setIsDiaryOpen: (state, action) => {
+      state.isDiaryOpen = action.payload; // Add a new reducer to update isSideBarOpen
+    },
   },
 });
 
@@ -37,11 +41,13 @@ export const {
   setIsAuthenticated,
   setIsSideBarOpen,
   setIsAttachmentOpen,
+  setIsDiaryOpen,
 } = globalSlice.actions;
 
 // Selector to get the isAuthenticated value
 export const selectIsAuthenticated = (state) => state.global.isAuthenticated;
 export const selectIsSideBarOpen = (state) => state.global.isSideBarOpen; // Add a selector for isSideBarOpen
 export const selectIsAttachmentOpen = (state) => state.global.isAttachmentOpen; // Add a selector for isSideBarOpen
+export const selectIsDiaryOpen = (state) => state.global.isDiaryOpen; // Add a selector for isSideBarOpen
 
 export default globalSlice.reducer;

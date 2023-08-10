@@ -1,6 +1,7 @@
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme, AppBar, Tabs, Tab, Box } from "@mui/material";
+import FlexBetween from "components/FlexBetween";
 
 function a11yProps(index) {
   return {
@@ -15,37 +16,49 @@ function VendorTabs({
   handleChangeIndex,
   children,
   tabs,
+  sideButtons,
 }) {
   const theme = useTheme();
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
-      <AppBar position="static" sx={{ width: 500 }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-          sx={{
-            "& .MuiTabs-indicator": {
-              backgroundColor: theme.palette.primary[300],
-            },
-          }}
-        >
-          {tabs.map((tab, index) => {
-            return (
-              <Tab
-                sx={{
-                  fontWeight: "bold",
-                }}
-                key={tab.id}
-                label={tab.label}
-                {...a11yProps(index)}
-              />
-            );
-          })}
-        </Tabs>
+      <AppBar
+        position="static"
+        sx={{ "& .MuiBox-root": { backgroundColor: "white" } }}
+      >
+        <FlexBetween>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            // textColor="inherit"
+            variant="fullWidth"
+            //   aria-label="full width tabs example"
+            sx={{
+              width: 500,
+              //flex: 1,
+              "& .MuiTabs-indicator": {
+                backgroundColor: "white",
+              },
+              "& .MuiTabs-flexContainer": {
+                backgroundColor: theme.palette.primary[700],
+              },
+            }}
+          >
+            {tabs.map((tab, index) => {
+              return (
+                <Tab
+                  sx={{
+                    fontWeight: "bold",
+                  }}
+                  key={tab.id}
+                  label={tab.label}
+                  {...a11yProps(index)}
+                />
+              );
+            })}
+          </Tabs>
+          {sideButtons}
+        </FlexBetween>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
