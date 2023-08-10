@@ -35,23 +35,21 @@ function VendorTabs({
           <Tabs
             value={value}
             onChange={handleChange}
-            // textColor="inherit"
+            textColor="inherit"
             variant="fullWidth"
             //   aria-label="full width tabs example"
             sx={{
               width: 500,
               //flex: 1,
               "& .MuiTabs-indicator": {
-                backgroundColor: "white",
+                backgroundColor: theme.palette.primary.light,
               },
               "& .MuiTabs-flexContainer": {
-                backgroundColor: theme.palette.primary[700],
+                //  backgroundColor: theme.palette.primary[700],
                 borderTopRightRadius: "1.5rem",
               },
               "& .Mui-selected": {
-                borderWidth: 1,
-                borderRightColor: "white",
-                backgroundColor: theme.palette.primary[300],
+                backgroundColor: theme.palette.primary.light,
                 borderTopRightRadius: "1.5rem",
               },
             }}
