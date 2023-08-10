@@ -39,14 +39,15 @@ function VendorTabs({
             variant="fullWidth"
             //   aria-label="full width tabs example"
             sx={{
-              width: 500,
+              width: 300,
               //flex: 1,
               "& .MuiTabs-indicator": {
-                backgroundColor: theme.palette.primary.light,
+                backgroundColor: theme.palette.secondary.dark,
               },
               "& .MuiTabs-flexContainer": {
                 //  backgroundColor: theme.palette.primary[700],
-                // borderTopRightRadius: "1.5rem",
+                borderTopRightRadius: "1rem",
+                borderTopLeftRadius: "1rem",
               },
               "& .Mui-selected": {
                 backgroundColor: theme.palette.primary.light,
