@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -14,7 +14,7 @@ import {
   Autocomplete,
   Typography,
 } from "@mui/material";
-import { AddCircleOutline, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import { useGetItemsQuery } from "state/api";
 import { tableHeadList } from "data/data";
 
@@ -48,11 +48,12 @@ const VendorBody = () => {
   const theme = useTheme();
 
   const activeItems = data ? data.filter((item) => item.isActive) : [];
-
-  console.log(
-    "activeItems",
-    activeItems.map((item) => item.itemName)
-  );
+  const activeItemOptions = activeItems.map((item) => ({
+    itemCode: item.itemCode,
+    itemName: item.itemName,
+    unitPrice: item.unitPrice,
+  }));
+  console.log("activeItemsOptions", activeItemOptions);
 
   const defaultNewItem = {
     itemCode: "",
@@ -62,10 +63,7 @@ const VendorBody = () => {
   };
 
   const [items, setItems] = useState([]);
-  const [showAddItem, setShowAddItem] = useState(false);
   const [newItem, setNewItem] = useState(defaultNewItem);
-
-  useEffect(() => console.log(newItem), [newItem]);
 
   const handleAddItem = () => {
     if (
@@ -82,7 +80,6 @@ const VendorBody = () => {
         unitPrice: "",
         quantity: "",
       });
-      setShowAddItem(true);
     }
   };
 
@@ -97,10 +94,10 @@ const VendorBody = () => {
     setNewItem((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleOptionChange = (event, newValue, newItem) => {
+  const handleOptionChange = (event, newValue) => {
     if (newValue) {
       const { itemCode, itemName, unitPrice } = newValue;
-      setNewItem({ itemCode, itemName, unitPrice });
+      setNewItem({ itemCode, itemName, unitPrice, quantity: newItem.quantity });
     } else {
       setNewItem(defaultNewItem);
     }
@@ -165,106 +162,87 @@ const VendorBody = () => {
                   </TableBodyCell>
                 </TableRow>
               ))}
-              {!showAddItem && (
-                <TableRow>
-                  <TableBodyCell></TableBodyCell>
+              <TableRow>
+                <TableBodyCell></TableBodyCell>
 
-                  <TableBodyCell>
-                    <Autocomplete
-                      options={activeItems}
-                      autoHighlight
-                      getOptionLabel={(item) =>
-                        item.itemCode && item.itemName
-                          ? `${item.itemCode} | ${item.itemName}`
-                          : ""
-                      }
-                      value={newItem}
-                      onChange={handleOptionChange}
-                      //  placeholder="Description"
-                      isOptionEqualToValue={(option, value) =>
-                        option.itemCode === value.itemCode &&
-                        option.itemName === value.itemName
-                      }
-                      renderInput={(params) => (
-                        <TextFieldRow
-                          {...params}
-                          //  name="itemCode|itemName"
-                          placeholder="Search Item"
-                          width={"200%"}
-                          // InputProps={{
-                          //   ...params.InputProps,
-                          //   type: "search",
-                          // }}
-                        />
-                      )}
-                      renderOption={(props, item) => (
-                        <Box
-                          {...props}
-                          component={"li"}
-                          sx={{
-                            width: "100%",
-                            padding: "0.5rem",
-                            // borderBottom: "1px solid #ccc",
-                          }}
-                          key={item.itemCode}
-                        >
-                          {item.itemCode} | {item.itemName}
-                        </Box>
-                      )}
-                    />
-                  </TableBodyCell>
-                  <TableBodyCell></TableBodyCell>
-                  <TableBodyCell right>
-                    <TextFieldRow
-                      name="unitPrice"
-                      placeholder="Unit Price"
-                      value={newItem.unitPrice}
-                      onChange={handleInputChange}
-                      align="right"
-                    />
-                  </TableBodyCell>
-                  <TableBodyCell right>
-                    <TextFieldRow
-                      name="quantity"
-                      placeholder="Quantity"
-                      value={newItem.quantity}
-                      onChange={handleInputChange}
-                      align="right"
-                    />
-                  </TableBodyCell>
-                  <TableBodyCell></TableBodyCell>
-                  <TableBodyCell sx={{ padding: "5px" }}>
-                    <IconButton
-                      size="small"
-                      // variant="contained"
-                      onClick={handleAddItem}
-                      sx={{
-                        // backgroundColor: theme.palette.secondary.main,
-                        color: theme.palette.secondary.main,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <AddCircleOutline />
-                    </IconButton>
-                  </TableBodyCell>
-                </TableRow>
-              )}
+                <TableBodyCell>
+                  <Autocomplete
+                    options={activeItemOptions}
+                    autoHighlight
+                    getOptionLabel={(item) =>
+                      item.itemCode && item.itemName
+                        ? `${item.itemCode} | ${item.itemName}`
+                        : ""
+                    }
+                    value={newItem}
+                    defaultValue={activeItemOptions[0]}
+                    onChange={handleOptionChange}
+                    //  placeholder="Description"
+                    isOptionEqualToValue={(option, value) =>
+                      option.value === value.value
+                    }
+                    renderInput={(params) => (
+                      <TextFieldRow
+                        {...params}
+                        //  name="itemCode|itemName"
+                        placeholder="Search Item"
+                        width={"200%"}
+                        // InputProps={{
+                        //   ...params.InputProps,
+                        //   type: "search",
+                        // }}
+                      />
+                    )}
+                    renderOption={(props, item) => (
+                      <Box
+                        {...props}
+                        component={"li"}
+                        sx={{
+                          width: "100%",
+                          padding: "0.5rem",
+                          // borderBottom: "1px solid #ccc",
+                        }}
+                        key={item.itemCode}
+                      >
+                        {item.itemCode} | {item.itemName}
+                      </Box>
+                    )}
+                  />
+                </TableBodyCell>
+                <TableBodyCell></TableBodyCell>
+                <TableBodyCell right>
+                  <TextFieldRow
+                    name="unitPrice"
+                    placeholder="Unit Price"
+                    value={newItem.unitPrice}
+                    onChange={handleInputChange}
+                    align="right"
+                  />
+                </TableBodyCell>
+                <TableBodyCell right>
+                  <TextFieldRow
+                    name="quantity"
+                    placeholder="Quantity"
+                    value={newItem.quantity}
+                    onChange={handleInputChange}
+                    align="right"
+                  />
+                </TableBodyCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
-        {showAddItem && (
-          <Button
-            sx={{
-              // marginY: "10px",
-              fontWeight: "bold",
-              textDecoration: "underline",
-            }}
-            color="secondary"
-            onClick={() => setShowAddItem(false)}
-          >
-            Add Item
-          </Button>
-        )}
+        <Button
+          sx={{
+            // marginY: "10px",
+            fontWeight: "bold",
+            textDecoration: "underline",
+          }}
+          color="secondary"
+          onClick={handleAddItem}
+        >
+          Add Item
+        </Button>
       </Box>
       <Box
         sx={{

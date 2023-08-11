@@ -39,7 +39,7 @@ function VendorTabs({
             variant="fullWidth"
             //   aria-label="full width tabs example"
             sx={{
-              //width: 300,
+              width: 380,
               //flex: 1,
               "& .MuiTabs-indicator": {
                 backgroundColor: theme.palette.primary.light,
