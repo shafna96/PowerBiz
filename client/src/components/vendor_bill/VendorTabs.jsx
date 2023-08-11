@@ -20,13 +20,17 @@ function VendorTabs({
   const theme = useTheme();
 
   return (
-    <Box sx={{ bgcolor: "background.paper" }}>
+    <Box sx={{ bgcolor: "white" }}>
       <AppBar
         position="static"
+        elevation={0}
         sx={{
           "& .MuiBox-root": {
-            backgroundColor: "white",
+            background: "white",
             borderTopLeftRadius: "10px",
+          },
+          "& .MuiTabs-root": {
+            backgroundColor: "white",
           },
         }}
       >
@@ -43,8 +47,8 @@ function VendorTabs({
               "& .MuiTabs-indicator": {
                 backgroundColor: theme.palette.primary.light,
               },
+
               "& .MuiTabs-flexContainer": {
-                //  backgroundColor: theme.palette.primary[700],
                 borderTopLeftRadius: 5, //"0.5rem",
                 borderTopRightRadius: 5, //"0.5rem",
               },

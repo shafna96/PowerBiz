@@ -110,7 +110,18 @@ const VendorBody = () => {
         marginTop: "25px",
       }}
     >
-      <TableContainer sx={{ maxHeight: "55vh" }}>
+      <TableContainer
+        sx={{
+          overflowY: "auto",
+          maxHeight: "calc(100vh - 410px)", // Adjust the max height according to your needs
+          borderBottom: "1px solid #ccc",
+        }}
+        ref={(el) => {
+          if (el) {
+            el.scrollTop = el.scrollHeight; // Scroll to the bottom
+          }
+        }}
+      >
         {/* maxHeight: "calc(100vh - 400px)" */}
         <Table>
           <TableHead
@@ -118,6 +129,8 @@ const VendorBody = () => {
               position: "sticky",
               top: 0,
               zIndex: 1,
+              backgroundColor: theme.palette.secondary.dark,
+              color: theme.palette.common.white,
             }}
           >
             <TableRow>
@@ -125,8 +138,6 @@ const VendorBody = () => {
                 <TableCell
                   align={head.align}
                   sx={{
-                    backgroundColor: theme.palette.secondary.dark,
-                    color: theme.palette.common.white,
                     width: head.width,
                     padding: "5px",
                     paddingTop: head.paddingTop,
