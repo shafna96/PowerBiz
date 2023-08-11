@@ -16,7 +16,6 @@ function VendorTabs({
   handleChangeIndex,
   children,
   tabs,
-  sideButtons,
 }) {
   const theme = useTheme();
 
@@ -46,14 +45,14 @@ function VendorTabs({
               },
               "& .MuiTabs-flexContainer": {
                 //  backgroundColor: theme.palette.primary[700],
-                borderTopLeftRadius: "0.5rem",
-                borderTopRightRadius: "0.5rem",
+                borderTopLeftRadius: 5, //"0.5rem",
+                borderTopRightRadius: 5, //"0.5rem",
               },
               "& .Mui-selected": {
                 backgroundColor: theme.palette.primary.light,
                 borderTop: `3px solid ${theme.palette.secondary.dark}`,
-                borderTopLeftRadius: "0.5rem",
-                borderTopRightRadius: "0.5rem",
+                borderTopLeftRadius: 5, //"0.5rem",
+                borderTopRightRadius: 5, //"0.5rem",
                 //   borderTopColor: theme.palette.secondary.dark,
                 //    borderTopWidth: "3px",
               },
@@ -74,7 +73,6 @@ function VendorTabs({
               );
             })}
           </Tabs>
-          {sideButtons}
         </FlexBetween>
       </AppBar>
       <SwipeableViews

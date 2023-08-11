@@ -36,10 +36,12 @@ const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
       position="sticky"
       sx={{
         width: "100%",
-        backgroundColor: "white",
+        //   backgroundColor: "white",
+        // background: "none",
         boxShadow: "none",
         zIndex: 999,
-        // height: "65px",
+        background: theme.palette.primary[800],
+
         // paddingBottom: "1rem",
       }}
     >
@@ -47,7 +49,7 @@ const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
         sx={{
           justifyContent: "space-between",
           width: "100%",
-          background: theme.palette.primary[800],
+          //  background: theme.palette.primary[800],
         }}
       >
         {/* LEFT SIDE */}

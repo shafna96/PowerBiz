@@ -18,6 +18,8 @@ const VendorHeader = ({ handleSubmit }) => {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [billNumber, setBillNumber] = useState("");
+  const [segment, setSegment] = useState("");
+  const [currency, setCurrency] = useState("");
   const [showVendorDetails, setShowVendorDetails] = useState(false);
 
   const handleChange = (setState) => (event) => {
@@ -45,10 +47,15 @@ const VendorHeader = ({ handleSubmit }) => {
     );
   };
   return (
-    <Box position={"sticky"}>
+    <Box
+      position={"sticky"}
+      sx={{
+        flex: 1,
+      }}
+    >
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <Grid container rowGap={1}>
-          <Grid item sm={6} paddingX={"5px"}>
+        <Box display={"flex"}>
+          <Box sx={{ flex: 1 }}>
             <TextField
               required
               name="vendor"
@@ -77,8 +84,8 @@ const VendorHeader = ({ handleSubmit }) => {
             <Box>
               {showVendorDetails && renderVendorDetails(selectedVendor)}
             </Box>
-          </Grid>
-          <Grid item sm={6} paddingX={"5px"} rowGap={1}>
+          </Box>
+          <Box sx={{ flex: 1 }}>
             <TextField
               required
               name="billDate"
@@ -103,8 +110,34 @@ const VendorHeader = ({ handleSubmit }) => {
               // fullWidth
               color="textfield"
             />
-          </Grid>
-        </Grid>
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <TextField
+              required
+              name="segment"
+              id="segment"
+              value={segment}
+              label="Segment"
+              onChange={handleChange(setSegment)}
+              variant="standard"
+              sx={{ width: "85%" }}
+              //fullWidth
+              color="textfield"
+            />
+            <TextField
+              required
+              name="currency"
+              id="currency"
+              value={currency}
+              label="Currency"
+              onChange={handleChange(setCurrency)}
+              variant="standard"
+              sx={{ width: "85%", paddingBottom: "5px" }}
+              // fullWidth
+              color="textfield"
+            />
+          </Box>
+        </Box>
       </form>
     </Box>
   );
