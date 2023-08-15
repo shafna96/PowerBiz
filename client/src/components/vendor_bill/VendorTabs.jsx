@@ -1,7 +1,7 @@
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme, AppBar, Tabs, Tab, Box } from "@mui/material";
-import FlexBetween from "components/FlexBetween";
+import { FlexBetween } from "components";
 
 function a11yProps(index) {
   return {

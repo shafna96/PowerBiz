@@ -25,8 +25,7 @@ import {
   CircleOutlined,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import FlexBetween from "components/FlexBetween";
-// import FlexBetween from "../FlexBetween";
+import { FlexBetween } from "components";
 
 const navItems = [
   {

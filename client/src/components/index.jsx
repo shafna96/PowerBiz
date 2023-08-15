@@ -1,6 +1,6 @@
 import Navbar from "./layout/Navbar";
 import SideBar from "./layout/SideBar";
-import FlexBetween from "./FlexBetween";
+import { FlexBetween, TextFieldRow } from "./styledComponents";
 import Header from "./Header";
 import FormComp from "./FormComp";
 import DataGridComp from "./DataGridComp";
@@ -19,4 +19,5 @@ export {
   TabPanel,
   VendorHeader,
   VendorBody,
+  TextFieldRow,
 };

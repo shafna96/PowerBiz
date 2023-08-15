@@ -19,7 +19,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import FlexBetween from "components/FlexBetween";
+import { FlexBetween } from "components";
 
 const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
   const dispatch = useDispatch();

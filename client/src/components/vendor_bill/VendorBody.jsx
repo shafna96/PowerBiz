@@ -113,7 +113,7 @@ const VendorBody = () => {
       <TableContainer
         sx={{
           overflowY: "auto",
-          maxHeight: "calc(100vh - 410px)", // Adjust the max height according to your needs
+          maxHeight: "calc(100vh - 400px)", // Adjust the max height according to your needs
           borderBottom: "1px solid #ccc",
         }}
         ref={(el) => {

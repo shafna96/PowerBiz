@@ -1,8 +1,10 @@
-import { MenuItem, Typography } from "@mui/material";
-import { Box, TextField } from "@mui/material";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { MenuItem, Typography, Box, TextField } from "@mui/material";
 import { useGetSuppliersQuery } from "state/api";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
+import { FlexBetween } from "components";
 
 const VendorHeader = ({ handleSubmit }) => {
   const { data } = useGetSuppliersQuery({ isActive: true });
@@ -16,7 +18,9 @@ const VendorHeader = ({ handleSubmit }) => {
   console.log("data", data);
   // console.log("vendor", vendors);
   const [selectedVendor, setSelectedVendor] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedBillDate, setSelectedBillDate] = useState(null);
+  const [selectedDueDate, setSelectedDueDate] = useState(null);
+
   const [billNumber, setBillNumber] = useState("");
   const [segment, setSegment] = useState("");
   const [currency, setCurrency] = useState("");
@@ -64,6 +68,7 @@ const VendorHeader = ({ handleSubmit }) => {
               label="Vendor"
               onChange={handleChange(setSelectedVendor)}
               variant="standard"
+              size="small"
               // fullWidth
               sx={{ width: "85%" }}
               color="textfield"
@@ -86,18 +91,46 @@ const VendorHeader = ({ handleSubmit }) => {
             </Box>
           </Box>
           <Box sx={{ flex: 1 }}>
-            <TextField
-              required
-              name="billDate"
-              id="billDate"
-              value={selectedDate}
-              label="Bill Date"
-              onChange={handleChange(setSelectedDate)}
-              variant="standard"
-              sx={{ width: "85%" }}
-              //fullWidth
-              color="textfield"
-            />
+            <FlexBetween width={"85%"}>
+              <DatePicker
+                required
+                name="billDate"
+                id="billDate"
+                value={selectedBillDate}
+                label="Bill Date"
+                //  defaultValue={dayjs("2023-08-15")}
+                onChange={(newValue) => setSelectedBillDate(newValue)}
+                slotProps={{
+                  textField: {
+                    variant: "standard",
+                    size: "small",
+                    // width: "85%",
+                  },
+                }}
+                sx={{ width: "45%" }}
+                //fullWidth
+                color="textfield"
+              />
+              <DatePicker
+                required
+                name="dueDate"
+                id="dueDate"
+                value={selectedDueDate}
+                label="Due Date"
+                //  defaultValue={dayjs("2023-08-15")}
+                onChange={(newValue) => setSelectedDueDate(newValue)}
+                slotProps={{
+                  textField: {
+                    variant: "standard",
+                    size: "small",
+                    // width: "85%",
+                  },
+                }}
+                sx={{ width: "45%" }}
+                //fullWidth
+                color="textfield"
+              />
+            </FlexBetween>
             <TextField
               required
               name="billNo"
@@ -107,6 +140,7 @@ const VendorHeader = ({ handleSubmit }) => {
               onChange={handleChange(setBillNumber)}
               variant="standard"
               sx={{ width: "85%", paddingBottom: "5px" }}
+              size="small"
               // fullWidth
               color="textfield"
             />
@@ -121,6 +155,7 @@ const VendorHeader = ({ handleSubmit }) => {
               onChange={handleChange(setSegment)}
               variant="standard"
               sx={{ width: "85%" }}
+              size="small"
               //fullWidth
               color="textfield"
             />
@@ -133,6 +168,7 @@ const VendorHeader = ({ handleSubmit }) => {
               onChange={handleChange(setCurrency)}
               variant="standard"
               sx={{ width: "85%", paddingBottom: "5px" }}
+              size="small"
               // fullWidth
               color="textfield"
             />
