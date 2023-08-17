@@ -5,6 +5,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { FlexBetween } from "components";
+import { currencyOptions } from "data/data";
 
 const VendorHeader = ({ handleSubmit }) => {
   const { data } = useGetSuppliersQuery({ isActive: true });
@@ -52,26 +53,20 @@ const VendorHeader = ({ handleSubmit }) => {
   };
   return (
     <Box
-      position={"sticky"}
       sx={{
         flex: 1,
       }}
     >
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <Box display={"flex"}>
-          <Box sx={{ flex: 1 }}>
-            <TextField
+        <Box sx={{ display: "flex", padding: "15px" }}>
+          <Box sx={{ flex: 0.4 }}>
+            <TextFieldComp
               required
-              name="vendor"
-              id="vendor"
+              nameId="vendor"
               value={selectedVendor}
               label="Vendor"
               onChange={handleChange(setSelectedVendor)}
-              variant="standard"
-              size="small"
-              // fullWidth
-              sx={{ width: "85%" }}
-              color="textfield"
+              width="50%"
               select
             >
               {activeSuppliers.map((vendor, index) => (
@@ -85,93 +80,64 @@ const VendorHeader = ({ handleSubmit }) => {
                   {vendor.name}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextFieldComp>
             <Box>
               {showVendorDetails && renderVendorDetails(selectedVendor)}
             </Box>
           </Box>
-          <Box sx={{ flex: 1 }}>
-            <FlexBetween width={"85%"}>
-              <DatePicker
-                required
-                name="billDate"
-                id="billDate"
-                value={selectedBillDate}
-                label="Bill Date"
-                //  defaultValue={dayjs("2023-08-15")}
-                onChange={(newValue) => setSelectedBillDate(newValue)}
-                slotProps={{
-                  textField: {
-                    variant: "standard",
-                    size: "small",
-                    // width: "85%",
-                  },
-                }}
-                sx={{ width: "45%" }}
-                //fullWidth
-                color="textfield"
-              />
-              <DatePicker
-                required
-                name="dueDate"
-                id="dueDate"
-                value={selectedDueDate}
-                label="Due Date"
-                //  defaultValue={dayjs("2023-08-15")}
-                onChange={(newValue) => setSelectedDueDate(newValue)}
-                slotProps={{
-                  textField: {
-                    variant: "standard",
-                    size: "small",
-                    // width: "85%",
-                  },
-                }}
-                sx={{ width: "45%" }}
-                //fullWidth
-                color="textfield"
-              />
-            </FlexBetween>
-            <TextField
+          <Box sx={{ flex: 0.2 }}>
+            <DatePickerComponent
               required
-              name="billNo"
-              id="billNo"
-              value={billNumber}
-              label="Reference No"
-              onChange={handleChange(setBillNumber)}
-              variant="standard"
-              sx={{ width: "85%", paddingBottom: "5px" }}
-              size="small"
-              // fullWidth
-              color="textfield"
+              nameId="billDate"
+              value={selectedBillDate}
+              label="Bill Date"
+              //  defaultValue={dayjs("2023-08-15")}
+              onChange={(newValue) => setSelectedBillDate(newValue)}
+            />
+            <DatePickerComponent
+              required
+              nameId="dueDate"
+              value={selectedDueDate}
+              label="Due Date"
+              //  defaultValue={dayjs("2023-08-15")}
+              onChange={(newValue) => setSelectedDueDate(newValue)}
             />
           </Box>
-          <Box sx={{ flex: 1 }}>
-            <TextField
+
+          <Box sx={{ flex: 0.4 }}>
+            <TextFieldComp
               required
-              name="segment"
-              id="segment"
-              value={segment}
-              label="Segment"
-              onChange={handleChange(setSegment)}
-              variant="standard"
-              sx={{ width: "85%" }}
-              size="small"
-              //fullWidth
-              color="textfield"
+              nameId="billNo"
+              value={billNumber}
+              label="Supplier Ref No"
+              onChange={handleChange(setBillNumber)}
+              width="60%"
             />
-            <TextField
-              required
-              name="currency"
-              id="currency"
-              value={currency}
-              label="Currency"
-              onChange={handleChange(setCurrency)}
-              variant="standard"
-              sx={{ width: "85%", paddingBottom: "5px" }}
-              size="small"
-              // fullWidth
-              color="textfield"
-            />
+            <FlexBetween>
+              <TextFieldComp
+                required
+                nameId="segment"
+                value={segment}
+                label="Segment"
+                onChange={handleChange(setSegment)}
+                width="60%"
+              />
+              <TextFieldComp
+                required
+                nameId="currency"
+                value={currency}
+                label="Currency"
+                onChange={handleChange(setCurrency)}
+                width="20%"
+                select
+              >
+                {currencyOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.value}
+                  </MenuItem>
+                ))}
+              </TextFieldComp>
+            </FlexBetween>
           </Box>
         </Box>
       </form>
@@ -180,3 +146,52 @@ const VendorHeader = ({ handleSubmit }) => {
 };
 
 export default VendorHeader;
+
+const TextFieldComp = (props) => {
+  const { value, label, onChange, width, select, children, nameId } = props;
+  return (
+    <TextField
+      {...props}
+      name={nameId}
+      id={nameId}
+      value={value}
+      label={label}
+      onChange={onChange}
+      variant="standard"
+      size="small"
+      // fullWidth
+      sx={{ width: width }}
+      color="textfield"
+      select={select}
+    >
+      {select && children}
+    </TextField>
+  );
+};
+
+const DatePickerComponent = (props) => {
+  const { value, label, onChange, nameId, defaultValue } = props;
+
+  return (
+    <Box>
+      <DatePicker
+        {...props}
+        name={nameId}
+        id={nameId}
+        value={value}
+        label={label}
+        defaultValue={defaultValue}
+        onChange={onChange}
+        slotProps={{
+          textField: {
+            variant: "standard",
+            size: "small",
+            //width: "85%",
+          },
+        }}
+        sx={{ width: "50%" }}
+        color="textfield"
+      />
+    </Box>
+  );
+};

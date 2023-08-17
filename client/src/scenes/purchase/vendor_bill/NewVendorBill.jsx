@@ -6,11 +6,17 @@ import {
   Drawer,
   useMediaQuery,
   Button,
+  TextField,
 } from "@mui/material";
 
 import {
+  ContainedButton,
   FlexBetween,
+  FlexEvenly,
   Header,
+  OutlinedButton,
+  RightDrawer,
+  StyledIconButton,
   TabPanel,
   VendorBody,
   VendorHeader,
@@ -20,7 +26,13 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { vendorTabs } from "data/data";
 import { useNavigate } from "react-router-dom";
-import { AttachFile, Summarize } from "@mui/icons-material";
+import {
+  AttachFile,
+  Delete,
+  Edit,
+  Share,
+  Summarize,
+} from "@mui/icons-material";
 import {
   selectIsAttachmentOpen,
   selectIsDiaryOpen,
@@ -73,28 +85,16 @@ const NewVendorBill = () => {
   };
 
   return (
-    <Box
-      sx={
-        {
-          // maxHeight: "calc(100vh - 90px)",
-        }
-      }
-    >
-      <Box display={"flex"} sx={{ marginY: "15px" }}>
-        <Box sx={{ flex: 1 }}>
-          <FlexBetween>
-            <Header title={"New Vendor Bill"} />
-            <Typography
-              sx={{
-                paddingY: "5px",
-                alignItems: "center",
-              }}
-              fontWeight={"bold"}
-            >
-              Dmas/2023/07/001
-            </Typography>
-          </FlexBetween>
-        </Box>
+    <Box>
+      <FlexBetween
+        sx={{
+          position: "sticky",
+          top: "65px",
+          backgroundColor: "white",
+          zIndex: 2,
+        }}
+      >
+        <Header title={"Vendor Bill"} />
         <IconButton
           size="small"
           onClick={handleClose}
@@ -112,205 +112,164 @@ const NewVendorBill = () => {
             }}
           />
         </IconButton>
-      </Box>
-
-      <Box display={isNonMobile ? "flex" : "block"}>
-        <Box
-          width={"100%"}
+      </FlexBetween>
+      <Box
+        sx={{
+          overflowY: "auto",
+          paddingY: "10px", // Add appropriate spacing
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "calc(100vh - 200px)", // Set minimum height of the page to 100vh
+        }}
+      >
+        <Typography
           sx={{
-            paddingRight: isAttachmentOpen || isDiaryOpen ? "15px" : 0,
-            flexGrow: 1,
-            overflowY: "auto",
-            maxHeight: "90%",
-            flexDirection: "row",
+            // paddingY: "5px",
+            alignItems: "center",
+            fontSize: "16px",
           }}
+          fontWeight={"bold"}
         >
-          {/* <Box> */}
+          Dmas/2023/07/001
+        </Typography>
+
+        <Box display={isNonMobile ? "flex" : "block"}>
           <Box
-            display={"flex"}
+            width={"100%"}
             sx={{
-              borderBottom: "1px solid #ccc",
-              paddingBottom: "5px",
-              marginBottom: "15px",
-              justifyContent: "center",
-              alignItems: "center",
+              paddingRight: isAttachmentOpen || isDiaryOpen ? "15px" : 0,
+              flexGrow: 1,
+              overflowY: "auto",
+              maxHeight: "90%",
+              flexDirection: "row",
             }}
           >
-            <VendorHeader />
-            <Box sx={{ paddingRight: "15px" }}>
-              <Box>
-                <IconButton
-                  onClick={handleDiaryClick}
-                  sx={{
-                    backgroundColor: theme.palette.primary[200],
-                    color: "white",
-                    margin: "2px",
-                    borderRadius: 3,
-                  }}
-                >
-                  <Summarize fontSize="50px" />
-                </IconButton>
-              </Box>
-              <Box>
-                <IconButton
-                  onClick={handleAttachmentClick}
-                  sx={{
-                    backgroundColor: theme.palette.primary[200],
-                    color: "white",
-                    margin: "2px",
-                    borderRadius: 3,
-                  }}
-                >
-                  <AttachFile fontSize="50px" />
-                </IconButton>
-              </Box>
-            </Box>
-          </Box>
-          <VendorTabs
-            value={value}
-            handleChange={handleTabChange}
-            handleChangeIndex={handleTabChangeIndex}
-            tabs={vendorTabs}
-          >
-            <TabPanel value={value} index={0} dir={theme.direction}>
+            {/* <Box> */}
+            <Box
+              sx={{
+                display: "flex",
+                borderBottom: "1px solid #ccc",
+                marginBottom: "5px",
+              }}
+            >
+              <VendorHeader />
               <Box
                 sx={{
-                  backgroundColor: theme.palette.primary.light,
-                  paddingX: "16px",
+                  padding: "15px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
+                {/* <Box> */}
+                <StyledIconButton onClick={handleDiaryClick}>
+                  <Summarize fontSize="50px" />
+                </StyledIconButton>
+                {/* </Box> */}
+                {/* <Box> */}
+                <StyledIconButton onClick={handleAttachmentClick}>
+                  <AttachFile fontSize="50px" />
+                </StyledIconButton>
+                {/* </Box> */}
+              </Box>
+            </Box>
+            <VendorTabs
+              value={value}
+              handleChange={handleTabChange}
+              handleChangeIndex={handleTabChangeIndex}
+              tabs={vendorTabs}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <VendorBody />
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
+                    width: "100%",
+                    height: "50dvh",
                   }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      flexGrow: 1,
-                      overflowY: "auto",
-                    }}
-                  >
-                    <VendorBody />
-                  </Box>
-                  <Box
-                    sx={{
-                      position: "sticky",
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      display: "flex",
-                      paddingRight: "2%",
-                      paddingY: "10px",
-                      borderTop: "1px solid #ccc",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Box sx={{ flex: 1 }}></Box>
-                    <Box
-                      sx={{
-                        flexDirection: "column",
-                        alignItems: "flex-end",
-                        width: "150px",
-                      }}
-                    >
-                      <FlexBetween>
-                        <Button
-                          sx={{
-                            backgroundColor: theme.palette.secondary.dark,
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Save
-                        </Button>
+                ></Box>
+              </TabPanel>
+            </VendorTabs>
+            {/* </Box> */}
+            <TextField
+              multiline
+              rows={6}
+              name="comments"
+              id="comments"
+              // value={billNumber}
+              label="Comments"
+              //   onChange={handleChange(setBillNumber)}
+              // variant="standard"
+              sx={{ width: "500px", marginY: "25px" }}
+              size="small"
+              // fullWidth
+              color="textfield"
+            />
+          </Box>
 
-                        <Button
-                          sx={{
-                            backgroundColor: theme.palette.secondary.dark,
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Confirm
-                        </Button>
-                      </FlexBetween>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "72dvh",
-                  backgroundColor: theme.palette.primary.light,
-                }}
-              ></Box>
-            </TabPanel>
-          </VendorTabs>
-          {/* </Box> */}
-        </Box>
-        {isAttachmentOpen && (
-          <Box width={"100%"}>
-            <Drawer
+          {isAttachmentOpen && (
+            <RightDrawer
+              wrapperWidth={"100%"}
               open={isAttachmentOpen}
               onClose={handleAttachmentClick}
-              variant="persistent"
-              anchor="right"
-              sx={{
-                "& .MuiDrawer-paper": {
-                  color: theme.palette.secondary[200],
-                  backgroundColor: theme.palette.background.alt,
-                  boxSizing: "border-box",
-                  borderWidth: isNonMobile ? 0 : "2px",
-                },
-              }}
-            />
-            <Box
-              sx={{
-                borderLeft: 1,
-                width: "100%",
-                height: "100%",
-                padding: "10px",
-              }}
+              isNonMobile={isNonMobile}
             >
               <Typography>attachment</Typography>
-            </Box>
-          </Box>
-        )}
-        {isDiaryOpen && (
-          <Box>
-            <Drawer
+            </RightDrawer>
+          )}
+          {isDiaryOpen && (
+            <RightDrawer
+              wrapperWidth={"50%"}
               open={isDiaryOpen}
               onClose={handleDiaryClick}
-              variant="persistent"
-              anchor="right"
-              sx={{
-                "& .MuiDrawer-paper": {
-                  color: theme.palette.secondary[200],
-                  backgroundColor: theme.palette.background.alt,
-                  boxSizing: "border-box",
-                  borderWidth: isNonMobile ? 0 : "2px",
-                },
-              }}
-            />
-            <Box
-              sx={{
-                borderLeft: 1,
-                width: "100%",
-                height: "100%",
-                padding: "10px",
-              }}
+              isNonMobile={isNonMobile}
             >
               <Typography>Diary</Typography>
-            </Box>
-          </Box>
-        )}
+            </RightDrawer>
+          )}
+        </Box>
       </Box>
+      <FlexBetween
+        sx={{
+          position: "sticky",
+          padding: "10px 0px",
+          borderTop: "1px solid #ccc",
+          backgroundColor: "white",
+          zIndex: 2,
+          //    marginTop: "auto",
+          bottom: 0,
+        }}
+      >
+        <FlexEvenly sx={{ width: "285px" }}>
+          <OutlinedButton
+            sx={{ width: "90px" }}
+            variant="outlined"
+            startIcon={<Edit />}
+          >
+            Edit
+          </OutlinedButton>
+
+          <OutlinedButton
+            sx={{ width: "90px" }}
+            variant="outlined"
+            startIcon={<Delete />}
+          >
+            Delete
+          </OutlinedButton>
+          <OutlinedButton
+            sx={{ width: "90px" }}
+            variant="outlined"
+            startIcon={<Share />}
+          >
+            Share
+          </OutlinedButton>
+        </FlexEvenly>
+        <FlexBetween sx={{ width: "165px" }}>
+          <ContainedButton sx={{ width: "80px" }}>Save</ContainedButton>
+
+          <ContainedButton sx={{ width: "80px" }}>Approve</ContainedButton>
+        </FlexBetween>
+      </FlexBetween>
     </Box>
   );
 };

@@ -1,4 +1,5 @@
 import { MoreVert } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import React from "react";
 
 const commonFields = [
@@ -150,15 +151,17 @@ export const tableHeadList = [
   { id: 1, name: "#", align: "left", width: "2%" },
   { id: 2, name: "Item Code", align: "left", width: "25%" },
   { id: 3, name: "Description", align: "left", width: "25%" },
-  { id: 4, name: "Unit Price", align: "right", width: "16%" },
-  { id: 5, name: "Quantity", align: "right", width: "16%" },
-  { id: 6, name: "Amount", align: "right", width: "16%" },
+  { id: 4, name: "Unit Price", align: "right", width: "10%" },
+  { id: 5, name: "Quantity", align: "right", width: "8%" },
+  { id: 6, name: "Discount", align: "right", width: "10%" },
+  { id: 7, name: "Tax", align: "right", width: "8%" },
+
+  { id: 8, name: "Amount", align: "right", width: "10%" },
   {
-    id: 7,
-    name: <MoreVert />,
+    id: 9,
+    name: <MoreVert style={{ verticalAlign: "middle" }} />,
     align: "center",
     width: "2%",
-    paddingTop: "10px",
   },
 ];
 
@@ -169,7 +172,7 @@ export const vendorTabs = [
   },
   {
     id: 2,
-    label: "other",
+    label: "accounts",
   },
 ];
 
@@ -178,4 +181,12 @@ export const billColumns = [
   { field: "billDate", headerName: "Bill Date", flex: 0.5 },
   { field: "billNo", headerName: "Bill No", flex: 0.5 },
   { field: "status", headerName: "Status", flex: 0.5 },
+];
+
+export const currencyOptions = [
+  { value: "USD", label: "US Dollar (USD)" },
+  { value: "EUR", label: "Euro (EUR)" },
+  { value: "LKR", label: "Lankan Rupee (LKR)" },
+
+  // Add more currency options here
 ];

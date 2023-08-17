@@ -1,5 +1,5 @@
 import { Box, Button, useTheme } from "@mui/material";
-import { DataGridComp, Header } from "components";
+import { ContainedButton, DataGridComp, Header } from "components";
 import { billColumns } from "data/data";
 import React from "react";
 
@@ -20,16 +20,9 @@ const VendorBill = () => {
       <Box>
         <Box display={"flex"}>
           <Box flex={1}></Box>
-          <Button
-            onClick={hanldeNewBillClick}
-            sx={{
-              backgroundColor: theme.palette.secondary.dark,
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            New Bill
-          </Button>
+          <ContainedButton onClick={hanldeNewBillClick}>
+            Create Bill
+          </ContainedButton>
         </Box>
         <DataGridComp
           // subTitle="Customer Table"

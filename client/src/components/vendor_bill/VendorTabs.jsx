@@ -43,9 +43,10 @@ function VendorTabs({
             //   aria-label="full width tabs example"
             sx={{
               width: 380,
+              minHeight: "15px",
               //flex: 1,
               "& .MuiTabs-indicator": {
-                backgroundColor: theme.palette.primary.light,
+                display: "none",
               },
 
               "& .MuiTabs-flexContainer": {
@@ -59,6 +60,7 @@ function VendorTabs({
                 borderTopRightRadius: 5, //"0.5rem",
                 //   borderTopColor: theme.palette.secondary.dark,
                 //    borderTopWidth: "3px",
+                padding: 0,
               },
             }}
           >
@@ -67,8 +69,8 @@ function VendorTabs({
                 <Tab
                   sx={{
                     fontWeight: "bold",
-                    borderWidth: 1,
-                    borderColor: "white",
+                    minHeight: "15px",
+                    //padding: 0,
                   }}
                   key={tab.id}
                   label={tab.label}

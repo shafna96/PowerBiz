@@ -1,7 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import PropTypes from "prop-types";
 
 function TabPanel(props) {
+  const theme = useTheme();
+
   const { children, value, index, ...other } = props;
 
   return (
@@ -11,6 +13,14 @@ function TabPanel(props) {
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
+      style={{
+        backgroundColor: theme.palette.primary.light,
+        padding: "15px",
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+        overflowY: "auto",
+      }}
     >
       {value === index && <Box>{children}</Box>}
     </div>

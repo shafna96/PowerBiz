@@ -17,10 +17,11 @@ import {
 import { Delete } from "@mui/icons-material";
 import { useGetItemsQuery } from "state/api";
 import { tableHeadList } from "data/data";
+import { FlexBetween } from "components";
 
 const TableBodyCell = ({ children, right }) => {
   return (
-    <TableCell align={right ? "right" : "left"} sx={{ padding: "5px" }}>
+    <TableCell align={right ? "right" : "left"} sx={{ padding: "0px 5px" }}>
       {children}
     </TableCell>
   );
@@ -60,6 +61,8 @@ const VendorBody = () => {
     itemName: "",
     unitPrice: "",
     quantity: "",
+    discount: "",
+    tax: "",
   };
 
   const [items, setItems] = useState([]);
@@ -70,7 +73,9 @@ const VendorBody = () => {
       newItem.itemCode &&
       newItem.itemName &&
       newItem.unitPrice &&
-      newItem.quantity
+      newItem.quantity &&
+      newItem.discount &&
+      newItem.tax
     ) {
       const updatedItems = [...items, newItem];
       setItems(updatedItems);
@@ -79,6 +84,8 @@ const VendorBody = () => {
         itemName: "",
         unitPrice: "",
         quantity: "",
+        discount: "",
+        tax: "",
       });
     }
   };
@@ -97,7 +104,14 @@ const VendorBody = () => {
   const handleOptionChange = (event, newValue) => {
     if (newValue) {
       const { itemCode, itemName, unitPrice } = newValue;
-      setNewItem({ itemCode, itemName, unitPrice, quantity: newItem.quantity });
+      setNewItem({
+        itemCode,
+        itemName,
+        unitPrice,
+        quantity: newItem.quantity,
+        discount: newItem.discount,
+        tax: newItem.tax,
+      });
     } else {
       setNewItem(defaultNewItem);
     }
@@ -107,30 +121,17 @@ const VendorBody = () => {
     <Box
       sx={{
         backgroundColor: theme.palette.background.alt,
-        marginTop: "25px",
       }}
     >
       <TableContainer
         sx={{
-          overflowY: "auto",
-          maxHeight: "calc(100vh - 400px)", // Adjust the max height according to your needs
           borderBottom: "1px solid #ccc",
         }}
-        ref={(el) => {
-          if (el) {
-            el.scrollTop = el.scrollHeight; // Scroll to the bottom
-          }
-        }}
       >
-        {/* maxHeight: "calc(100vh - 400px)" */}
         <Table>
           <TableHead
             sx={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1,
               backgroundColor: theme.palette.secondary.dark,
-              color: theme.palette.common.white,
             }}
           >
             <TableRow>
@@ -140,7 +141,7 @@ const VendorBody = () => {
                   sx={{
                     width: head.width,
                     padding: "5px",
-                    paddingTop: head.paddingTop,
+                    color: "white",
                   }}
                   key={head.id}
                 >
@@ -170,6 +171,9 @@ const VendorBody = () => {
                 <TableBodyCell>{item.itemName}</TableBodyCell>
                 <TableBodyCell right>{item.unitPrice}</TableBodyCell>
                 <TableBodyCell right>{item.quantity}</TableBodyCell>
+                <TableBodyCell right>{item.discount}</TableBodyCell>
+                <TableBodyCell right>{item.tax}</TableBodyCell>
+
                 <TableBodyCell right>
                   {parseFloat(item.unitPrice) * parseFloat(item.quantity)}
                 </TableBodyCell>
@@ -186,8 +190,7 @@ const VendorBody = () => {
               </TableRow>
             ))}
             <TableRow>
-              <TableBodyCell></TableBodyCell>
-
+              <TableBodyCell>#</TableBodyCell>
               <TableBodyCell>
                 <Autocomplete
                   options={activeItemOptions}
@@ -251,6 +254,24 @@ const VendorBody = () => {
                   align="right"
                 />
               </TableBodyCell>
+              <TableBodyCell right>
+                <TextFieldRow
+                  name="discount"
+                  placeholder="Discount"
+                  value={newItem.discount}
+                  onChange={handleInputChange}
+                  align="right"
+                />
+              </TableBodyCell>
+              <TableBodyCell right>
+                <TextFieldRow
+                  name="tax"
+                  placeholder="Tax"
+                  value={newItem.tax}
+                  onChange={handleInputChange}
+                  align="right"
+                />
+              </TableBodyCell>
               <TableBodyCell />
               <TableBodyCell />
             </TableRow>
@@ -271,55 +292,41 @@ const VendorBody = () => {
         >
           Add Item
         </Button>
-        <Box
-          sx={{
-            display: "flex",
-            paddingRight: "2%",
-          }}
-        >
-          <Box sx={{ flex: 1 }}></Box>
+        <FlexBetween sx={{ marginX: "2%" }}>
+          <Box></Box>
           <Box
             sx={{
-              flexDirection: "column",
-              alignItems: "flex-end",
+              //   flexDirection: "column",
+              //  alignItems: "flex-end",
               width: "180px",
             }}
           >
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography fontSize={14} sx={{ flex: 1 }}>
-                Sub Total
-              </Typography>
+            <FlexBetween>
+              <Typography fontSize={14}>Sub Total</Typography>
               <Typography fontSize={14}>0000.00</Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography fontSize={14} sx={{ flex: 1 }}>
-                Discount
-              </Typography>
+            </FlexBetween>
+            <FlexBetween>
+              <Typography fontSize={14}>Discount</Typography>
               <Typography fontSize={14}>0000.00</Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography fontSize={14} sx={{ flex: 1 }}>
-                Tax
-              </Typography>
+            </FlexBetween>
+            <FlexBetween>
+              <Typography fontSize={14}>Tax</Typography>
               <Typography fontSize={14}>0000.00</Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography fontSize={14} sx={{ flex: 1 }}>
-                Advance
-              </Typography>
+            </FlexBetween>
+            <FlexBetween>
+              <Typography fontSize={14}>Advance</Typography>
               <Typography fontSize={14}>0000.00</Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography fontSize={14} sx={{ flex: 1, fontWeight: "bold" }}>
+            </FlexBetween>
+            <FlexBetween>
+              <Typography fontSize={14} sx={{ fontWeight: "bold" }}>
                 Grand Total
               </Typography>
               <Typography fontSize={14} fontWeight={"bold"}>
                 0000.00
               </Typography>
-            </Box>
+            </FlexBetween>
           </Box>
-          {/* <Box sx={{ width: "8%" }}></Box> */}
-        </Box>
+        </FlexBetween>
       </TableContainer>
     </Box>
   );
