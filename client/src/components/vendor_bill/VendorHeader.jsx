@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { MenuItem, Typography, Box, TextField } from "@mui/material";
 import { useGetSuppliersQuery } from "state/api";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import dayjs from "dayjs";
 import { FlexBetween } from "components";
 import { currencyOptions } from "data/data";
 
@@ -62,7 +60,7 @@ const VendorHeader = ({ handleSubmit }) => {
           <Box sx={{ flex: 0.4 }}>
             <TextFieldComp
               required
-              nameId="vendor"
+              nameid="vendor"
               value={selectedVendor}
               label="Vendor"
               onChange={handleChange(setSelectedVendor)}
@@ -107,7 +105,7 @@ const VendorHeader = ({ handleSubmit }) => {
           <Box sx={{ flex: 0.4 }}>
             <TextFieldComp
               required
-              nameId="billNo"
+              nameid="billNo"
               value={billNumber}
               label="Supplier Ref No"
               onChange={handleChange(setBillNumber)}
@@ -116,7 +114,7 @@ const VendorHeader = ({ handleSubmit }) => {
             <FlexBetween>
               <TextFieldComp
                 required
-                nameId="segment"
+                nameid="segment"
                 value={segment}
                 label="Segment"
                 onChange={handleChange(setSegment)}
@@ -124,7 +122,7 @@ const VendorHeader = ({ handleSubmit }) => {
               />
               <TextFieldComp
                 required
-                nameId="currency"
+                nameid="currency"
                 value={currency}
                 label="Currency"
                 onChange={handleChange(setCurrency)}
@@ -148,12 +146,12 @@ const VendorHeader = ({ handleSubmit }) => {
 export default VendorHeader;
 
 const TextFieldComp = (props) => {
-  const { value, label, onChange, width, select, children, nameId } = props;
+  const { value, label, onChange, width, select, children, nameid } = props;
   return (
     <TextField
       {...props}
-      name={nameId}
-      id={nameId}
+      id={nameid}
+      name={nameid}
       value={value}
       label={label}
       onChange={onChange}

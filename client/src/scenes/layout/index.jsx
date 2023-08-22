@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Paper, useMediaQuery } from "@mui/material";
 import { Navbar, SideBar } from "components";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,6 @@ import { useGetUserQuery, useLogoutMutation } from "state/api";
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [logoutMutation] = useLogoutMutation();
 
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -63,7 +62,12 @@ const Layout = () => {
           setIsAttachmentOpen={(value) => dispatch(setIsAttachmentOpen(value))} // Pass the setIsAttachmentOpen function to the SideBar
         />
       </Box>
-      <Box flexGrow={1} display={"flex"} flexDirection={"column"}>
+      <Box
+        flexGrow={1}
+        display={"flex"}
+        flexDirection={"column"}
+        // sx={{ backgroundColor: theme.palette.background }}
+      >
         <Navbar
           user={data || {}}
           isSideBarOpen={isSideBarOpen}
@@ -71,9 +75,18 @@ const Layout = () => {
           logoutClick={logoutHandler}
         />
 
-        <Box flex={1} p="1rem 2.5rem">
+        {/* <Box  > */}
+        <Paper
+          elevation={6}
+          sx={{
+            flexGrow: 1,
+            p: "1rem 2.5rem",
+            m: "1rem",
+          }}
+        >
           <Outlet />
-        </Box>
+        </Paper>
+        {/* </Box> */}
       </Box>
     </Box>
   );

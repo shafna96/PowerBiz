@@ -6,6 +6,8 @@ import Suppliers from "./suppliers";
 import Products from "./products";
 import VendorBill from "./purchase/vendor_bill";
 import NewVendorBill from "./purchase/vendor_bill/NewVendorBill";
+import CreateItem from "./products/CreateItem";
+
 export {
   Layout,
   LoginScreen,
@@ -15,4 +17,5 @@ export {
   Products,
   VendorBill,
   NewVendorBill,
+  CreateItem,
 };

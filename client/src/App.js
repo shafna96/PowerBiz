@@ -4,6 +4,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
+  CreateItem,
   Customers,
   Dashboard,
   Layout,
@@ -70,6 +71,7 @@ function App() {
                 path="/purchase/newvendorbill"
                 element={<NewVendorBill />}
               />
+              <Route path="/products/createItem" element={<CreateItem />} />
             </Route>
           ) : (
             <Route path="/login" element={<LoginScreen />} />

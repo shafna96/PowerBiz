@@ -16,6 +16,7 @@ import TabPanel from "./vendor_bill/TabPanel";
 import VendorHeader from "./vendor_bill/VendorHeader";
 import VendorBody from "./vendor_bill/VendorBody";
 import RightDrawer from "./vendor_bill/RightDrawer";
+
 export {
   Navbar,
   SideBar,

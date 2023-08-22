@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { ContainedButton, DataGridComp, Header } from "components";
 import { billColumns } from "data/data";
 import React from "react";
@@ -6,8 +6,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const VendorBill = () => {
-  const theme = useTheme();
-
   const navigate = useNavigate();
 
   const hanldeNewBillClick = () => {

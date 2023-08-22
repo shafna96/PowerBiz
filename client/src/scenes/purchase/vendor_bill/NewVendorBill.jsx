@@ -3,9 +3,7 @@ import {
   useTheme,
   Typography,
   IconButton,
-  Drawer,
   useMediaQuery,
-  Button,
   TextField,
 } from "@mui/material";
 
@@ -23,15 +21,14 @@ import {
   VendorTabs,
 } from "components";
 import React, { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { vendorTabs } from "data/data";
-import { useNavigate } from "react-router-dom";
 import {
   AttachFile,
   Delete,
   Edit,
   Share,
   Summarize,
+  Close,
 } from "@mui/icons-material";
 import {
   selectIsAttachmentOpen,
@@ -42,10 +39,11 @@ import {
   setIsSideBarOpen,
 } from "state";
 import { useDispatch, useSelector } from "react-redux";
+import { useCloseComponent } from "components/useCloseComponent";
 
 const NewVendorBill = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
+  const handleClose = useCloseComponent();
   const dispatch = useDispatch();
 
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -55,10 +53,67 @@ const NewVendorBill = () => {
   const isAttachmentOpen = useSelector(selectIsAttachmentOpen);
   const isDiaryOpen = useSelector(selectIsDiaryOpen);
 
-  const handleClose = () => {
-    navigate(-1);
-    // Add your logic here to handle closing the VendorBill component
+  const defaultNewItem = {
+    itemCode: "",
+    itemName: "",
+    unitPrice: "",
+    quantity: "",
+    discount: "",
+    tax: "",
   };
+
+  const [items, setItems] = useState([]);
+  const [newItem, setNewItem] = useState(defaultNewItem);
+
+  const handleAddItem = () => {
+    if (
+      newItem.itemCode &&
+      newItem.itemName &&
+      newItem.unitPrice &&
+      newItem.quantity &&
+      newItem.discount &&
+      newItem.tax
+    ) {
+      const updatedItems = [...items, newItem];
+      setItems(updatedItems);
+      setNewItem({
+        itemCode: "",
+        itemName: "",
+        unitPrice: "",
+        quantity: "",
+        discount: "",
+        tax: "",
+      });
+    }
+  };
+
+  const handleDeleteItem = (index) => {
+    const updatedItems = [...items];
+    updatedItems.splice(index, 1);
+    setItems(updatedItems);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewItem((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleOptionChange = (event, newValue) => {
+    if (newValue) {
+      const { itemCode, itemName, unitPrice } = newValue;
+      setNewItem({
+        itemCode,
+        itemName,
+        unitPrice,
+        quantity: newItem.quantity,
+        discount: newItem.discount,
+        tax: newItem.tax,
+      });
+    } else {
+      setNewItem(defaultNewItem);
+    }
+  };
+
   const [value, setValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -105,7 +160,7 @@ const NewVendorBill = () => {
             margin: "6px",
           }}
         >
-          <CloseIcon
+          <Close
             sx={{
               color: "white",
               fontSize: "16px", // Adjust the font size of the icon as needed
@@ -179,7 +234,14 @@ const NewVendorBill = () => {
               tabs={vendorTabs}
             >
               <TabPanel value={value} index={0} dir={theme.direction}>
-                <VendorBody />
+                <VendorBody
+                  handleAddItem={handleAddItem}
+                  handleDeleteItem={handleDeleteItem}
+                  handleInputChange={handleInputChange}
+                  handleOptionChange={handleOptionChange}
+                  items={items}
+                  newItem={newItem}
+                />
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
                 <Box
@@ -232,12 +294,12 @@ const NewVendorBill = () => {
       <FlexBetween
         sx={{
           position: "sticky",
-          padding: "10px 0px",
+          padding: "10px 0px 0px 0px",
           borderTop: "1px solid #ccc",
           backgroundColor: "white",
           zIndex: 2,
           //    marginTop: "auto",
-          bottom: 0,
+          bottom: 2,
         }}
       >
         <FlexEvenly sx={{ width: "285px" }}>

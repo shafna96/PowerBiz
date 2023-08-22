@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -44,7 +44,14 @@ const TextFieldRow = (props) => {
   );
 };
 
-const VendorBody = () => {
+const VendorBody = ({
+  handleAddItem,
+  handleDeleteItem,
+  handleInputChange,
+  handleOptionChange,
+  items,
+  newItem,
+}) => {
   const { data } = useGetItemsQuery({ isActive: true });
   const theme = useTheme();
 
@@ -55,67 +62,6 @@ const VendorBody = () => {
     unitPrice: item.unitPrice,
   }));
   console.log("activeItemsOptions", activeItemOptions);
-
-  const defaultNewItem = {
-    itemCode: "",
-    itemName: "",
-    unitPrice: "",
-    quantity: "",
-    discount: "",
-    tax: "",
-  };
-
-  const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState(defaultNewItem);
-
-  const handleAddItem = () => {
-    if (
-      newItem.itemCode &&
-      newItem.itemName &&
-      newItem.unitPrice &&
-      newItem.quantity &&
-      newItem.discount &&
-      newItem.tax
-    ) {
-      const updatedItems = [...items, newItem];
-      setItems(updatedItems);
-      setNewItem({
-        itemCode: "",
-        itemName: "",
-        unitPrice: "",
-        quantity: "",
-        discount: "",
-        tax: "",
-      });
-    }
-  };
-
-  const handleDeleteItem = (index) => {
-    const updatedItems = [...items];
-    updatedItems.splice(index, 1);
-    setItems(updatedItems);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewItem((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleOptionChange = (event, newValue) => {
-    if (newValue) {
-      const { itemCode, itemName, unitPrice } = newValue;
-      setNewItem({
-        itemCode,
-        itemName,
-        unitPrice,
-        quantity: newItem.quantity,
-        discount: newItem.discount,
-        tax: newItem.tax,
-      });
-    } else {
-      setNewItem(defaultNewItem);
-    }
-  };
 
   return (
     <Box
