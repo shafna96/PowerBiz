@@ -1,4 +1,4 @@
-import { Box, Paper, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Navbar, SideBar } from "components";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,8 @@ import { useGetUserQuery, useLogoutMutation } from "state/api";
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const [logoutMutation] = useLogoutMutation();
 
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -76,16 +78,20 @@ const Layout = () => {
         />
 
         {/* <Box  > */}
-        <Paper
-          elevation={6}
+        <Box
           sx={{
             flexGrow: 1,
-            p: "1rem 2.5rem",
-            m: "1rem",
+            //  p: "1rem 2.5rem",
+            //  m: "1rem",
+            position: "sticky",
+            top: "64px",
+            maxHeight: "calc(100vh - 64px)",
+            overflow: "auto",
+            // backgroundColor: theme.palette.grey[50],
           }}
         >
           <Outlet />
-        </Paper>
+        </Box>
         {/* </Box> */}
       </Box>
     </Box>

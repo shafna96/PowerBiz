@@ -36,6 +36,7 @@ const Navbar = ({ user, isSideBarOpen, setIsSideBarOpen, logoutClick }) => {
       position="sticky"
       sx={{
         width: "100%",
+        top: 0,
         //   backgroundColor: "white",
         // background: "none",
         boxShadow: "none",

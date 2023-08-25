@@ -1,10 +1,10 @@
 import { Typography, Box, useTheme } from "@mui/material";
 import React from "react";
 
-const Header = ({ title, subTitle }) => {
+const Header = ({ title, subTitle, sx }) => {
   const theme = useTheme();
   return (
-    <Box>
+    <Box sx={sx}>
       <Typography
         variant="h4"
         color={theme.palette.secondary[100]}

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { ContainedButton, DataGridComp, Header } from "components";
 import { billColumns } from "data/data";
 import React from "react";
@@ -13,7 +13,7 @@ const VendorBill = () => {
   };
   const activeBills = [];
   return (
-    <Box>
+    <Paper elevation={6} sx={{ p: "1rem 2.5rem", m: "1rem" }}>
       <Header title={"Vendor Bill List"} />
       <Box>
         <Box display={"flex"}>
@@ -30,7 +30,7 @@ const VendorBill = () => {
           columns={billColumns}
         />
       </Box>
-    </Box>
+    </Paper>
   );
 };
 
