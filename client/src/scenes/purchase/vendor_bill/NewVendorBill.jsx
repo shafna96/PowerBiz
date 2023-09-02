@@ -144,7 +144,7 @@ const NewVendorBill = () => {
       >
         <Header title={"Vendor Bill"} sx={{ paddingLeft: "1rem" }} />
       </FlexBetween>
-      <Paper elevation={6} sx={{ m: "0.25rem 1rem 1rem 1rem" }}>
+      <Paper elevation={6} sx={{ m: "1rem" }}>
         <FlexBetween>
           <Box flex={1} />
           <IconButton

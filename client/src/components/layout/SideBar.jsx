@@ -37,7 +37,7 @@ const navItems = [
     icon: <Groups2Outlined />,
   },
   {
-    text: "Suppliers",
+    text: "Vendors",
     icon: <Groups2Outlined />,
   },
   {

@@ -11,7 +11,7 @@ import {
 } from "components";
 import { Close } from "@mui/icons-material";
 import { useCloseComponent } from "components/useCloseComponent";
-import { accordionData } from "data/createItem.jsx/data";
+import { accordionData } from "data";
 
 const CreateItem = () => {
   const theme = useTheme();
@@ -37,27 +37,13 @@ const CreateItem = () => {
         }}
       >
         <Header title={"New Item"} sx={{ paddingLeft: "1rem" }} />
-        {/* <IconButton
-          size="small"
-          onClick={handleClose}
-          sx={{
-            borderRadius: 0, // Make the Button circular
-            backgroundColor: "red",
-          }}
-        >
-          <Close
-            sx={{
-              color: "white",
-              fontSize: "16px", // Adjust the font size of the icon as needed
-            }}
-          />
-        </IconButton> */}
       </FlexBetween>
       <Paper
         elevation={6}
         sx={{
           backgroundColor: theme.palette.grey[100],
-          m: "0.25rem 1rem 1rem 1rem",
+          // m: "0.25rem 1rem 1rem 1rem",
+          m: "1rem",
         }}
       >
         <FlexBetween>

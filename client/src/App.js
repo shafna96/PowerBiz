@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
   CreateItem,
+  CreateVendor,
   Customers,
   Dashboard,
   Layout,
   LoginScreen,
   NewVendorBill,
   Products,
-  Suppliers,
   VendorBill,
+  Vendors,
 } from "scenes";
 import { selectIsAuthenticated, setIsAuthenticated, setUserId } from "state";
 import { themeSettings } from "theme";
@@ -63,7 +64,7 @@ function App() {
               />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/customers" element={<Customers />} />
-              <Route path="/suppliers" element={<Suppliers />} />
+              <Route path="/vendors" element={<Vendors />} />
               <Route path="/products" element={<Products />} />
               {/* <Route path="/purchase" element={<VenderBill />} /> */}
               <Route path="/purchase/vendorbill" element={<VendorBill />} />
@@ -72,6 +73,7 @@ function App() {
                 element={<NewVendorBill />}
               />
               <Route path="/products/createItem" element={<CreateItem />} />
+              <Route path="/vendors/createVendor" element={<CreateVendor />} />
             </Route>
           ) : (
             <Route path="/login" element={<LoginScreen />} />
