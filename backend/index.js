@@ -1,7 +1,6 @@
-import generalRoutes from "./routes/general";
-
-const express = require("express");
-const { PrismaClient } = require("@prisma/client");
+import generalRoutes from "./routes/general.js";
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const app = express();
