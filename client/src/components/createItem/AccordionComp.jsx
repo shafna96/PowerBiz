@@ -13,14 +13,7 @@ const AccordionComp = (props) => {
   const { summary, children } = props;
   return (
     <Accordion {...props} sx={{ marginY: "10px" }}>
-      <AccordionSummary
-        sx={
-          {
-            //  backgroundColor: theme.palette.background.alt,
-          }
-        }
-        expandIcon={<ExpandMore />}
-      >
+      <AccordionSummary expandIcon={<ExpandMore />}>
         <Typography>{summary}</Typography>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>

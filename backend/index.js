@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
-app.use("/general", generalRoutes);
+app.use("/", generalRoutes);
 
 // app.post("/users", async (req, res) => {
 //   const { name, email } = req.body;

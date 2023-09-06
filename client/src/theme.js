@@ -93,7 +93,7 @@ export const themeSettings = (mode) => {
             // palette values for light mode
             primary: {
               ...tokensLight.primary,
-              main: tokensDark.grey[50],
+              main: tokensDark.grey[600], //              main: tokensDark.grey[50],
               light: tokensDark.grey[100],
             },
             textfield: {
