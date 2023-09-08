@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/", generalRoutes);
-
+//
 // app.post("/users", async (req, res) => {
 //   const { name, email } = req.body;
 //   try {

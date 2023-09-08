@@ -60,7 +60,7 @@ export const vendorFieldData = [
     gridWidth: 6,
     width: "80%",
 
-    //required: true,
+    required: true,
   },
   {
     id: "nic",
