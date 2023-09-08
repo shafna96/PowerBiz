@@ -10,27 +10,110 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Company {
+    id                          Int                           @id @default(autoincrement())
+    company_id                  String                        @unique
+    company_name                String                        @unique
+    created_user                String //for discussion
+    created_user_id             String //for discussion
+    created_date_time           DateTime                      @default(now())
+    created_pc_id               String
+    modified_pc_id              String
+    User                        User[]
+    UserGroup                   UserGroup[]
+    UserGroupNavigation         UserGroupNavigation[]
+    UserGroupSegmentRestriction UserGroupSegmentRestriction[]
+}
+
+model Employee {
+    id            Int    @id @default(autoincrement())
+    employee_id   String @unique
+    employee_name String //unique??
+    User          User[]
+}
+
 model User {
-    id        Int      @id @default(autoincrement())
-    name      String   @unique
-    email     String   @unique
-    password  String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id                  Int      @id @default(autoincrement())
+    user_id             String   @unique
+    user_name           String //unique??
+    display_name        String
+    user_img            String
+    email               String   @unique
+    password            String
+    companyId           Int
+    company             Company  @relation(fields: [companyId], references: [id])
+    is_active           Boolean
+    no_of_login_attempt Int
+    login_locked        Int
+    employeeId          Int
+    employee            Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Customer {
-    id        Int      @id @default(autoincrement())
-    name      String   @unique
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+//to be migrate
+
+model UserGroup {
+    id                          Int                           @id @default(autoincrement())
+    user_group_id               String                        @unique
+    user_group_name             String
+    companyId                   Int
+    company                     Company                       @relation(fields: [companyId], references: [id])
+    UserGroupNavigation         UserGroupNavigation[]
+    UserGroupSegmentRestriction UserGroupSegmentRestriction[]
 }
 
-model Item {
-    id          Int      @id @default(autoincrement())
-    Descprition String
-    Quantity    Float
-    price       Float
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+model Module {
+    id                 Int          @id @default(autoincrement())
+    module_description String
+    Navigation         Navigation[]
+}
+
+model Navigation {
+    id            Int    @id @default(autoincrement())
+    navigation_id String @unique
+    description   String //navigation_description
+    masterId      Int
+
+    level_no            Int
+    short_order         Int
+    page_url            String //unique??
+    page_icon           String
+    is_active           Boolean
+    moduleId            Int
+    module              Module                @relation(fields: [moduleId], references: [id])
+    is_basic            Boolean
+    UserGroupNavigation UserGroupNavigation[]
+    Template            Template[]
+}
+
+model UserGroupNavigation {
+    id           Int        @id @default(autoincrement())
+    userGroupId  Int
+    userGroup    UserGroup  @relation(fields: [userGroupId], references: [id])
+    navigationId Int
+    navigation   Navigation @relation(fields: [navigationId], references: [id])
+    is_view      Boolean
+    is_edit      Boolean
+    is_delete    Boolean
+    is_create    Boolean
+    is_print     Boolean
+    companyId    Int
+    company      Company    @relation(fields: [companyId], references: [id])
+    is_sub_exist Boolean
+}
+
+model UserGroupSegmentRestriction {
+    id          Int       @id @default(autoincrement())
+    userGroupId Int
+    userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
+    //segment_id
+    companyId   Int
+    company     Company   @relation(fields: [companyId], references: [id])
+}
+
+model Template {
+    id           Int        @id @default(autoincrement())
+    navigationId Int
+    navigation   Navigation @relation(fields: [navigationId], references: [id])
+    page_url     String
+    is_default   Boolean
 }
