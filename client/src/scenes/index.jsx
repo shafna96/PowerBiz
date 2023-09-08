@@ -9,7 +9,7 @@ import Products from "./products";
 import CreateItem from "./products/CreateItem";
 import VendorBill from "./purchase/vendor_bill";
 import NewVendorBill from "./purchase/vendor_bill/NewVendorBill";
-
+import Register from "./register";
 export {
   Layout,
   LoginScreen,
@@ -22,4 +22,5 @@ export {
   CreateItem,
   VendorBill,
   NewVendorBill,
+  Register,
 };

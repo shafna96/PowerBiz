@@ -23,7 +23,11 @@ const StepperComp = () => {
       <Stepper
         activeStep={1}
         alternativeLabel
-        sx={{ width: "80%", justifyContent: "center" }}
+        sx={{
+          width: "80%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         {steps.map((item) => (
           <Step key={item.label}>
@@ -39,7 +43,7 @@ const StepperComp = () => {
                 },
                 "& .MuiStepLabel-label": {
                   fontSize: "0.7rem", // Adjust the font size of the label
-                  marginTop: "0.2rem", // Adjust the top margin of the label
+                  marginY: "0.2rem", // Adjust the top margin of the label
                 },
               }}
               StepIconComponent={item.icon}

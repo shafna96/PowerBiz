@@ -33,6 +33,10 @@ const navItems = [
     icon: <HomeOutlined />,
   },
   {
+    text: "Register",
+    icon: <HomeOutlined />,
+  },
+  {
     text: "Customers",
     icon: <Groups2Outlined />,
   },

@@ -125,7 +125,7 @@ const CreateVendor = () => {
           <Box sx={{ flex: 1, marginLeft: "15px" }}>
             <Paper sx={{ padding: "1rem" }}>
               <Grid container gap={2}>
-                <Grid item xs={8} justifyContent="space-between" container>
+                <Grid item xs={6} justifyContent="space-between" container>
                   <Grid item xs={3}>
                     <TextFieldComp id="vendor_id" label="Vendor Id" />
                   </Grid>
@@ -164,8 +164,8 @@ const CreateVendor = () => {
                     label="Company"
                   />
                 </Grid>
-                <Grid item container columns={3} justifyContent="space-around">
-                  <Grid item xs={5} container>
+                <Grid item container xs={10} justifyContent="space-between">
+                  <Grid item xs={5}>
                     <Grid item container direction={"row"} spacing={0.5}>
                       <Grid item>
                         <TextFieldComp
@@ -193,14 +193,29 @@ const CreateVendor = () => {
                     />
                     <TextFieldComp id="other_Name" label="Other Name" />
                   </Grid>
-                  <Grid item xs={3} container>
+                  <Grid item xs={3}>
                     <TextFieldComp id="mobile" label="Mobile" />
                     <TextFieldComp id="fax" label="Fax" />
                     <TextFieldComp id="email" label="Email" />
                     <TextFieldComp id="website" label="Website" />
                   </Grid>
-                  <Grid item xs={2} container>
-                    <TextFieldComp id="due-in" label="Due In" />
+                  <Grid item xs={2} justifyContent="space-between" container>
+                    <TextFieldComp id="due-in" label="Due In" width="100px" />
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        startIcon={<Add />}
+                        color="primary"
+                        sx={{
+                          //color: theme.palette.primary[300],
+                          //  borderColor: theme.palette.primary[300],
+                          height: "30px",
+                          // textDecoration: "underline",
+                        }}
+                      >
+                        Contact Person
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Grid>
 
@@ -215,19 +230,6 @@ const CreateVendor = () => {
                     <Grid item xs={5}>
                       <TextFieldComp id="nic" label="NIC" />
                     </Grid>
-                    <Button
-                      variant="outlined"
-                      startIcon={<Add />}
-                      color="primary"
-                      sx={{
-                        //color: theme.palette.primary[300],
-                        //  borderColor: theme.palette.primary[300],
-                        height: "30px",
-                        // textDecoration: "underline",
-                      }}
-                    >
-                      Contact Person
-                    </Button>
                   </Grid>
                   <Grid
                     item
