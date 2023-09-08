@@ -1,11 +1,28 @@
-import User from "../models/User.js";
+// const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export const getUser = async (req, res) => {
   try {
-    const { id } = req.params; // Update the parameter name to 'userId'
-    const user = await User.findById(id);
-    res.status(200).json(user);
+    const users = await prisma.user.findMany();
+    res.json(users);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ error: "Could not fetch users." });
+  }
+};
+
+export const postUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password,
+      },
+    });
+    res.json(newUser);
+  } catch (error) {
+    res.status(500).json({ error: "Could not create user." });
   }
 };
