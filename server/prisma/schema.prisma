@@ -12,52 +12,43 @@ datasource db {
 
 model Company {
     id                          Int                           @id @default(autoincrement())
-    company_id                  String                        @unique
+    company_code                String                        @unique
     company_name                String                        @unique
-    created_user                String //for discussion
-    created_user_id             String //for discussion
     created_date_time           DateTime                      @default(now())
     created_pc_id               String
     modified_pc_id              String
     User                        User[]
     UserGroup                   UserGroup[]
-    UserGroupNavigation         UserGroupNavigation[]
+    UserGroupNavigation         UserGroupNavigations[]
     UserGroupSegmentRestriction UserGroupSegmentRestriction[]
 }
 
-model Employee {
-    id            Int    @id @default(autoincrement())
-    employee_id   String @unique
-    employee_name String //unique??
-    User          User[]
-}
-
 model User {
-    id                  Int      @id @default(autoincrement())
-    user_id             String   @unique
-    user_name           String //unique??
+    id                  Int     @id @default(autoincrement())
+    user_name           String
+    first_name          String
+    last_name           String
     display_name        String
     user_img            String
-    email               String   @unique
+    email               String  @unique
     password            String
     companyId           Int
-    company             Company  @relation(fields: [companyId], references: [id])
+    company             Company @relation(fields: [companyId], references: [id])
     is_active           Boolean
     no_of_login_attempt Int
     login_locked        Int
-    employeeId          Int
-    employee            Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    //  employeeId          Int
+    //  employee            Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 //to be migrate
 
 model UserGroup {
     id                          Int                           @id @default(autoincrement())
-    user_group_id               String                        @unique
     user_group_name             String
     companyId                   Int
     company                     Company                       @relation(fields: [companyId], references: [id])
-    UserGroupNavigation         UserGroupNavigation[]
+    UserGroupNavigation         UserGroupNavigations[]
     UserGroupSegmentRestriction UserGroupSegmentRestriction[]
 }
 
@@ -68,24 +59,24 @@ model Module {
 }
 
 model Navigation {
-    id            Int    @id @default(autoincrement())
-    navigation_id String @unique
-    description   String //navigation_description
-    masterId      Int
-
+    id                  Int                    @id @default(autoincrement())
+    navigation_name     String
+    masterId            Int
     level_no            Int
     short_order         Int
-    page_url            String //unique??
+    page_url            String
+    page_title          String
     page_icon           String
     is_active           Boolean
     moduleId            Int
-    module              Module                @relation(fields: [moduleId], references: [id])
+    module              Module                 @relation(fields: [moduleId], references: [id])
     is_basic            Boolean
-    UserGroupNavigation UserGroupNavigation[]
+    is_final            Boolean
+    UserGroupNavigation UserGroupNavigations[]
     Template            Template[]
 }
 
-model UserGroupNavigation {
+model UserGroupNavigations {
     id           Int        @id @default(autoincrement())
     userGroupId  Int
     userGroup    UserGroup  @relation(fields: [userGroupId], references: [id])
@@ -105,7 +96,7 @@ model UserGroupSegmentRestriction {
     id          Int       @id @default(autoincrement())
     userGroupId Int
     userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
-    //segment_id
+    //segment_id fk
     companyId   Int
     company     Company   @relation(fields: [companyId], references: [id])
 }
@@ -117,3 +108,7 @@ model Template {
     page_url     String
     is_default   Boolean
 }
+
+//Int //length 11
+//short code 11
+//system g.code 16
