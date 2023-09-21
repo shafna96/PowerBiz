@@ -79,7 +79,8 @@ model Navigation {
     module_id           Int //FK
     module              Module                 @relation(fields: [module_id], references: [module_id])
     navigation_name     String                 @db.VarChar(45)
-    masterId            Int
+    master              Navigation?            @relation("MasterToNavigation", fields: [master_id], references: [navigation_id])
+    master_id           Int?
     level_no            Int
     short_order         Int
     page_url            String                 @db.VarChar(45) //??
@@ -95,6 +96,7 @@ model Navigation {
     modified_pc_id      String                 @db.VarChar(45)
     UserGroupNavigation UserGroupNavigations[]
     Template            Template[]
+    navigations         Navigation[]           @relation("MasterToNavigation")
 }
 
 model UserGroupNavigations {
