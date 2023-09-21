@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Company {
-    company_id                  Int                           @id @default(autoincrement()) //pk
+    id                          Int                           @id @default(autoincrement()) //pk
     company_code                String                        @unique @db.VarChar(100)
     company_name                String                        @unique @db.VarChar(100)
     //COMMON FIELDS
@@ -25,9 +25,9 @@ model Company {
 }
 
 model User {
-    user_id             Int      @id @default(autoincrement()) //pk
+    id                  Int      @id @default(autoincrement()) //pk
     company_id          Int //FK
-    company             Company  @relation(fields: [company_id], references: [company_id])
+    company             Company  @relation(fields: [company_id], references: [id])
     user_name           String   @db.VarChar(45)
     first_name          String   @db.VarChar(45)
     last_name           String   @db.VarChar(45)
@@ -50,9 +50,9 @@ model User {
 //to be migrate
 
 model UserGroup {
-    user_group_id               Int                           @id @default(autoincrement()) //pk
+    id                          Int                           @id @default(autoincrement()) //pk
     company_id                  Int //FK
-    company                     Company                       @relation(fields: [company_id], references: [company_id])
+    company                     Company                       @relation(fields: [company_id], references: [id])
     user_group_name             String                        @db.VarChar(45)
     //COMMON FIELDS
     created_user_id             Int //FK
@@ -64,7 +64,7 @@ model UserGroup {
 }
 
 model Module {
-    module_id         Int          @id @default(autoincrement()) //PK
+    id                Int          @id @default(autoincrement()) //PK
     module_name       String       @db.VarChar(45)
     //COMMON FIELDS
     created_user_id   Int //FK
@@ -75,11 +75,11 @@ model Module {
 }
 
 model Navigation {
-    navigation_id       Int                    @id @default(autoincrement()) //PK
+    id                  Int                    @id @default(autoincrement()) //PK
     module_id           Int //FK
-    module              Module                 @relation(fields: [module_id], references: [module_id])
+    module              Module                 @relation(fields: [module_id], references: [id])
     navigation_name     String                 @db.VarChar(45)
-    master              Navigation?            @relation("MasterToNavigation", fields: [master_id], references: [navigation_id])
+    master              Navigation?            @relation("MasterToNavigation", fields: [master_id], references: [id])
     master_id           Int?
     level_no            Int
     short_order         Int
@@ -100,44 +100,44 @@ model Navigation {
 }
 
 model UserGroupNavigations {
-    user_group_navigations_id Int        @id @default(autoincrement()) //PK
-    user_group_id             Int //FK
-    userGroup                 UserGroup  @relation(fields: [user_group_id], references: [user_group_id])
-    navigation_id             Int //FK
-    navigation                Navigation @relation(fields: [navigation_id], references: [navigation_id])
-    company_id                Int //FK
-    company                   Company    @relation(fields: [company_id], references: [company_id])
-    is_view                   Boolean
-    is_edit                   Boolean
-    is_delete                 Boolean
-    is_create                 Boolean
-    is_print                  Boolean
-    is_sub_exist              Boolean
+    id                Int        @id @default(autoincrement()) //PK
+    user_group_id     Int //FK
+    userGroup         UserGroup  @relation(fields: [user_group_id], references: [id])
+    navigation_id     Int //FK
+    navigation        Navigation @relation(fields: [navigation_id], references: [id])
+    company_id        Int //FK
+    company           Company    @relation(fields: [company_id], references: [id])
+    is_view           Boolean
+    is_edit           Boolean
+    is_delete         Boolean
+    is_create         Boolean
+    is_print          Boolean
+    is_sub_exist      Boolean
     //COMMON FIELDS
-    created_user_id           Int //FK
-    created_date_time         DateTime   @default(now())
-    created_pc_id             String     @db.VarChar(45)
-    modified_pc_id            String     @db.VarChar(45)
+    created_user_id   Int //FK
+    created_date_time DateTime   @default(now())
+    created_pc_id     String     @db.VarChar(45)
+    modified_pc_id    String     @db.VarChar(45)
 }
 
 model UserGroupSegmentRestriction {
-    user_group_segment_restriction Int       @id @default(autoincrement()) //PK
-    user_group_id                  Int //FK
-    userGroup                      UserGroup @relation(fields: [user_group_id], references: [user_group_id])
+    id                Int       @id @default(autoincrement()) //PK
+    user_group_id     Int //FK
+    userGroup         UserGroup @relation(fields: [user_group_id], references: [id])
     //segment_id fk
-    company_id                     Int //FK
-    company                        Company   @relation(fields: [company_id], references: [company_id])
+    company_id        Int //FK
+    company           Company   @relation(fields: [company_id], references: [id])
     //COMMON FIELDS
-    created_user_id                Int //FK
-    created_date_time              DateTime  @default(now())
-    created_pc_id                  String    @db.VarChar(45)
-    modified_pc_id                 String    @db.VarChar(45)
+    created_user_id   Int //FK
+    created_date_time DateTime  @default(now())
+    created_pc_id     String    @db.VarChar(45)
+    modified_pc_id    String    @db.VarChar(45)
 }
 
 model Template {
-    template_id       Int        @id @default(autoincrement()) //PK
+    id                Int        @id @default(autoincrement()) //PK
     navigation_id     Int //FK
-    navigation        Navigation @relation(fields: [navigation_id], references: [navigation_id])
+    navigation        Navigation @relation(fields: [navigation_id], references: [id])
     page_url          String     @db.VarChar(45)
     is_default        Boolean
     //COMMON FIELDS
