@@ -146,5 +146,5 @@ model Template {
 }
 
 //Int //length 11
-//short code 11
-//system g.code 16
+//short code 12
+//system g.code 16-20

@@ -1,10 +1,12 @@
 import generalRoutes from "./routes/general.js";
+import authRoutes from "./routes/auth.js";
 import express from "express";
 
 const app = express();
 
 app.use(express.json());
 app.use("/", generalRoutes);
+app.use("/", authRoutes);
 //
 // app.post("/users", async (req, res) => {
 //   const { name, email } = req.body;
