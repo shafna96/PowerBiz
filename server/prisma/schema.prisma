@@ -22,32 +22,35 @@ model Company {
     UserGroup                   UserGroup[]
     UserGroupNavigation         UserGroupNavigations[]
     UserGroupSegmentRestriction UserGroupSegmentRestriction[]
+    userGroupUsers              UserGroupUsers[]
+    CompanyModules              CompanyModules[]
 }
 
 model User {
-    id                  Int      @id @default(autoincrement()) //pk
+    id                  Int              @id @default(autoincrement()) //pk
     company_id          Int //FK
-    company             Company  @relation(fields: [company_id], references: [id])
-    user_name           String   @db.VarChar(45)
-    first_name          String   @db.VarChar(45)
-    last_name           String   @db.VarChar(45)
-    display_name        String   @db.VarChar(45)
-    user_img            String   @db.VarChar(100)
-    email               String   @unique @db.VarChar(100)
-    password            String   @db.VarChar(45)
+    company             Company          @relation(fields: [company_id], references: [id])
+    user_name           String           @db.VarChar(45)
+    first_name          String           @db.VarChar(45)
+    last_name           String           @db.VarChar(45)
+    display_name        String           @db.VarChar(45)
+    user_img            String           @db.VarChar(100)
+    email               String           @unique @db.VarChar(100)
+    password            String           @db.VarChar(45)
+    admin_type          String           @db.VarChar(45)
+    is_module_user      Boolean
     is_active           Boolean
     no_of_login_attempt Int
     is_login_locked     Boolean
     //COMMON FIELDS
     created_user_id     Int //FK
-    created_date_time   DateTime @default(now())
-    created_pc_id       String   @db.VarChar(45)
-    modified_pc_id      String   @db.VarChar(45)
+    created_date_time   DateTime         @default(now())
+    created_pc_id       String           @db.VarChar(45)
+    modified_pc_id      String           @db.VarChar(45)
     //  employeeId          Int
     //  employee            Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    userGroupUsers      UserGroupUsers[]
 }
-
-//to be migrate
 
 model UserGroup {
     id                          Int                           @id @default(autoincrement()) //pk
@@ -61,6 +64,7 @@ model UserGroup {
     modified_pc_id              String                        @db.VarChar(45)
     UserGroupNavigation         UserGroupNavigations[]
     UserGroupSegmentRestriction UserGroupSegmentRestriction[]
+    userGroupUsers              UserGroupUsers[]
 }
 
 model Module {
@@ -79,8 +83,8 @@ model Navigation {
     module_id           Int //FK
     module              Module                 @relation(fields: [module_id], references: [id])
     navigation_name     String                 @db.VarChar(45)
-    master              Navigation?            @relation("MasterToNavigation", fields: [master_id], references: [id])
-    master_id           Int?
+    parent              Navigation?            @relation("ParentToNavigation", fields: [parent_id], references: [id])
+    parent_id           Int?
     level_no            Int
     short_order         Int
     page_url            String                 @db.VarChar(45) //??
@@ -96,7 +100,23 @@ model Navigation {
     modified_pc_id      String                 @db.VarChar(45)
     UserGroupNavigation UserGroupNavigations[]
     Template            Template[]
-    navigations         Navigation[]           @relation("MasterToNavigation")
+    navigations         Navigation[]           @relation("ParentToNavigation")
+    CompanyModules      CompanyModules[]
+}
+
+model UserGroupUsers {
+    id                Int       @id @default(autoincrement()) //PK
+    user_id           Int //FK
+    user              User      @relation(fields: [user_id], references: [id])
+    user_group_id     Int //FK
+    userGroup         UserGroup @relation(fields: [user_group_id], references: [id])
+    company_id        Int //FK
+    company           Company   @relation(fields: [company_id], references: [id])
+    //COMMON FIELDS
+    created_user_id   Int //FK
+    created_date_time DateTime  @default(now())
+    created_pc_id     String    @db.VarChar(45)
+    modified_pc_id    String    @db.VarChar(45)
 }
 
 model UserGroupNavigations {
@@ -113,6 +133,19 @@ model UserGroupNavigations {
     is_create         Boolean
     is_print          Boolean
     is_sub_exist      Boolean
+    //COMMON FIELDS
+    created_user_id   Int //FK
+    created_date_time DateTime   @default(now())
+    created_pc_id     String     @db.VarChar(45)
+    modified_pc_id    String     @db.VarChar(45)
+}
+
+model CompanyModules {
+    id                Int        @id @default(autoincrement()) //PK
+    company_id        Int //FK
+    company           Company    @relation(fields: [company_id], references: [id])
+    navigation_id     Int //FK
+    navigation        Navigation @relation(fields: [navigation_id], references: [id])
     //COMMON FIELDS
     created_user_id   Int //FK
     created_date_time DateTime   @default(now())
