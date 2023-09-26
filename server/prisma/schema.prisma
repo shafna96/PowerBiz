@@ -11,60 +11,60 @@ datasource db {
 }
 
 model Company {
-    id                          Int                           @id @default(autoincrement()) //pk
-    company_code                String                        @unique @db.VarChar(100)
-    company_name                String                        @unique @db.VarChar(100)
+    id                          Int                            @id @default(autoincrement()) //pk
+    company_code                String                         @unique @db.VarChar(100)
+    company_name                String                         @unique @db.VarChar(100)
     //COMMON FIELDS
-    created_date_time           DateTime                      @default(now())
-    created_pc_id               String                        @db.VarChar(45)
-    modified_pc_id              String                        @db.VarChar(45)
+    created_date_time           DateTime                       @default(now())
+    created_pc_id               String                         @db.VarChar(45)
+    modified_pc_id              String                         @db.VarChar(45)
     User                        User[]
     UserGroup                   UserGroup[]
-    UserGroupNavigation         UserGroupNavigations[]
-    UserGroupSegmentRestriction UserGroupSegmentRestriction[]
-    userGroupUsers              UserGroupUsers[]
-    CompanyModules              CompanyModules[]
+    UserGroupNavigation         UserGroup_Navigations[]
+    UserGroupSegmentRestriction UserGroup_SegmentRestriction[]
+    userGroupUsers              UserGroup_Users[]
+    CompanyModules              Company_Modules[]
 }
 
 model User {
-    id                  Int              @id @default(autoincrement()) //pk
+    id                  Int               @id @default(autoincrement()) //pk
     company_id          Int //FK
-    company             Company          @relation(fields: [company_id], references: [id])
-    user_name           String           @db.VarChar(45)
-    first_name          String           @db.VarChar(45)
-    last_name           String           @db.VarChar(45)
-    display_name        String           @db.VarChar(45)
-    user_img            String           @db.VarChar(100)
-    email               String           @unique @db.VarChar(100)
-    password            String           @db.VarChar(45)
-    admin_type          String           @db.VarChar(45)
+    company             Company           @relation(fields: [company_id], references: [id])
+    user_name           String            @db.VarChar(45)
+    first_name          String            @db.VarChar(45)
+    last_name           String            @db.VarChar(45)
+    display_name        String            @db.VarChar(45)
+    user_img            String            @db.VarChar(100)
+    email               String            @unique @db.VarChar(100)
+    password            String            @db.VarChar(45)
+    admin_type          Int               @db.TinyInt()
     is_module_user      Boolean
     is_active           Boolean
     no_of_login_attempt Int
     is_login_locked     Boolean
     //COMMON FIELDS
     created_user_id     Int //FK
-    created_date_time   DateTime         @default(now())
-    created_pc_id       String           @db.VarChar(45)
-    modified_pc_id      String           @db.VarChar(45)
+    created_date_time   DateTime          @default(now())
+    created_pc_id       String            @db.VarChar(45)
+    modified_pc_id      String            @db.VarChar(45)
     //  employeeId          Int
     //  employee            Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    userGroupUsers      UserGroupUsers[]
+    userGroupUsers      UserGroup_Users[]
 }
 
 model UserGroup {
-    id                          Int                           @id @default(autoincrement()) //pk
+    id                          Int                            @id @default(autoincrement()) //pk
     company_id                  Int //FK
-    company                     Company                       @relation(fields: [company_id], references: [id])
-    user_group_name             String                        @db.VarChar(45)
+    company                     Company                        @relation(fields: [company_id], references: [id])
+    user_group_name             String                         @db.VarChar(45)
     //COMMON FIELDS
     created_user_id             Int //FK
-    created_date_time           DateTime                      @default(now())
-    created_pc_id               String                        @db.VarChar(45)
-    modified_pc_id              String                        @db.VarChar(45)
-    UserGroupNavigation         UserGroupNavigations[]
-    UserGroupSegmentRestriction UserGroupSegmentRestriction[]
-    userGroupUsers              UserGroupUsers[]
+    created_date_time           DateTime                       @default(now())
+    created_pc_id               String                         @db.VarChar(45)
+    modified_pc_id              String                         @db.VarChar(45)
+    UserGroupNavigation         UserGroup_Navigations[]
+    UserGroupSegmentRestriction UserGroup_SegmentRestriction[]
+    userGroupUsers              UserGroup_Users[]
 }
 
 model Module {
@@ -79,32 +79,32 @@ model Module {
 }
 
 model Navigation {
-    id                  Int                    @id @default(autoincrement()) //PK
+    id                  Int                     @id @default(autoincrement()) //PK
     module_id           Int //FK
-    module              Module                 @relation(fields: [module_id], references: [id])
-    navigation_name     String                 @db.VarChar(45)
-    parent              Navigation?            @relation("ParentToNavigation", fields: [parent_id], references: [id])
+    module              Module                  @relation(fields: [module_id], references: [id])
+    navigation_name     String                  @db.VarChar(45)
+    parent              Navigation?             @relation("ParentToNavigation", fields: [parent_id], references: [id])
     parent_id           Int?
     level_no            Int
     short_order         Int
-    page_url            String                 @db.VarChar(45) //??
-    page_title          String                 @db.VarChar(45)
-    page_icon           String                 @db.VarChar(45)
+    page_url            String                  @db.VarChar(45) //??
+    page_title          String                  @db.VarChar(45)
+    page_icon           String                  @db.VarChar(45)
     is_active           Boolean
     is_basic            Boolean
     is_final            Boolean
     //COMMON FIELDS
     created_user_id     Int //FK
-    created_date_time   DateTime               @default(now())
-    created_pc_id       String                 @db.VarChar(45)
-    modified_pc_id      String                 @db.VarChar(45)
-    UserGroupNavigation UserGroupNavigations[]
+    created_date_time   DateTime                @default(now())
+    created_pc_id       String                  @db.VarChar(45)
+    modified_pc_id      String                  @db.VarChar(45)
+    UserGroupNavigation UserGroup_Navigations[]
     Template            Template[]
-    navigations         Navigation[]           @relation("ParentToNavigation")
-    CompanyModules      CompanyModules[]
+    navigations         Navigation[]            @relation("ParentToNavigation")
+    CompanyModules      Company_Modules[]
 }
 
-model UserGroupUsers {
+model UserGroup_Users {
     id                Int       @id @default(autoincrement()) //PK
     user_id           Int //FK
     user              User      @relation(fields: [user_id], references: [id])
@@ -119,7 +119,7 @@ model UserGroupUsers {
     modified_pc_id    String    @db.VarChar(45)
 }
 
-model UserGroupNavigations {
+model UserGroup_Navigations {
     id                Int        @id @default(autoincrement()) //PK
     user_group_id     Int //FK
     userGroup         UserGroup  @relation(fields: [user_group_id], references: [id])
@@ -140,7 +140,7 @@ model UserGroupNavigations {
     modified_pc_id    String     @db.VarChar(45)
 }
 
-model CompanyModules {
+model Company_Modules {
     id                Int        @id @default(autoincrement()) //PK
     company_id        Int //FK
     company           Company    @relation(fields: [company_id], references: [id])
@@ -153,7 +153,7 @@ model CompanyModules {
     modified_pc_id    String     @db.VarChar(45)
 }
 
-model UserGroupSegmentRestriction {
+model UserGroup_SegmentRestriction {
     id                Int       @id @default(autoincrement()) //PK
     user_group_id     Int //FK
     userGroup         UserGroup @relation(fields: [user_group_id], references: [id])
