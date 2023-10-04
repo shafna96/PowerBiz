@@ -179,7 +179,3 @@ model Template {
     created_pc_id     String     @db.VarChar(45)
     modified_pc_id    String     @db.VarChar(45)
 }
-
-//Int //length 11
-//short code 12
-//system g.code 16-20
