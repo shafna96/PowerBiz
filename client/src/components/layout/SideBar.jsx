@@ -32,31 +32,31 @@ const navItems = [
     text: "Dashboard",
     icon: <HomeOutlined />,
   },
-  {
-    text: "Register",
-    icon: <HomeOutlined />,
-  },
+  // {
+  //   text: "Register",
+  //   icon: <HomeOutlined />,
+  // },
   {
     text: "Customers",
     icon: <Groups2Outlined />,
   },
-  {
-    text: "Vendors",
-    icon: <Groups2Outlined />,
-  },
-  {
-    text: "Products",
-    icon: <Inventory />,
-  },
-  {
-    text: "Purchase",
-    icon: <Inventory />,
-    subItems: [
-      {
-        text: "Vendor Bill",
-      },
-    ],
-  },
+  // {
+  //   text: "Vendors",
+  //   icon: <Groups2Outlined />,
+  // },
+  // {
+  //   text: "Products",
+  //   icon: <Inventory />,
+  // },
+  // {
+  //   text: "Purchase",
+  //   icon: <Inventory />,
+  //   subItems: [
+  //     {
+  //       text: "Vendor Bill",
+  //     },
+  //   ],
+  // },
 ];
 
 const SideBar = ({

@@ -3,19 +3,7 @@ import { createTheme } from "@mui/material/styles";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
-import {
-  CreateItem,
-  CreateVendor,
-  Customers,
-  Dashboard,
-  Layout,
-  LoginScreen,
-  NewVendorBill,
-  Products,
-  Register,
-  VendorBill,
-  Vendors,
-} from "scenes";
+import { Customers, Dashboard, Layout, LoginScreen } from "scenes";
 import { selectIsAuthenticated, setIsAuthenticated, setUserId } from "state";
 import { themeSettings } from "theme";
 import jwtDecode from "jwt-decode";
@@ -57,31 +45,16 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          {/* {isAuthenticated ? ( */}
-          <>
-            <Route element={<Layout />}>
-              <Route
-                path="/"
-                element={<Navigate to={"/dashboard"} replace />}
-              />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/vendors" element={<Vendors />} />
-              <Route path="/products" element={<Products />} />
-              {/* <Route path="/purchase" element={<VenderBill />} /> */}
-              <Route path="/purchase/vendorbill" element={<VendorBill />} />
-              <Route
-                path="/purchase/newvendorbill"
-                element={<NewVendorBill />}
-              />
-              <Route path="/products/createItem" element={<CreateItem />} />
-              <Route path="/vendors/createVendor" element={<CreateVendor />} />
-            </Route>
-            <Route path="/register" element={<Register />} />
-          </>
-          {/* ) : ( */}
-          {/* <Route path="/login" element={<LoginScreen />} /> */}
-          {/* )} */}
+          <Route
+            path="/"
+            element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}
+          >
+            <Route path="/" element={<Navigate to={"/dashboard"} replace />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/customers" element={<Customers />} />
+          </Route>
+
+          <Route path="/login" element={!isAuthenticated && <LoginScreen />} />
         </Routes>
       </ThemeProvider>
     </div>

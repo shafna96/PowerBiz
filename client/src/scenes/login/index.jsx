@@ -49,9 +49,9 @@ const LoginScreen = () => {
         localStorage.setItem("token", result.token);
         console.log(result.token);
         // Update isAuthenticated state
-        dispatch(setUserId(result.userId));
+        dispatch(setUserId(result.id));
         dispatch(setIsAuthenticated(true));
-        console.log(result.userId);
+        console.log(result.id);
         // Redirect to home page
         navigate("/");
       }

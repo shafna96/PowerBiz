@@ -2,12 +2,30 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+// export const getUser = async (req, res) => {
+//   try {
+//     const users = await prisma.user.findMany();
+//     res.json(users);
+//   } catch (error) {
+//     res.status(500).json({ error: "Could not fetch users." });
+//   }
+// };
+
 export const getUser = async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
-    res.json(users);
+    const { id } = req.params; // Assuming 'id' is the user ID in the request parameters
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(id), // Convert 'id' to a number if it's not already
+      },
+    });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
   } catch (error) {
-    res.status(500).json({ error: "Could not fetch users." });
+    res.status(500).json({ message: error.message });
   }
 };
 

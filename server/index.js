@@ -1,39 +1,33 @@
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
+
 import generalRoutes from "./routes/general.js";
 import authRoutes from "./routes/auth.js";
 import navigationRoutes from "./routes/navigation.js";
-import express from "express";
 
+/* CONFIGURATION */
+dotenv.config();
 const app = express();
-
 app.use(express.json());
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(morgan("common"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+
+/*  ROUTES */
 app.use("/", generalRoutes);
 app.use("/", authRoutes);
 app.use("/", navigationRoutes);
-//
-// app.post("/users", async (req, res) => {
-//   const { name, email } = req.body;
-//   try {
-//     const newUser = await prisma.user.create({
-//       data: {
-//         name,
-//         email,
-//       },
-//     });
-//     res.json(newUser);
-//   } catch (error) {
-//     res.status(500).json({ error: "Could not create user." });
-//   }
-// });
 
-// app.get("/users", async (req, res) => {
-//   try {
-//     const users = await prisma.user.findMany();
-//     res.json(users);
-//   } catch (error) {
-//     res.status(500).json({ error: "Could not fetch users." });
-//   }
-// });
+/* MYSQL SETUP */
+const PORT = process.env.PORT || 9000;
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(PORT, () => {
+  console.log("Server is running on port 5000");
 });

@@ -10,7 +10,7 @@ export const getLogin = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: {
         email: email,
-        password: password,
+        //  password: password,
       },
     });
 
@@ -25,14 +25,14 @@ export const getLogin = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { user_id: user.id }, //company_id: user.company_id
+      { id: user.id }, //company_id: user.company_id
       process.env.JWT_SECRET,
       {
         expiresIn: 3600, // 1 hour
       }
     );
 
-    res.status(200).json({ token, user_id: user.id }); // company_id: user.company_id
+    res.status(200).json({ token, id: user.id }); // company_id: user.company_id
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Server Error" });

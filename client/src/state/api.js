@@ -10,20 +10,20 @@ export const api = createApi({
     /* auth endpoints */
     login: build.mutation({
       query: (credentials) => ({
-        url: "auth/login",
+        url: "/login",
         method: "POST",
         body: credentials,
       }),
     }),
     logout: build.mutation({
       query: () => ({
-        url: "auth/logout",
+        url: "/logout",
         method: "POST",
       }),
     }),
     /* general endpoint */
     getUser: build.query({
-      query: (id) => `general/user/${id}`,
+      query: (id) => `/user/${id}`,
       providesTags: ["User"],
     }),
     /* client endpoints */

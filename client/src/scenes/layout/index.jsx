@@ -23,8 +23,8 @@ const Layout = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const isSideBarOpen = useSelector(selectIsSideBarOpen); // Use the isSideBarOpen selector from the Redux store
   const isAttachmentOpen = useSelector(selectIsAttachmentOpen);
-  const userId = useSelector((state) => state.global.userId);
-  const { data } = useGetUserQuery(userId);
+  const user_id = useSelector((state) => state.global.user_id);
+  const { data } = useGetUserQuery(user_id);
 
   const logoutHandler = async () => {
     try {
