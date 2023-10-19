@@ -24,8 +24,8 @@ export const verifyToken = (req, res, next) => {
 // Define the API endpoint for fetching navigation info
 export const getNavigations = async (req, res) => {
   try {
-    //const { user_id } = req.user; // Get user information from the token
-    const { company_id, user_id } = req.body; // Get company_id from the request body
+    const { user_id, company_id } = req.user; // Get user information from the token
+    //const { company_id } = req.body; // Get company_id from the request body
     // const { company_id } = req.params;
     const navigationInfo = await prisma.navigation.findMany({
       where: {
@@ -47,6 +47,7 @@ export const getNavigations = async (req, res) => {
         navigation_name: true,
         page_title: true,
         page_url: true,
+        id: true,
       },
     });
 

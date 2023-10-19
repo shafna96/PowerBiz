@@ -26,6 +26,7 @@ import {
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FlexBetween } from "components";
+import { useGetNavigationsQuery } from "state/api";
 
 const navItems = [
   {
@@ -71,7 +72,13 @@ const SideBar = ({
   const [openSubItems, setOpenSubItems] = useState([]);
   const navigate = useNavigate();
   const theme = useTheme();
+  const { data, error } = useGetNavigationsQuery();
+  let navigationInfo = [];
 
+  if (data) {
+    navigationInfo = data.navigationInfo ? data.navigationInfo : [];
+  }
+  console.log("navigation", navigationInfo);
   useEffect(() => {
     setActive(pathname.substring(1));
   }, [pathname]);
@@ -175,19 +182,18 @@ const SideBar = ({
                 )}
               </FlexBetween>
             </Box>
-            <List>
+            {/* <List>
               {navItems.map(({ text, icon, subItems }, index) => {
                 if (!icon && !subItems) {
                   return (
                     <Typography key={text}>
                       {/* sx={{ m: "2.25rem 0 1rem 3rem" }} */}
-                      {text}
-                    </Typography>
-                  );
-                }
-                const lcText = text.toLowerCase();
-                return (
-                  <React.Fragment key={text}>
+            {/* {text} */}
+            {/* </Typography> */}
+            {/* ); */}
+            {/* const lcText = text.toLowerCase(); */}
+            {/* return ( */}
+            {/* <React.Fragment key={text}>
                     <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
@@ -234,9 +240,35 @@ const SideBar = ({
                       </ListItemButton>
                     </ListItem>
                     {subItems && renderSubItems(text, subItems, index)}
-                  </React.Fragment>
-                );
-              })}
+                  </React.Fragment> */}
+            {/* ); */}
+            {/* })} */}
+            {/* </List> */}
+            <List>
+              {navigationInfo.map((nav) => (
+                <React.Fragment>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        navigate(`${nav.page_url}`);
+                        setActive(nav.navigation_name);
+                      }}
+                      sx={{
+                        backgroundColor:
+                          active === nav.navigation_name
+                            ? theme.palette.secondary[300]
+                            : "transparent",
+                        color:
+                          active === nav.navigation_name
+                            ? theme.palette.primary[600]
+                            : theme.palette.secondary[100],
+                      }}
+                    >
+                      <ListItemText primary={nav.navigation_name} />
+                    </ListItemButton>
+                  </ListItem>
+                </React.Fragment>
+              ))}
             </List>
           </Box>
           <Box position="static" bottom="2rem" width={drawerWidth}>

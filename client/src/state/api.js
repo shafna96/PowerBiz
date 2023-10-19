@@ -1,11 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { selectToken } from "state";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+      // Get the token from your Redux state and add it to the headers
+      const token = selectToken(getState());
+      if (token) {
+        headers.set("x-auth-token", `${token}`);
+      }
+      return headers;
+    },
   }),
   reducerPath: "adminApi",
-  tagTypes: ["User", "Customers", "Suppliers", "Items"],
+  tagTypes: ["User", "Customers", "Suppliers", "Items", "Navigation"],
   endpoints: (build) => ({
     /* auth endpoints */
     login: build.mutation({
@@ -25,6 +34,11 @@ export const api = createApi({
     getUser: build.query({
       query: (id) => `/user/${id}`,
       providesTags: ["User"],
+    }),
+    /* navigation endpoint */
+    getNavigations: build.query({
+      query: () => `/navigation`,
+      providesTags: ["Navigation"],
     }),
     /* client endpoints */
     getCustomers: build.query({
@@ -116,6 +130,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetUserQuery,
+  useGetNavigationsQuery,
   useGetCustomersQuery,
   useCreateCustomerMutation,
   useDeleteCustomerMutation,
